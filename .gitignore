@@ -1,0 +1,23 @@
+# Windows specifics
+Thumbs.db
+Desktop.ini
+
+# Git override
+
+.gitconfig
+
+# NPM
+node_modules/
+npm-debug.log
+
+# OpenUI5 dist
+
+dist/
+
+# Temporary files
+
+tmp/
+debug.log
+.env
+.nyc_output/
+coverage/

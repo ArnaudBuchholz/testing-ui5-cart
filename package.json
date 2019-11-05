@@ -1,0 +1,33 @@
+{
+  "name": "testing-ui5-cart",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArnaudBuchholz/testing-ui5-cart.git"
+  },
+  "keywords": [
+    "test",
+    "ui5",
+    "qunit",
+    "opa",
+    "karma"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArnaudBuchholz/testing-ui5-cart/issues"
+  },
+  "homepage": "https://github.com/ArnaudBuchholz/testing-ui5-cart#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "mime": "^2.4.4",
+    "reserve": "^1.1.1"
+  }
+}
