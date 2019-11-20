@@ -76,10 +76,9 @@ sap.ui.define([
 		 */
 		pictureUrl: function (sUrl) {
 			if (sUrl){
-				return  sap.ui.require.toUrl(sUrl);
-			} else {
-				return undefined;
+				return sap.ui.require.toUrl(sUrl);
 			}
+			return undefined;
 		},
 
 		/**
