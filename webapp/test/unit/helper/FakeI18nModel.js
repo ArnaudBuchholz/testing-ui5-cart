@@ -3,12 +3,11 @@ sap.ui.define([
 	"sap/base/strings/formatMessage"
 ], function (
 	Model,
-	formatMessage) {
+	formatMessage
+) {
 	"use strict";
 
-
 	return Model.extend("test.unit.helper.FakeI18nModel", {
-
 		constructor : function (mTexts) {
 			Model.call(this);
 			this.mTexts = mTexts || {};
@@ -21,7 +20,5 @@ sap.ui.define([
 				}.bind(this)
 			};
 		}
-
 	});
-
 });
