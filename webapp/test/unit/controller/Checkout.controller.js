@@ -1,10 +1,14 @@
-/*global QUnit,sinon*/
+/*global QUnit, sinon*/
 
 sap.ui.define([
 	"sap/ui/demo/cart/controller/Checkout.controller",
 	"sap/m/Button",
 	"sap/m/MessagePopover"
-], function(Checkout, Button, MessagePopover) {
+], function(
+	Checkout,
+	Button,
+	MessagePopover
+) {
 	"use strict";
 
 	QUnit.module("CheckoutController", {
@@ -31,14 +35,14 @@ sap.ui.define([
 		afterEach: function () {
 			this.Checkout.destroy();
 		}
-	});
-
-	QUnit.test("Should check if the destroy function of the message popover is called", function (assert) {
-		var oStub = sinon.stub(MessagePopover.prototype, "destroy");
-		var sMessagePopoverId = this.Checkout.createId("messagePopover");
-		this.Checkout.onShowMessagePopoverPress(this.oEvent);
-		var oMessagPopover = sap.ui.getCore().byId(sMessagePopoverId);
-		oMessagPopover.fireAfterClose();
-		assert.strictEqual(oStub.callCount, 1, "The destroy function has been successfully called");
+	}, function () {
+		QUnit.test("Should check if the destroy function of the message popover is called", function (assert) {
+			var oStub = sinon.stub(MessagePopover.prototype, "destroy");
+			var sMessagePopoverId = this.Checkout.createId("messagePopover");
+			this.Checkout.onShowMessagePopoverPress(this.oEvent);
+			var oMessagPopover = sap.ui.getCore().byId(sMessagePopoverId);
+			oMessagPopover.fireAfterClose();
+			assert.strictEqual(oStub.callCount, 1, "The destroy function has been successfully called");
+		});
 	});
 });
