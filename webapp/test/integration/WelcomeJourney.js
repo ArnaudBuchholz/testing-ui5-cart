@@ -23,7 +23,7 @@ sap.ui.define([
 
 	opaTest("Should press the product link and navigate to product view", function (Given, When, Then) {
 		// Actions
-		When.onTheWelcomePage.iPressTheProductLink();
+		When.onTheWelcomePage.iPressTheFirstPromotedProduct();
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheProductPage();
 		Then.onTheCategory.iShouldSeeSomeEntriesInTheProductList();
