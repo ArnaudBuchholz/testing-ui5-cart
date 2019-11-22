@@ -85,7 +85,10 @@ sap.ui.define([
 						controlType: "sap.m.Button",
 						matchers: new Properties({type: "Back"}),
 						actions: new Press(),
-						errorMessage: "The back button was not found and could not be pressed"
+						success: function () {
+							Opa5.assert.ok(true, "The back button was pressed");
+						},
+						errorMessage: "The back button was not found or not interactable"
 					});
 				}
 			},
