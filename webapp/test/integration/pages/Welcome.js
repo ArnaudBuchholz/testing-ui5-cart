@@ -18,15 +18,17 @@ sap.ui.define([
 		onTheWelcomePage: {
 			viewName: "Welcome",
 			actions: {
-				iPressTheMenuButton : function () {
+				iPressTheShowCategoriesButton : function () {
 					return this.waitFor({
 						matchers: new Properties({ icon : "sap-icon://menu2" }),
 						actions: new Press(),
-						errorMessage: "No Menu button found"
+						success: function () {
+							Opa5.assert.ok(true, "The show categories button was pressed")
+						}
 					});
 				},
 
-				iPressTheProductLink: function () {
+				iPressTheFirstPromotedProduct: function () {
 					return this.waitFor({
 						controlType: "sap.m.ObjectIdentifier",
 						matchers: new BindingPath({
@@ -34,7 +36,10 @@ sap.ui.define([
 							path: "/Promoted/0"
 						}),
 						actions: new Press(),
-						errorMessage: "The product link was not displayed"
+						success: function () {
+							Opa5.assert.ok(true, "The first promoted product was pressed");
+						},
+						errorMessage: "No promoted product was displayed"
 					});
 				},
 
@@ -86,6 +91,7 @@ sap.ui.define([
 				iShouldSeeTheWelcomePage: function () {
 					return this.waitFor({
 						timeout: 30,
+						id: "panelPromoted",
 						success: function () {
 							Opa5.assert.ok(true, "The welcome page was successfully displayed");
 						},
