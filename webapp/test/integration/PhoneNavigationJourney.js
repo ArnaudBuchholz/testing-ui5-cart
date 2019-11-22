@@ -15,21 +15,21 @@ sap.ui.define([
 		// Arrangements
 		Given.iStartMyApp();
 		//Actions
-		When.onTheWelcomePage.iPressTheProductLink();
+		When.onTheWelcomePage.iPressTheFirstPromotedProduct();
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheProductPage();
 	});
 
 	opaTest("Should press back button and navigate to welcome view", function (Given, When, Then) {
 		// Actions
-		When.onTheProduct.iPressTheBackButtonInProduct();
+		When.onTheProduct.iPressTheBackButton();
 		// Assertions
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
 	});
 
 	opaTest("The category view should open by pressing the menu button", function (Given, When, Then) {
 		//Actions
-		When.onTheWelcomePage.iPressTheMenuButton();
+		When.onTheWelcomePage.iPressTheShowCategoriesButton();
 		// Assertions
 		Then.onHome.iShouldSeeTheCategoryList();
 	});
