@@ -15,12 +15,15 @@ sap.ui.define([
 			viewName: "Product",
 
 			actions: {
-				iPressTheBackButtonInProduct: function () {
+				iPressTheBackButton: function () {
 					return this.waitFor({
 						controlType : "sap.m.Button",
 						matchers: new PropertyStrictEquals({name: "type", value: "Back"}),
 						actions: new Press(),
-						errorMessage: "The nav back button was not displayed"
+						success: function () {
+							Opa5.assert.ok(true, "The back button was pressed");
+						},
+						errorMessage: "The back button was not found or not interactable"
 					});
 				},
 				iAddTheDisplayedProductToTheCart: function () {
@@ -91,6 +94,7 @@ sap.ui.define([
 
 				iShouldSeeTheProductPage: function () {
 					return this.waitFor({
+						id: "productImage",
 						success: function () {
 							Opa5.assert.ok(true, "The product page was successfully displayed");
 						},
