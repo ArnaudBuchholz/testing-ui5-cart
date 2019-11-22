@@ -271,11 +271,8 @@ sap.ui.define([
 					return this.waitFor({
 						id: "productList",
 						timeout: 30,
-						success: function (oList) {
-							Opa5.assert.ok(
-								oList,
-								"The product list was found"
-							);
+						success: function () {
+							Opa5.assert.ok(true, "The product list was found");
 						},
 						errorMessage: "The product list was not found"
 					});
@@ -285,11 +282,8 @@ sap.ui.define([
 					return this.waitFor({
 						controlType: "sap.m.Page",
 						matchers: new PropertyStrictEquals({name: "title", value: "Flat Screens"}),
-						success: function (aPage) {
-							Opa5.assert.ok(
-								aPage,
-								"The flat screens category page was found"
-							);
+						success: function () {
+							Opa5.assert.ok(true, "The flat screens category page was found");
 						},
 						errorMessage: "The flat screens category page was not found"
 					});
@@ -313,15 +307,13 @@ sap.ui.define([
 					this.waitFor({
 						id: "productList",
 						matchers: new AggregationFilled({name: "items"}),
-						success: function (oList) {
-							Opa5.assert.ok(
-								oList.getItems().length > 0,
-								"The product list has entries"
-							);
+						success: function () {
+							Opa5.assert.ok(true, "The product list has entries");
 						},
 						errorMessage: "The product list does not contain any entries"
 					});
 				},
+
 				iShouldSeeAllProductsOfTheCategory: function () {
 					this.waitFor({
 						id: "productList",
