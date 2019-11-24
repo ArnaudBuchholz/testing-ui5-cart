@@ -56,7 +56,7 @@ sap.ui.define([
 		When.onTheWelcomePage.iPressOnTheCartButton();
 		When.onTheWelcomePage.iToggleTheCart();
 		// Assertions
-		Then.onTheCart.iShouldSeeTheProductInMyCart();
+		Then.onTheCart.iShouldSeeSomeProductsInMyCart();
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
