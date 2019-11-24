@@ -50,7 +50,7 @@ sap.ui.define([
 		When.onTheProduct.iToggleTheCart();
 
 		// Assertions
-		Then.onTheCart.iShouldSeeTheProductInMyCart()
+		Then.onTheCart.iShouldSeeSomeProductsInMyCart()
 			.and.iShouldSeeTheTotalPriceUpdated();
 
 		// Cleanup
@@ -68,7 +68,7 @@ sap.ui.define([
 		When.onTheWelcomePage.iToggleTheCart();
 
 		// Assertions
-		Then.onTheCart.iShouldSeeTheProductInMyCart();
+		Then.onTheCart.iShouldSeeSomeProductsInMyCart();
 
 		// Cleanup
 		Then.iTeardownMyApp();
