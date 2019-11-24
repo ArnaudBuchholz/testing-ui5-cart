@@ -46,7 +46,7 @@ sap.ui.define([
 		When.onTheComparison.iToggleTheCart();
 
 		// Assertions
-		Then.onTheCart.iShouldSeeTheProductInMyCart()
+		Then.onTheCart.iShouldSeeSomeProductsInMyCart()
 			.and.iShouldSeeTheTotalPriceUpdated();
 	});
 
