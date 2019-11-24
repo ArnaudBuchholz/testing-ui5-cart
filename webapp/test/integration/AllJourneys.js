@@ -13,6 +13,7 @@ sap.ui.define([
 	Opa5.extendConfig({
 		arrangements: new Startup(),
 		viewNamespace: "sap.ui.demo.cart.view.",
+		pollingInterval: 50,
 		autoWait: true
 	});
 });
