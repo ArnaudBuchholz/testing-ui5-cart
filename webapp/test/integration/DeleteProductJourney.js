@@ -36,7 +36,7 @@ sap.ui.define([
 		When.onTheProduct.iToggleTheCart();
 
 		// Assertions
-		Then.onTheCart.iShouldSeeTheProductInMyCart().
+		Then.onTheCart.iShouldSeeSomeProductsInMyCart().
 		and.iShouldSeeTheEditButtonEnabled().
 		and.iShouldSeeTheProceedButtonEnabled;
 	});
@@ -46,12 +46,12 @@ sap.ui.define([
 		When.onTheCart.iPressOnTheEditButton();
 
 		// Assertions
-		Then.onTheCart.iShouldSeeTheDeleteButton();
+		Then.onTheCart.iShouldSeeTheDeleteButton(0);
 	});
 
 	opaTest("Should see the confirmation dialog", function (Given, When, Then) {
 		// Actions
-		When.onTheCart.iPressOnTheDeleteButton();
+		When.onTheCart.iPressOnTheDeleteButton(0);
 
 		// Assertions
 		Then.onTheDialog.iShouldBeTakenToTheConfirmationDialog();
@@ -75,11 +75,11 @@ sap.ui.define([
 
 	opaTest("Should delete the product from the cart", function (Given, When, Then) {
 		// Actions
-		When.onTheCart.iPressOnTheEditButton().and.iPressOnTheDeleteButton();
+		When.onTheCart.iPressOnTheEditButton().and.iPressOnTheDeleteButton(0);
 		When.onTheDialog.iPressDeleteButtonOnTheConfirmationDialog();
 
 		// Assertions
-		Then.onTheCart.iShouldNotSeeTheDeletedItemInTheCart().
+		Then.onTheCart.iShouldNotSeeTheDeletedItemInTheCart("Bending Screen 21HD").
 			and.iShouldSeeTheTotalPriceEqualToZero();
 	});
 
