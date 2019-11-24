@@ -40,7 +40,7 @@ sap.ui.define([
 				fTotalPrice += parseFloat(oProduct.Price) * oProduct.Quantity;
 			});
 
-			return oBundle.getText("cartTotalPrice", [formatter.price(fTotalPrice)]);
+			return oBundle.getText("cartTotalPrice", [formatter.price(fTotalPrice), "EUR"]);
 		},
 
 		/**
