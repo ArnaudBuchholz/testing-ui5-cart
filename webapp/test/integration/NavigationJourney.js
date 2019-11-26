@@ -23,7 +23,7 @@ sap.ui.define([
 
 	opaTest("Should see the product Blaster Extreme", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressOnTheProductBlasterExtreme();
+		When.onTheCategory.iPressOnTheProduct("Blaster Extreme");
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheBlasterExtremeDetailPage();
 	});
