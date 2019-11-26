@@ -5,7 +5,8 @@ sap.ui.define([
 ], function (
 	Opa5,
 	PropertyStrictEquals,
-	Press) {
+	Press
+) {
 	"use strict";
 
 	Opa5.createPageObjects({
