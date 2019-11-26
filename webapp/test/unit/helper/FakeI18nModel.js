@@ -16,7 +16,7 @@ sap.ui.define([
 		getResourceBundle : function () {
 			return {
 				getText : function (sTextName) {
-					return formatMessage.call(this, this.mTexts[sTextName], [].slice.call(arguments, 1));
+					return formatMessage.apply(this, [this.mTexts[sTextName]].concat([].slice.call(arguments, 1)));
 				}.bind(this)
 			};
 		}
