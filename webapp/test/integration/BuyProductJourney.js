@@ -1,14 +1,5 @@
-/* global QUnit */
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Home",
-	"./pages/Category",
-	"./pages/Product",
-	"./pages/Cart",
-	"./pages/Checkout",
-	"./pages/OrderCompleted",
-	"./pages/Welcome"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -29,14 +20,14 @@ sap.ui.define([
 		When.onHome.iPressOnTheFlatScreensCategory();
 
 		// Assertions
-		Then.onTheCategory.iShouldBeTakenToTheFlatScreensCategory().
+		Then.onTheCategoryProductList.iShouldBeTakenToTheFlatScreensCategory().
 			and.iShouldSeeTheProductList().
 			and.iShouldSeeSomeEntriesInTheProductList();
 	});
 
 	opaTest("Should see an avatar button on the product page", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressOnTheFirstProduct();
+		When.onTheCategoryProductList.iPressOnTheFirstProduct();
 		// Assertions
 		Then.onTheProduct.iShouldSeeAnAvatarButton();
 
