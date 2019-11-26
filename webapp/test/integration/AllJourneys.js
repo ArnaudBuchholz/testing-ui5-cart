@@ -14,6 +14,10 @@ sap.ui.define([
 		arrangements: new Startup(),
 		viewNamespace: "sap.ui.demo.cart.view.",
 		pollingInterval: 50,
-		autoWait: true
+		autoWait: true,
+		appParams: {
+			"sap-ui-language": "EN",
+			"sap-ui-animation": false
+		}
 	});
 });
