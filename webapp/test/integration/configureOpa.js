@@ -1,25 +1,28 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
 	"Startup",
-	// QUnit additions
-	"sap/ui/qunit/qunit-css",
-	"sap/ui/qunit/qunit-junit",
-	"sap/ui/qunit/qunit-coverage",
 	// Page Objects
-	"./pages/Home",
-	"./pages/Welcome",
-	"./pages/Category",
-	"./pages/Product",
 	"./pages/Cart",
-	"./pages/Dialog",
+	"./pages/CategoryProductList",
 	"./pages/Checkout",
-	"./pages/OrderCompleted"
+	"./pages/Comparison",
+	"./pages/Dialog",
+	"./pages/Home",
+	"./pages/OrderCompleted",
+	"./pages/Product",
+	"./pages/ProductFilterDialog",
+	"./pages/Welcome"
 ], function (Opa5, Startup) {
 	"use strict";
 
 	Opa5.extendConfig({
 		arrangements : new Startup(),
 		viewNamespace : "sap.ui.demo.cart.view.",
-		autoWait: true
+		pollingInterval: 50,
+		autoWait: true,
+		appParams: {
+			// "sap-ui-animation": false,
+			"sap-ui-language": "EN"
+		}
 	});
 });
