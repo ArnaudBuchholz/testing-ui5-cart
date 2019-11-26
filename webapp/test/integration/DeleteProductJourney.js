@@ -1,16 +1,5 @@
-/*!
- * ${copyright}
- */
-/*
- global QUnit
- */
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Home",
-	"./pages/Category",
-	"./pages/Product",
-	"./pages/Cart",
-	"./pages/Dialog"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -24,14 +13,14 @@ sap.ui.define([
 		When.onHome.iPressOnTheFlatScreensCategory();
 
 		// Assertions
-		Then.onTheCategory.iShouldBeTakenToTheFlatScreensCategory().
+		Then.onTheCategoryProductList.iShouldBeTakenToTheFlatScreensCategory().
 			and.iShouldSeeTheProductList().
 			and.iShouldSeeSomeEntriesInTheProductList();
 	});
 
 	opaTest("Should add a product to the cart and enable the edit button", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressOnTheFirstProduct();
+		When.onTheCategoryProductList.iPressOnTheFirstProduct();
 		When.onTheProduct.iAddTheDisplayedProductToTheCart();
 		When.onTheProduct.iToggleTheCart();
 
