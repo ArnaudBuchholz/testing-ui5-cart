@@ -1,13 +1,5 @@
-/* global QUnit */
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Home",
-	"./pages/Category",
-	"./pages/Product",
-	"./pages/Comparison",
-	"./pages/Cart",
-	"./pages/Welcome"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -27,12 +19,12 @@ sap.ui.define([
 		When.onHome.iPressOnTheFlatScreensCategory();
 
 		// Assertions
-		Then.onTheCategory.iShouldSeeCompareLinkOnListEntry();
+		Then.onTheCategoryProductList.iShouldSeeCompareLinkOnListEntry();
 	});
 
 	opaTest("Should see comparison view with one product", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressOnCompareLink(productOne);
+		When.onTheCategoryProductList.iPressOnCompareLink(productOne);
 
 		// Assertions
 		Then.onTheComparison.iShouldSeeAProductAndAPlaceholder(productOne);
@@ -53,7 +45,7 @@ sap.ui.define([
 		opaTest("Should see comparison view with two products", function (Given, When, Then) {
 		// Actions
 		When.onTheComparison.iToggleTheCart();
-		When.onTheCategory.iPressOnCompareLink(productTwo);
+		When.onTheCategoryProductList.iPressOnCompareLink(productTwo);
 
 		// Assertions
 		Then.onTheComparison.iShouldSeeTwoProducts(productOne, productTwo);
@@ -61,7 +53,7 @@ sap.ui.define([
 
 	opaTest("Should see comparison view with a different second product", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressOnCompareLink(productThree);
+		When.onTheCategoryProductList.iPressOnCompareLink(productThree);
 
 		// Assertions
 		Then.onTheComparison.iShouldSeeTwoProducts(productOne, productThree);
