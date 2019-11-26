@@ -1,11 +1,5 @@
-/*global QUnit*/
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Welcome",
-	"./pages/Product",
-	"./pages/Home",
-	"./pages/Category"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -38,7 +32,7 @@ sap.ui.define([
 		// Actions
 		When.onHome.iPressOnTheFlatScreensCategory();
 		// Assertions
-		Then.onTheCategory.iShouldBeTakenToTheFlatScreensCategory().
+		Then.onTheCategoryProductList.iShouldBeTakenToTheFlatScreensCategory().
 		and.iShouldSeeTheProductList().
 		and.iShouldSeeSomeEntriesInTheProductList();
 		// Cleanup
