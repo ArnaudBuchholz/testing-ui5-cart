@@ -48,7 +48,7 @@ sap.ui.define([
 			var oControllerStub = {
 				getResourceBundle: function () {
 					return new FakeI18nModel({
-						"cartTotalPrice": "Foo: {0}"
+						"cartTotalPrice": "Foo: {0} {1}"
 					}).getResourceBundle();
 				}
 			};
@@ -62,14 +62,14 @@ sap.ui.define([
 			var oProducts = {
 				1: {Price: 123, Quantity: 2}
 			};
-			totalPriceTestCase.call(this, assert, oProducts, "Foo: 246,00");
+			totalPriceTestCase.call(this, assert, oProducts, "Foo: 246,00 EUR");
 		});
 
 		QUnit.test("Should format a quantity of 0 to a total of zero for one product", function (assert) {
 			var oProducts = {
 				1: {Price: 123, Quantity: 0}
 			};
-			totalPriceTestCase.call(this, assert, oProducts, "Foo: 0,00");
+			totalPriceTestCase.call(this, assert, oProducts, "Foo: 0,00 EUR");
 		});
 
 		QUnit.test("Should format two products with quantities and digits to the correct price", function (assert) {
@@ -77,7 +77,7 @@ sap.ui.define([
 				1: {Price: 123.45, Quantity: 1},
 				2: {Price: 456.78, Quantity: 2}
 			};
-			totalPriceTestCase.call(this, assert, oProducts, "Foo: 1.037,01");
+			totalPriceTestCase.call(this, assert, oProducts, "Foo: 1.037,01 EUR");
 		});
 	});
 
