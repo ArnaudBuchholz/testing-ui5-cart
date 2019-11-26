@@ -5,6 +5,7 @@ sap.ui.define([
 	"sap/ui/test/matchers/AggregationLengthEquals",
 	"sap/ui/test/matchers/BindingPath",
 	"sap/ui/test/matchers/Properties",
+	"sap/ui/test/matchers/I18NText",
 	"sap/ui/test/actions/Press"
 ], function (
 	Opa5,
@@ -13,7 +14,9 @@ sap.ui.define([
 	AggregationLengthEquals,
 	BindingPath,
 	Properties,
-	Press) {
+	I18NText,
+	Press
+) {
 	"use strict";
 
 	Opa5.createPageObjects({
@@ -23,64 +26,67 @@ sap.ui.define([
 			actions: {
 				iPressOnTheFirstProduct: function () {
 					return this.waitFor({
-						controlType: "sap.m.ObjectListItem",
-						matchers: new BindingPath({path: "/Products('HT-1254')"}),
+						id: "productList",
+						matchers: function (oList) {
+							return oList.getItems()[0];
+						},
 						actions: new Press(),
+						success: function () {
+							Opa5.assert.ok(true, "First product of the list pressed");
+						},
 						errorMessage: "The product list does not contain required selection"
 					});
 				},
 
 				iPressTheFilterButton: function () {
-					this.waitFor({
+					return this.waitFor({
 						controlType: "sap.m.Button",
 						matchers: new PropertyStrictEquals({name: "icon", value: "sap-icon://filter"}),
 						actions: new Press(),
-						errorMessage: "The filter button was not found and could not be pressed"
+						errorMessage: "The filter button could not be pressed"
 					});
 				},
 
-				iPressOnTheProductBlasterExtreme: function () {
-					this.waitFor({
+				iPressOnTheProduct: function (sProductName) {
+					return this.waitFor({
 						controlType: "sap.m.ObjectListItem",
-						matchers: new Properties({title : "Blaster Extreme"}),
+						matchers: new Properties({ title : sProductName }),
 						actions: new Press(),
-						errorMessage: "The product Blaster Extreme was not found and could not be pressed"
+						success: function () {
+							Opa5.assert.ok(true, "The product '" + sProductName + "' was pressed");
+						},
+						errorMessage: "The product ''" + sProductName + "' was not found and could not be pressed"
+					});
+				},
+
+				_iSelectTheFilteringOption: function (sOptionKey, sOptionKey) {
+					return this.waitFor({
+						controlType: "sap.m.StandardListItem",
+						matchers: new I18NText({ propertyName: "title", key: sOptionKey }),
+						actions: new Press(),
+						success: function () {
+							Opa5.assert.ok(true, "The " + sOptionKey + " filtering option was pressed");
+						},
+						errorMessage: "The " + sOptionKey + " filtering option was not found and could not be pressed"
 					});
 				},
 
 				iSelectTheAvailabilityFilteringOption: function () {
-					this.waitFor({
-						controlType: "sap.m.StandardListItem",
-						matchers: new PropertyStrictEquals({name: "title", value: "Availability"}),
-						actions: new Press(),
-						errorMessage: "The Availability filtering option was not found and could not be pressed"
-					});
+					return this._iSelectTheFilteringOption("availability", "availabilityFilterTitle");
 				},
+
 				iSelectTheSupplierFilteringOption: function () {
-					this.waitFor({
-						controlType: "sap.m.StandardListItem",
-						matchers: new PropertyStrictEquals({name: "title", value: "Supplier"}),
-						actions: new Press(),
-						errorMessage: "The supplier filtering option was not found and could not be pressed"
-					});
+					return this._iSelectTheFilteringOption("supplier", "supplierFilterTitle");
 				},
+
 				iSelectTheAvailableFilter: function () {
-					this.waitFor({
-						controlType: "sap.m.StandardListItem",
-						matchers: new PropertyStrictEquals({name: "title", value: "Available"}),
-						actions: new Press(),
-						errorMessage: "The available check box was not found and could not be selected"
-					});
+					return this._iSelectTheFilteringOption("available", "availableFilterTitle");
 				},
 
 				iSelectTheDiscontinuedFilter: function () {
-					this.waitFor({
-						controlType: "sap.m.StandardListItem",
-						matchers: new PropertyStrictEquals({name: "title", value: "Discontinued"}),
-						actions: new Press(),
-						errorMessage: "The discontinued check box was not found and could not be selected"
-					});
+					return this._iSelectTheFilteringOption("discontinued", "discontinuedFilterTitle");
 				},
+
 				iSelectTheTechnocomFilter: function () {
 					this.waitFor({
 						controlType: "sap.m.StandardListItem",
@@ -147,7 +153,7 @@ sap.ui.define([
 						errorMessage: "The nav back button was not displayed"
 					});
 				},
-				//Back Button in filter dialog
+
 				iPressTheBackButtonInDialog: function () {
 					this.waitFor({
 						controlType: "sap.m.Button",
@@ -156,6 +162,7 @@ sap.ui.define([
 						errorMessage: "The back button in the dialog was not found and could not be pressed"
 					});
 				},
+
 				iPressResetButton: function () {
 					this.waitFor({
 						controlType: "sap.m.Button",
@@ -164,6 +171,7 @@ sap.ui.define([
 						errorMessage: "The reset button in the dialog was not found and could not be pressed"
 					});
 				},
+
 				iSelectThePriceFilteringOption: function () {
 					this.waitFor({
 						controlType: "sap.m.StandardListItem",
