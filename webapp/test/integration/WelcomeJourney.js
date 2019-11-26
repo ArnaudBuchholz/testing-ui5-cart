@@ -1,13 +1,5 @@
-/*
- global QUnit
- */
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Home",
-	"./pages/Welcome",
-	"./pages/Product",
-	"./pages/Category",
-	"./pages/Cart"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -26,7 +18,7 @@ sap.ui.define([
 		When.onTheWelcomePage.iPressTheFirstPromotedProduct();
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheProductPage();
-		Then.onTheCategory.iShouldSeeSomeEntriesInTheProductList();
+		Then.onTheCategoryProductList.iShouldSeeSomeEntriesInTheProductList();
 	});
 
 	opaTest("Should press the image and see the LightBox item", function (Given, When, Then) {
@@ -45,7 +37,7 @@ sap.ui.define([
 
 	opaTest("Should press back button and navigate to welcome view", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressTheBackButtonInCategory();
+		When.onTheCategoryProductList.iPressTheBackButtonInCategory();
 		// Assertions
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
 	});
