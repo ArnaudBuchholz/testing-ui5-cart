@@ -1,9 +1,5 @@
-/* global QUnit */
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Home",
-	"./pages/Category"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -15,76 +11,76 @@ sap.ui.define([
 		// Actions
 		When.onHome.iPressOnTheFlatScreensCategory();
 		// Assertions
-		Then.onTheCategory.iShouldSeeAFilterButton();
+		Then.onTheCategoryProductList.iShouldSeeAFilterButton();
 	});
 
 	opaTest("Should filter the products on availability", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iFilterOnAvailability();
+		When.onTheCategoryProductList.iFilterOnAvailability();
 		//Assertions
-		Then.onTheCategory.iShouldOnlySeeAvailableAndDiscontinuedProductsWithInfoToolbar();
+		Then.onTheCategoryProductList.iShouldOnlySeeAvailableAndDiscontinuedProductsWithInfoToolbar();
 	});
 
 	opaTest("Should remove the availability filters", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iRemoveTheAvailabilityFilters();
+		When.onTheCategoryProductList.iRemoveTheAvailabilityFilters();
 		//Assertions
-		Then.onTheCategory.iShouldSeeAllProductsAndNoInfoToolbar();
+		Then.onTheCategoryProductList.iShouldSeeAllProductsAndNoInfoToolbar();
 	});
 
 	opaTest("Should filter on both availability and price", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iFilterOnAvailabilityAndPrice();
+		When.onTheCategoryProductList.iFilterOnAvailabilityAndPrice();
 		//Assertions
-		Then.onTheCategory.iShouldOnlySeeOutOfStockAndCheapProductsWithInfoToolbar();
+		Then.onTheCategoryProductList.iShouldOnlySeeOutOfStockAndCheapProductsWithInfoToolbar();
 	});
 
 	opaTest("Should change the price filter and then cancel the change", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iCancelAPriceFilterChange();
+		When.onTheCategoryProductList.iCancelAPriceFilterChange();
 		//Assertions
-		Then.onTheCategory.iShouldOnlySeeOutOfStockAndCheapProductsWithInfoToolbar();
+		Then.onTheCategoryProductList.iShouldOnlySeeOutOfStockAndCheapProductsWithInfoToolbar();
 		// Actions
-		When.onTheCategory.iPressTheFilterButton();
-		When.onTheCategory.iPressTheBackButtonInDialog();
+		When.onTheCategoryProductList.iPressTheFilterButton();
+		When.onTheCategoryProductList.iPressTheBackButtonInDialog();
 		//Assertions
-		Then.onTheCategory.iShouldTestTheFilterCount(1);
+		Then.onTheCategoryProductList.iShouldTestTheFilterCount(1);
 	});
 
 	opaTest("Should change the price filter values to the default ones", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iChangeToTheDefaultFilterPriceValues();
+		When.onTheCategoryProductList.iChangeToTheDefaultFilterPriceValues();
 		//Assertions
-		Then.onTheCategory.iShouldOnlySeeOutOfStockProductsAndAnInfoToolbar();
+		Then.onTheCategoryProductList.iShouldOnlySeeOutOfStockProductsAndAnInfoToolbar();
 		//Actions
-		When.onTheCategory.iPressTheFilterButton();
-		When.onTheCategory.iPressTheBackButtonInDialog();
-		Then.onTheCategory.iShouldTestTheFilterCount(0);
+		When.onTheCategoryProductList.iPressTheFilterButton();
+		When.onTheCategoryProductList.iPressTheBackButtonInDialog();
+		Then.onTheCategoryProductList.iShouldTestTheFilterCount(0);
 	});
 
 	opaTest("Should reset price custom filter", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressResetButton();
+		When.onTheCategoryProductList.iPressResetButton();
 		//Assertions
-		Then.onTheCategory.iShouldTestTheFilterCount(0);
-		When.onTheCategory.iPressOkButton();
+		Then.onTheCategoryProductList.iShouldTestTheFilterCount(0);
+		When.onTheCategoryProductList.iPressOkButton();
 		//Assertions
-		Then.onTheCategory.iShouldSeeAllProductsAndNoInfoToolbar();
+		Then.onTheCategoryProductList.iShouldSeeAllProductsAndNoInfoToolbar();
 	});
 
 	opaTest("Should filter the products on supplier", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iFilterOnSupplier();
+		When.onTheCategoryProductList.iFilterOnSupplier();
 		//Assertions
-		Then.onTheCategory.iShouldOnlySeeTechnoComProductsAndAnInfoToolbar();
+		Then.onTheCategoryProductList.iShouldOnlySeeTechnoComProductsAndAnInfoToolbar();
 	});
 
 	opaTest("Should remove the supplier filter", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iRemoveTheSupplierFilter();
+		When.onTheCategoryProductList.iRemoveTheSupplierFilter();
 		//Assertions
-		Then.onTheCategory.iShouldSeeAllProductsAndNoInfoToolbar();
+		Then.onTheCategoryProductList.iShouldSeeAllProductsAndNoInfoToolbar();
 		// Cleanup
-		Then.onTheCategory.iTeardownMyApp();
+		Then.onTheCategoryProductList.iTeardownMyApp();
 	});
 });
