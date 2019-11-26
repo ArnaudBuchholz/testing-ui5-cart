@@ -1,12 +1,5 @@
-/* global QUnit */
-
 sap.ui.define([
-	"sap/ui/test/opaQunit",
-	"./pages/Home",
-	"./pages/Category",
-	"./pages/Welcome",
-	"./pages/Product",
-	"./pages/Cart"
+	"sap/ui/test/opaQunit"
 ], function (opaTest) {
 	"use strict";
 
@@ -18,19 +11,19 @@ sap.ui.define([
 		// Actions
 		When.onHome.iPressOnTheSpeakerCategory();
 		// Assertions
-		Then.onTheCategory.iShouldBeTakenToTheSpeakerCategory();
+		Then.onTheCategoryProductList.iShouldBeTakenToTheSpeakerCategory();
 	});
 
 	opaTest("Should see the product Blaster Extreme", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressOnTheProduct("Blaster Extreme");
+		When.onTheCategoryProductList.iPressOnTheProduct("Blaster Extreme");
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheBlasterExtremeDetailPage();
 	});
 
 	opaTest("Should navigate back to home", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressTheBackButtonInCategory();
+		When.onTheCategoryProductList.iPressTheBackButtonInCategory();
 		// Assertions
 		Then.onHome.iShouldSeeTheCategoryList();
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
@@ -54,7 +47,7 @@ sap.ui.define([
 
 	opaTest("Should navigate back to home", function (Given, When, Then) {
 		// Actions
-		When.onTheCategory.iPressTheBackButtonInCategory();
+		When.onTheCategoryProductList.iPressTheBackButtonInCategory();
 		// Assertions
 		Then.onHome.iShouldSeeTheCategoryList();
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
@@ -65,7 +58,7 @@ sap.ui.define([
 		When.onTheWelcomePage.iPressTheProductImage();
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheProductPage();
-		Then.onTheCategory.iShouldSeeSomeEntriesInTheProductList();
+		Then.onTheCategoryProductList.iShouldSeeSomeEntriesInTheProductList();
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
