@@ -20,7 +20,7 @@ sap.ui.define([
 	"use strict";
 
 	Opa5.createPageObjects({
-		onTheCategory : {
+		onTheCategoryProductList: {
 			viewName: "Category",
 
 			actions: {
@@ -59,15 +59,15 @@ sap.ui.define([
 					});
 				},
 
-				_iSelectTheFilteringOption: function (sOptionKey, sOptionKey) {
+				_iSelectTheFilteringOption: function (sOptionTitle, sOptionKey) {
 					return this.waitFor({
 						controlType: "sap.m.StandardListItem",
 						matchers: new I18NText({ propertyName: "title", key: sOptionKey }),
 						actions: new Press(),
 						success: function () {
-							Opa5.assert.ok(true, "The " + sOptionKey + " filtering option was pressed");
+							Opa5.assert.ok(true, "The " + sOptionTitle + " filtering option was pressed");
 						},
-						errorMessage: "The " + sOptionKey + " filtering option was not found and could not be pressed"
+						errorMessage: "The " + sOptionTitle + " filtering option was not found and could not be pressed"
 					});
 				},
 
