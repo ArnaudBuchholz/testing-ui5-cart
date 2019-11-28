@@ -32,7 +32,7 @@ sap.ui.define([
 		// Actions
 		When.onHome.iPressOnTheFlatScreensCategory();
 		// Assertions
-		Then.onTheCategoryProductList.iShouldBeTakenToTheFlatScreensCategory().
+		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Flat Screens").
 		and.iShouldSeeTheProductList().
 		and.iShouldSeeSomeEntriesInTheProductList();
 		// Cleanup
