@@ -132,7 +132,7 @@ sap.ui.define([
 				},
 
 				iPressTheBackButton: function () {
-					this.waitFor({
+					return this.waitFor({
 						controlType: "sap.m.Button",
 						matchers: new Properties({type: "Back"}),
 						actions: new Press(),
