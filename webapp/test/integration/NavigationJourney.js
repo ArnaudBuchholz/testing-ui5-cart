@@ -11,12 +11,12 @@ sap.ui.define([
 		// Actions
 		When.onHome.iPressOnTheSpeakerCategory();
 		// Assertions
-		Then.onTheCategoryProductList.iShouldBeTakenToTheSpeakerCategory();
+		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Speakers");
 	});
 
 	opaTest("Should see the product Blaster Extreme", function (Given, When, Then) {
 		// Actions
-		When.onTheCategoryProductList.iPressOnTheProduct("Blaster Extreme");
+		When.onTheCategoryProductList.iPressOnTheProduct("HT-1091" /* Blaster Extreme */);
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheBlasterExtremeDetailPage();
 	});
