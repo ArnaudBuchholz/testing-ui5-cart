@@ -6,7 +6,7 @@ sap.ui.define([
 	//List of product ids used
 	var HT_1254 = "HT-1254", // Bending Screen 21HD
 		HT_1255 = "HT-1255", // Broad Screen 22HD
-		HT_1137 = "HT-1137" // Flat XXL
+		HT_1137 = "HT-1137"; // Flat XXL
 
 	QUnit.module("Comparison Journey");
 
