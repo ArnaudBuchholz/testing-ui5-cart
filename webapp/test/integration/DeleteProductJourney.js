@@ -13,7 +13,7 @@ sap.ui.define([
 		When.onHome.iPressOnTheFlatScreensCategory();
 
 		// Assertions
-		Then.onTheCategoryProductList.iShouldBeTakenToTheFlatScreensCategory().
+		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Flat Screens").
 			and.iShouldSeeTheProductList().
 			and.iShouldSeeSomeEntriesInTheProductList();
 	});
@@ -27,7 +27,7 @@ sap.ui.define([
 		// Assertions
 		Then.onTheCart.iShouldSeeSomeProductsInMyCart().
 		and.iShouldSeeTheEditButtonEnabled().
-		and.iShouldSeeTheProceedButtonEnabled;
+		and.iShouldSeeTheProceedButtonEnabled();
 	});
 
 	opaTest("Should see the delete button after pressing the edit button", function (Given, When, Then) {
@@ -40,7 +40,7 @@ sap.ui.define([
 
 	opaTest("Should see the confirmation dialog", function (Given, When, Then) {
 		// Actions
-		When.onTheCart.iPressOnTheDeleteButton(0);
+		When.onTheCart.iPressOnTheDeleteButtonOfItem(0);
 
 		// Assertions
 		Then.onTheDialog.iShouldBeTakenToTheConfirmationDialog();
@@ -64,11 +64,11 @@ sap.ui.define([
 
 	opaTest("Should delete the product from the cart", function (Given, When, Then) {
 		// Actions
-		When.onTheCart.iPressOnTheEditButton().and.iPressOnTheDeleteButton(0);
+		When.onTheCart.iPressOnTheEditButton().and.iPressOnTheDeleteButtonOfItem(0);
 		When.onTheDialog.iPressDeleteButtonOnTheConfirmationDialog();
 
 		// Assertions
-		Then.onTheCart.iShouldNotSeeTheDeletedItemInTheCart("Bending Screen 21HD").
+		Then.onTheCart.iShouldNotSeeTheDeletedProductInTheCart("HT-1254" /* Bending Screen 21HD */).
 			and.iShouldSeeTheTotalPriceEqualToZero();
 	});
 
