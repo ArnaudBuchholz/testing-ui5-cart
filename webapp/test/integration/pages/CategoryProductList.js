@@ -6,7 +6,8 @@ sap.ui.define([
 	"sap/ui/test/matchers/BindingPath",
 	"sap/ui/test/matchers/Properties",
 	"sap/ui/test/matchers/I18NText",
-	"sap/ui/test/actions/Press"
+	"sap/ui/test/actions/Press",
+	"sap/base/util/includes"
 ], function (
 	Opa5,
 	PropertyStrictEquals,
@@ -15,7 +16,8 @@ sap.ui.define([
 	BindingPath,
 	Properties,
 	I18NText,
-	Press
+	Press,
+	includes
 ) {
 	"use strict";
 
@@ -121,14 +123,26 @@ sap.ui.define([
 					});
 				},
 
-				iShouldseeTheExactProductcount: function (iCount) {
+				iShouldseeTheProductList: function (aProductIds) {
 					this.waitFor({
 						id: "productList",
-						matchers: new AggregationLengthEquals({ name: "items", length: iCount }),
-						success: function () {
-							Opa5.assert.ok(true, "The number of displayed products was " + iCount);
+						matchers: new AggregationLengthEquals({ name: "items", length: aProductIds.length }),
+						check: function (oProductList) {
+							// Check that product ids are unique and matching the list (whatever the order)
+							var aUniqueProductIds = [];
+							return oProductList.getItems().every(function (oItem) {
+								var oProduct = oItem.getBindingContext().getObject();
+								var sProductId = oProduct.ProductId;
+								if (!includes(aUniqueProductIds, sProductId)) {
+									aUniqueProductIds.push(sProductId);
+								}
+								return includes(aProductIds, sProductId);
+							}) && aUniqueProductIds.length === aProductIds.lenght;
 						},
-						errorMessage: "The number of displayed products was not " + iCount
+						success: function () {
+							Opa5.assert.ok(true, "The displayed products correspond to: " + aProductIds.join(","));
+						},
+						errorMessage: "The displayed products does not correspond to: " + aProductIds.join(",")
 					});
 				},
 
@@ -221,26 +235,6 @@ sap.ui.define([
 						},
 						errorMessage: "The category list has an info toolbar"
 					});
-				},
-
-				iShouldTestTheFilterCount: function (iCountNumber) {
-					var sSuccessMessage = "The price filter count is correctly set up";
-					var sErrorMessage = "The price filter count doesn't correctly set up";
-
-					this.waitFor({
-						controlType: "sap.m.StandardListItem",
-						matchers: new PropertyStrictEquals({name: "title", value: "Price"}),
-						success: function(oItem) {
-							Opa5.assert.ok(oItem[0].getCounter() === iCountNumber, sSuccessMessage);
-						},
-						errorMessage: sErrorMessage
-					});
-				},
-
-				iShouldOnlySeeAvailableAndDiscontinuedProductsWithInfoToolbar: function () {
-					this.iShouldseeTheExactProductcount(2);
-					// this.iShouldOnlySeeTheAvailableAndDiscontinuedProducts();
-					this.iShouldSeeAnAvailabilityInfoToolbar();
 				},
 
 				iShouldOnlySeeTechnoComProductsAndAnInfoToolbar: function () {
