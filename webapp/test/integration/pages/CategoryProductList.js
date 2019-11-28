@@ -146,28 +146,6 @@ sap.ui.define([
 					});
 				},
 
-				iShouldOnlySeeTheAvailableAndDiscontinuedProducts: function () {
-					this.waitFor({
-						id: "productList",
-						matchers: new AggregationLengthEquals({name: "items", length: 2}),
-						success: function (oList) {
-							Opa5.assert.ok(oList, "The category list shows just the available and discontinued products");
-						},
-						errorMessage: "The category list shows products other than available or discontinued"
-					});
-				},
-
-				iShouldOnlySeeTheOutOfStockProducts: function () {
-					this.waitFor({
-						id: "productList",
-						matchers: new AggregationLengthEquals({name: "items", length: 1}),
-						success: function (oList) {
-							Opa5.assert.ok(oList, "The category list shows just the out of stock products");
-						},
-						errorMessage: "The category list shows products other than out of stock"
-					});
-				},
-
 				iShouldOnlySeeTheTechnoComProducts: function () {
 					this.waitFor({
 						id: "productList",
@@ -176,17 +154,6 @@ sap.ui.define([
 							Opa5.assert.ok(oList, "The category list shows just the TechnoCom products");
 						},
 						errorMessage: "The category list shows products from supplier other than TechnoCom "
-					});
-				},
-
-				iShouldOnlySeeOutOfStockAndCheapProducts: function () {
-					this.waitFor({
-						id: "productList",
-						matchers: new AggregationLengthEquals({name: "items", length: 1}),
-						success: function (oList) {
-							Opa5.assert.ok(oList, "The category list shows only cheap and out of stock products");
-						},
-						errorMessage: "The category list did not show cheap and out of stock products"
 					});
 				},
 
@@ -201,10 +168,10 @@ sap.ui.define([
 					});
 				},
 
-				iShouldSeeAnAvailabilityAndPriceInfoToolbar: function () {
+				iShouldSeeAnAvailabilityAndPriceInfoToolbar: function (iFrom, iTo) {
 					this.waitFor({
 						id: "categoryInfoToolbarTitle",
-						matchers: new PropertyStrictEquals({name: "text", value: "Filtered by Availability, Price (200 - 500 EUR)"}),
+						matchers: new PropertyStrictEquals({name: "text", value: "Filtered by Availability, Price (" + iFrom + " - " + iTo + " EUR)"}),
 						success: function () {
 							Opa5.assert.ok(true, "The category list has info toolbar");
 						},
@@ -240,16 +207,6 @@ sap.ui.define([
 				iShouldOnlySeeTechnoComProductsAndAnInfoToolbar: function () {
 					this.iShouldOnlySeeTheTechnoComProducts();
 					this.iShouldSeeASupplierInfoToolbar();
-				},
-
-				iShouldOnlySeeOutOfStockProductsAndAnInfoToolbar: function () {
-					this.iShouldOnlySeeTheOutOfStockProducts();
-					this.iShouldSeeAnAvailabilityInfoToolbar();
-				},
-
-				iShouldOnlySeeOutOfStockAndCheapProductsWithInfoToolbar: function () {
-					this.iShouldOnlySeeOutOfStockAndCheapProducts();
-					this.iShouldSeeAnAvailabilityAndPriceInfoToolbar();
 				},
 
 				iShouldSeeAllProductsAndNoInfoToolbar: function () {
