@@ -4,7 +4,6 @@ sap.ui.define([
 	"sap/ui/test/matchers/AggregationEmpty",
 	"sap/ui/test/matchers/Properties",
 	"sap/ui/test/matchers/PropertyStrictEquals",
-	"sap/ui/test/matchers/AggregationContainsPropertyEqual",
 	"sap/ui/test/matchers/AggregationLengthEquals",
 	"sap/ui/test/matchers/BindingPath",
 	"sap/ui/test/matchers/Ancestor",
@@ -16,7 +15,6 @@ sap.ui.define([
 	AggregationEmpty,
 	Properties,
 	PropertyStrictEquals,
-	AggregationContainsPropertyEqual,
 	AggregationLengthEquals,
 	BindingPath,
 	Ancestor,
@@ -42,7 +40,7 @@ sap.ui.define([
 					});
 				},
 
-				iPressOnTheDeleteButton: function (iIndex) {
+				iPressOnTheDeleteButtonOfItem: function (iIndex) {
 					return this.waitFor({
 						id: "entryList",
 						matchers: [
@@ -81,45 +79,55 @@ sap.ui.define([
 					});
 				},
 
-				iPressOnSaveForLaterForTheProduct: function (iIndex) {
-					var oI18nMatcher = new I18NText({ propertyName: "text", key: "cartSaveForLaterLinkText" });
+				iPressOnSaveForLaterOfItem: function (iIndex) {
 					return this.waitFor({
 						id: "entryList",
 						matchers: [
 							function (oList) {
 								return oList.getItems()[iIndex];
-							},
-							function (oItem) {
-								return oItem.getAttributes.filter(function (oAttribute) {
-									return oI18nMatcher.isMatching(oAttribute);
-								})[0];
 							}
 						],
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The item #" + iIndex + " was saved for later");
-						}
+						success: function (oItem) {
+							return this.waitFor({
+								controlType: "sap.m.ObjectAttribute",
+								matchers: [
+									new Ancestor(oItem),
+									new I18NText({ propertyName: "text", key: "cartSaveForLaterLinkText" })
+								],
+								actions: new Press(),
+								success: function () {
+									Opa5.assert.ok(true, "The item #" + iIndex + " was saved for later");
+								},
+								errorMessage: "The item #" + iIndex + " saved for later was not found or could not be pressed"
+							})
+						},
+						errorMessage: "The item #" + iIndex + " not found"
 					});
 				},
 
-				iPressOnAddBackToBasketForTheProduct: function (iIndex) {
-					var oI18nMatcher = new I18NText({ propertyName: "text", key: "cartAddToCartLinkText" });
+				iPressOnAddBackToCartOfSavedItem: function (iIndex) {
 					return this.waitFor({
 						id: "saveForLaterList",
 						matchers: [
 							function (oList) {
 								return oList.getItems()[iIndex];
-							},
-							function (oItem) {
-								return oItem.getAttributes.filter(function (oAttribute) {
-									return oI18nMatcher.isMatching(oAttribute);
-								})[0];
 							}
 						],
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The item #" + iIndex + " was added back to the cart");
-						}
+						success: function (oItem) {
+							return this.waitFor({
+								controlType: "sap.m.ObjectAttribute",
+								matchers: [
+									new Ancestor(oItem),
+									new I18NText({ propertyName: "text", key: "cartAddToCartLinkText" })
+								],
+								actions: new Press(),
+								success: function () {
+									Opa5.assert.ok(true, "The saved item #" + iIndex + " was put back to cart");
+								},
+								errorMessage: "The saved item #" + iIndex + " was not found or could not be put back to cart"
+							})
+						},
+						errorMessage: "The saved item #" + iIndex + " not found"
 					});
 				},
 
@@ -228,32 +236,27 @@ sap.ui.define([
 					});
 				},
 
-				iShouldNotSeeTheDeletedItemInTheCart: function (sItemTitle) {
-					var oAggregationContainsMatcher = new AggregationContainsPropertyEqual({
-						aggregationName: "items",
-						propertyName: "title",
-						propertyValue: sItemTitle
-					});
+				iShouldNotSeeTheDeletedProductInTheCart: function (sProductId) {
+					var oBindingPathMatcher = new BindingPath({ path: "/cartEntries/" + sProductId });
 					return this.waitFor({
 						id: "entryList",
-						matchers: function (oList) {
-							return !oAggregationContainsMatcher.isMatching(oList);
+						check: function (oList) {
+							return oList.getItems().every(function (oItem) {
+								return !oBindingPathMatcher.isMatching(oItem);
+							})
 						},
 						success: function () {
-							Opa5.assert.ok(true, "The cart does not contain the product '" + sItemTitle + "'");
+							Opa5.assert.ok(true, "The cart does not contain the product '" + sProductId + "'");
 						},
-						errorMessage: "The cart contains our product"
+						errorMessage: "The cart contains the product '" + sProductId + "'"
 					});
 				},
 
 				iShouldBeTakenToTheCart: function () {
 					return this.waitFor({
 						id: "entryList",
-						success: function (oList) {
-							Opa5.assert.ok(
-								oList,
-								"The cart was found"
-							);
+						success: function () {
+							Opa5.assert.ok(true, "The cart was found");
 						},
 						errorMessage: "The cart was not found"
 					});
