@@ -19,7 +19,7 @@ sap.ui.define([
 		When.onHome.iPressOnTheFlatScreensCategory();
 
 		// Assertions
-		Then.onTheCategoryProductList.iShouldSeeCompareLinkOnListEntry();
+		Then.onTheCategoryProductList.iShouldSeeCompareLinks();
 	});
 
 	opaTest("Should see comparison view with one product", function (Given, When, Then) {
