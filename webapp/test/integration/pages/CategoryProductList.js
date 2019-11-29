@@ -67,7 +67,7 @@ sap.ui.define([
 				iPressOnTheProduct: function (sProductId) {
 					return this.waitFor({
 						controlType: "sap.m.ObjectListItem",
-						matchers: new BindingPath({ path: "/Products('" + ProductId + "')" }),
+						matchers: new BindingPath({ path: "/Products('" + sProductId + "')" }),
 						actions: new Press(),
 						success: function () {
 							Opa5.assert.ok(true, "The product '" + sProductId + "' was pressed");
@@ -126,7 +126,7 @@ sap.ui.define([
 				},
 
 				iShouldSeeAFilterButton: function () {
-					this.waitFor({
+					return this.waitFor({
 						id: "masterListFilterButton",
 						success: function () {
 							Opa5.assert.ok(true, "The Master list page has a filter button");
@@ -136,7 +136,7 @@ sap.ui.define([
 				},
 
 				iShouldseeTheProductList: function (aProductIds) {
-					this.waitFor({
+					return this.waitFor({
 						id: "productList",
 						matchers: new AggregationLengthEquals({ name: "items", length: aProductIds.length }),
 						check: function (oProductList) {
@@ -149,7 +149,7 @@ sap.ui.define([
 									aUniqueProductIds.push(sProductId);
 								}
 								return includes(aProductIds, sProductId);
-							}) && aUniqueProductIds.length === aProductIds.lenght;
+							}) && aUniqueProductIds.length === aProductIds.length;
 						},
 						success: function () {
 							Opa5.assert.ok(true, "The displayed products correspond to: " + aProductIds.join(","));
@@ -159,7 +159,7 @@ sap.ui.define([
 				},
 
 				iShouldOnlySeeTheTechnoComProducts: function () {
-					this.waitFor({
+					return this.waitFor({
 						id: "productList",
 						matchers: new AggregationLengthEquals({name: "items", length: 1}),
 						success: function (oList) {
@@ -170,7 +170,7 @@ sap.ui.define([
 				},
 
 				iShouldSeeAnAvailabilityInfoToolbar: function () {
-					this.waitFor({
+					return this.waitFor({
 						id: "categoryInfoToolbarTitle",
 						matchers: new PropertyStrictEquals({name: "text", value: "Filtered by Availability"}),
 						success: function () {
@@ -181,7 +181,7 @@ sap.ui.define([
 				},
 
 				iShouldSeeAnAvailabilityAndPriceInfoToolbar: function (iFrom, iTo) {
-					this.waitFor({
+					return this.waitFor({
 						id: "categoryInfoToolbarTitle",
 						matchers: new PropertyStrictEquals({name: "text", value: "Filtered by Availability, Price (" + iFrom + " - " + iTo + " EUR)"}),
 						success: function () {
@@ -192,7 +192,7 @@ sap.ui.define([
 				},
 
 				iShouldSeeASupplierInfoToolbar: function () {
-					this.waitFor({
+					return this.waitFor({
 						id: "categoryInfoToolbarTitle",
 						matchers: new PropertyStrictEquals({name: "text", value: "Filtered by Supplier"}),
 						success: function () {
@@ -203,7 +203,7 @@ sap.ui.define([
 				},
 
 				iShouldNotSeeAnInfoToolbar: function () {
-					this.waitFor({
+					return this.waitFor({
 						id: "productList",
 						success: function (oList) {
 							var oInfoToolbar = oList.getAggregation("infoToolbar");
@@ -217,7 +217,7 @@ sap.ui.define([
 				},
 
 				iShouldSeeCompareLinks: function () {
-					this.waitFor({
+					return this.waitFor({
 						controlType: "sap.m.ObjectAttribute",
 						matchers: new I18NText({ propertyName: "text", key: "CompareWith" }),
 						check: function (aObjectAttributes) {
