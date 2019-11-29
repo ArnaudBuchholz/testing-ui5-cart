@@ -6,7 +6,9 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
-	<NavContainer id="wizardNavContainer">
+	<NavContainer id="wizardNavContainer"
+		defaultTransitionName="{= ${device>/animationMode} === 'minimal' ? 'show' : 'slide' }"
+	>
 		<pages>
 			<Page
 				id="wizardContentPage"
