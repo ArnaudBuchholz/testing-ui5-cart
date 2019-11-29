@@ -21,7 +21,7 @@ sap.ui.define([
 		pollingInterval: 50,
 		autoWait: true,
 		appParams: {
-			// "sap-ui-animation": false,
+			"sap-ui-animation": false,
 			"sap-ui-language": "EN"
 		}
 	});
