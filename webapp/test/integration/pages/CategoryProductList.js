@@ -52,6 +52,18 @@ sap.ui.define([
 					});
 				},
 
+				iPressTheBackButton: function () {
+					return this.waitFor({
+						controlType: "sap.m.Button",
+						matchers: new PropertyStrictEquals({name: "type", value: "Back"}),
+						actions: new Press(),
+						success: function () {
+							Opa5.assert.ok(true, "The back button was pressed");
+						},
+						errorMessage: "The back button could not be pressed"
+					});
+				},
+
 				iPressOnTheProduct: function (sProductId) {
 					return this.waitFor({
 						controlType: "sap.m.ObjectListItem",
@@ -94,7 +106,7 @@ sap.ui.define([
 				iShouldBeTakenToTheCategory: function (sCategoryTitle) {
 					return this.waitFor({
 						controlType: "sap.m.Page",
-						matchers: new PropertyStrictEquals({ name: "title", value: sCatergoryTitle }),
+						matchers: new PropertyStrictEquals({ name: "title", value: sCategoryTitle }),
 						success: function () {
 							Opa5.assert.ok(true, "The " + sCategoryTitle + " category product list was found");
 						},
@@ -204,23 +216,15 @@ sap.ui.define([
 					});
 				},
 
-				iShouldOnlySeeTechnoComProductsAndAnInfoToolbar: function () {
-					this.iShouldOnlySeeTheTechnoComProducts();
-					this.iShouldSeeASupplierInfoToolbar();
-				},
-
-				iShouldSeeAllProductsAndNoInfoToolbar: function () {
-					this.iShouldseeTheExactProductcount(3);
-					this.iShouldNotSeeAnInfoToolbar();
-				},
-
-				// TODO name
-				iShouldSeeCompareLinkOnListEntry: function () {
+				iShouldSeeCompareLinks: function () {
 					this.waitFor({
 						controlType: "sap.m.ObjectAttribute",
-						matchers: new Properties({text : "Compare"}),
+						matchers: new I18NText({ propertyName: "text", key: "CompareWith" }),
+						check: function (aObjectAttributes) {
+							return aObjectAttributes.length > 1;
+						},
 						success: function () {
-							Opa5.assert.ok(true, "List entry has an compare link");
+							Opa5.assert.ok(true, "List entry has compare links");
 						},
 						errorMessage: "List entry has no compare link"
 					});
