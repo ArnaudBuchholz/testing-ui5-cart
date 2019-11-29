@@ -23,7 +23,7 @@ sap.ui.define([
 
 	opaTest("Should navigate back to home", function (Given, When, Then) {
 		// Actions
-		When.onTheCategoryProductList.iPressTheBackButtonInCategory();
+		When.onTheCategoryProductList.iPressTheBackButton();
 		// Assertions
 		Then.onHome.iShouldSeeTheCategoryList();
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
@@ -47,7 +47,7 @@ sap.ui.define([
 
 	opaTest("Should navigate back to home", function (Given, When, Then) {
 		// Actions
-		When.onTheCategoryProductList.iPressTheBackButtonInCategory();
+		When.onTheCategoryProductList.iPressTheBackButton();
 		// Assertions
 		Then.onHome.iShouldSeeTheCategoryList();
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
