@@ -8,21 +8,18 @@ sap.ui.define([
 	opaTest("Should see the category list", function (Given, When, Then) {
 		// Arrangements
 		Given.iStartMyApp();
-
 		// Assertions
-		Then.onHome.iShouldSeeTheCategoryList().
-			and.iShouldSeeSomeEntriesInTheCategoryList();
+		Then.onHome.iShouldSeeTheCategoryList()
+			.and.iShouldSeeSomeEntriesInTheCategoryList();
 	});
 
-	//We are still on the second category
 	opaTest("Should see the product list", function (Given, When, Then) {
 		// Actions
 		When.onHome.iPressOnTheFlatScreensCategory();
-
 		// Assertions
-		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Flat Screens").
-			and.iShouldSeeTheProductList().
-			and.iShouldSeeSomeEntriesInTheProductList();
+		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Flat Screens")
+			.and.iShouldSeeTheProductList()
+			.and.iShouldSeeSomeEntriesInTheProductList();
 	});
 
 	opaTest("Should see an avatar button on the product page", function (Given, When, Then) {
@@ -30,20 +27,15 @@ sap.ui.define([
 		When.onTheCategoryProductList.iPressOnTheFirstProduct();
 		// Assertions
 		Then.onTheProduct.iShouldSeeAnAvatarButton();
-
 	});
 
 	opaTest("Should add a product to the cart", function (Given, When, Then) {
 		// Actions
-
 		When.onTheProduct.iAddTheDisplayedProductToTheCart();
-
 		When.onTheProduct.iToggleTheCart();
-
 		// Assertions
 		Then.onTheCart.iShouldSeeSomeProductsInMyCart()
 			.and.iShouldSeeTheTotalPriceUpdated();
-
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
@@ -53,14 +45,11 @@ sap.ui.define([
 		Given.iStartMyApp({
 			keepStorage: true
 		});
-
 		// Actions
 		When.onHome.iPressOnTheFlatScreensCategory();
 		When.onTheWelcomePage.iToggleTheCart();
-
 		// Assertions
 		Then.onTheCart.iShouldSeeSomeProductsInMyCart();
-
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
@@ -76,22 +65,18 @@ sap.ui.define([
 	});
 
 	opaTest("Should navigate to checkout", function (Given, When, Then) {
-
 		// Actions
 		When.onTheCart.iPressOnTheProceedButton();
-
 		// Assertions
 		Then.onCheckout.iShouldSeeTheWizardStepContentsStep();
 	});
 
 	opaTest("Should return to the home", function (Given, When, Then) {
-
 		// Actions
 		When.onCheckout.iPressOnTheReturnToShopButton();
-
 		// Assertions
-		Then.onHome.iShouldSeeTheCategoryList().
-			and.iShouldSeeSomeEntriesInTheCategoryList();
+		Then.onHome.iShouldSeeTheCategoryList()
+			.and.iShouldSeeSomeEntriesInTheCategoryList();
 	});
 
 
