@@ -36,7 +36,7 @@ sap.ui.define([
 	opaTest("Should remove the availability filters", function (Given, When, Then) {
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
-		When.onTheProductFilterDialog..iPressTheAvailableFilter()
+		When.onTheProductFilterDialog.iPressTheAvailableFilter()
 			.and.iPressTheDiscontinuedFilter()
 			.and.iPressOkButton();
 		//Assertions
@@ -48,9 +48,9 @@ sap.ui.define([
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
 		When.onTheProductFilterDialog.iPressTheOutOfStockFilter()
-			.and.iPressTheBackButtonInDialog();
-			.and.iPressThePriceFilteringOption();
-			.and.iSetPriceFilterValues(200, 500);
+			.and.iPressTheBackButtonInDialog()
+			.and.iPressThePriceFilteringOption()
+			.and.iSetPriceFilterValues(200, 500)
 			.and.iPressOkButton();
 		//Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1255])
@@ -97,7 +97,8 @@ sap.ui.define([
 		// Actions
 		When.onTheProductFilterDialog.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldSeeAllProductsAndNoInfoToolbar();
+		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
+			.and.iShouldNotSeeAnInfoToolbar();
 	});
 
 	opaTest("Should filter the products on supplier", function (Given, When, Then) {
@@ -108,7 +109,8 @@ sap.ui.define([
 			.and.iPressOkButton();
 
 		//Assertions
-		Then.onTheCategoryProductList.iShouldOnlySeeTechnoComProductsAndAnInfoToolbar();
+		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1137])
+			.and.iShouldSeeASupplierInfoToolbar();
 	});
 
 	opaTest("Should remove the supplier filter", function (Given, When, Then) {
@@ -118,7 +120,8 @@ sap.ui.define([
 			.and.iPressOkButton();
 
 		//Assertions
-		Then.onTheCategoryProductList.iShouldSeeAllProductsAndNoInfoToolbar();
+		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
+			.and.iShouldNotSeeAnInfoToolbar();
 		// Cleanup
 		Then.onTheCategoryProductList.iTeardownMyApp();
 	});
