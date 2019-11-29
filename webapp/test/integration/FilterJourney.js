@@ -24,9 +24,9 @@ sap.ui.define([
 	opaTest("Should filter the products on availability", function (Given, When, Then) {
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
-		When.onTheProductFilterDialog.iSelectTheAvailabilityFilteringOption()
-			.and.iSelectTheAvailableFilter()
-			.and.iSelectTheDiscontinuedFilter()
+		When.onTheProductFilterDialog.iPressTheAvailabilityFilteringOption()
+			.and.iPressTheAvailableFilter()
+			.and.iPressTheDiscontinuedFilter()
 			.and.iPressOkButton();
 		//Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1254, HT_1137])
@@ -48,7 +48,7 @@ sap.ui.define([
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
 		When.onTheProductFilterDialog.iPressTheOutOfStockFilter()
-			.and.iPressTheBackButtonInDialog()
+			.and.iPressTheBackButton()
 			.and.iPressThePriceFilteringOption()
 			.and.iSetPriceFilterValues(200, 500)
 			.and.iPressOkButton();
@@ -67,7 +67,7 @@ sap.ui.define([
 			.and.iShouldSeeAnAvailabilityAndPriceInfoToolbar(500, 1000);
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
-		When.onTheProductFilterDialog.iPressTheBackButtonInDialog();
+		When.onTheProductFilterDialog.iPressTheBackButton();
 		//Assertions
 		Then.onTheProductFilterDialog.iShouldSeeThePriceFilterCount(1);
 	});
@@ -83,7 +83,7 @@ sap.ui.define([
 
 		//Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
-		When.onTheProductFilterDialog.iPressTheBackButtonInDialog();
+		When.onTheProductFilterDialog.iPressTheBackButton();
 		//Assertions
 		Then.onTheProductFilterDialog.iShouldSeeThePriceFilterCount(0);
 	});
