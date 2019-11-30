@@ -236,7 +236,6 @@ sap.ui.define([
 					return this.waitFor({
 						id: sStepId,
 						success: function (oStep) {
-							debugger;
 							Opa5.assert.strictEqual(oStep.getValidated(), false, "The" + sStepId + " button was not found");
 						},
 						errorMessage: "The" + sStepId + " button was found"
