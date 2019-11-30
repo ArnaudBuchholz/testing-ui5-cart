@@ -64,7 +64,7 @@ sap.ui.define([
 			.and.iPressCancelButton();
 		//Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1255])
-			.and.iShouldSeeAnAvailabilityAndPriceInfoToolbar(500, 1000);
+			.and.iShouldSeeAnAvailabilityAndPriceInfoToolbar(200, 500);
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
 		When.onTheProductFilterDialog.iPressTheBackButton();
