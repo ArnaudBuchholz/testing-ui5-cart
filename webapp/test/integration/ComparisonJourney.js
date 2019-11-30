@@ -33,7 +33,7 @@ sap.ui.define([
 	opaTest("Should add a product to the cart", function (Given, When, Then) {
 		// Actions
 
-		When.onTheComparison.iAddTheDisplayedProductToTheCart();
+		When.onTheComparison.iAddTheDisplayedProductsToTheCart();
 
 		When.onTheComparison.iToggleTheCart();
 
@@ -61,7 +61,7 @@ sap.ui.define([
 
 	opaTest("Should see comparison view with one product", function (Given, When, Then) {
 		// Actions
-		When.onTheComparison.iDeleteAProduct(HT_1254);
+		When.onTheComparison.iPressProductRemove(HT_1254);
 
 		// Assertions
 		Then.onTheComparison.iShouldSeeAProductAndAPlaceholder(HT_1137);
