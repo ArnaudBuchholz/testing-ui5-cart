@@ -1,5 +1,6 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
+	"./Common",
 	"sap/ui/test/matchers/PropertyStrictEquals",
 	"sap/ui/test/matchers/AggregationFilled",
 	"sap/ui/test/matchers/AggregationLengthEquals",
@@ -10,6 +11,7 @@ sap.ui.define([
 	"sap/base/util/includes"
 ], function (
 	Opa5,
+	Common,
 	PropertyStrictEquals,
 	AggregationFilled,
 	AggregationLengthEquals,
@@ -23,6 +25,8 @@ sap.ui.define([
 
 	Opa5.createPageObjects({
 		onTheCategoryProductList: {
+			baseClass: Common,
+
 			viewName: "Category",
 
 			actions: {
@@ -41,27 +45,15 @@ sap.ui.define([
 				},
 
 				iPressTheFilterButton: function () {
-					return this.waitFor({
-						controlType: "sap.m.Button",
-						matchers: new PropertyStrictEquals({name: "icon", value: "sap-icon://filter"}),
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The filter button was pressed");
-						},
-						errorMessage: "The filter button could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						matchers: new PropertyStrictEquals({name: "icon", value: "sap-icon://filter"})
+					}, "Filter");
 				},
 
 				iPressTheBackButton: function () {
-					return this.waitFor({
-						controlType: "sap.m.Button",
-						matchers: new PropertyStrictEquals({name: "type", value: "Back"}),
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The back button was pressed");
-						},
-						errorMessage: "The back button could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						matchers: new PropertyStrictEquals({name: "type", value: "Back"})
+					}, "Back");
 				},
 
 				iPressOnTheProduct: function (sProductId) {
