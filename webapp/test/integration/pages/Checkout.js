@@ -1,5 +1,6 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
+	"./Common",
 	"sap/ui/test/matchers/BindingPath",
 	"sap/ui/test/matchers/Properties",
 	"sap/ui/test/matchers/PropertyStrictEquals",
@@ -9,282 +10,169 @@ sap.ui.define([
 	"sap/ui/test/actions/EnterText"
 ], function (
 	Opa5,
+	Common,
 	BindingPath,
 	Properties,
 	PropertyStrictEquals,
 	AggregationFilled,
 	I18NText,
 	Press,
-	EnterText) {
+	EnterText
+) {
 	"use strict";
 
 	Opa5.createPageObjects({
 		onCheckout: {
-			viewName: "Checkout",
-			actions: {
+			baseClass: Common,
 
+			viewName: "Checkout",
+
+			actions: {
 				iPressOnTheReturnToShopButton: function () {
-					return this.waitFor({
-						id: "returnToShopButton",
-						actions: new Press()
-					});
+					return this._iPressOnTheButton({
+						id: "returnToShopButton"
+					}, "Return to shop");
 				},
 
 				iPressOnTheNextStepButton: function () {
-					return this.waitFor({
-						id: "shoppingCartWizard",
-						actions: function (oWizard) {
-							oWizard.nextStep();
-						},
-						errorMessage: "Could not proceed to Next Step"
-					});
+					return this._iPressOnTheButton({
+						id: /-nextButton$/
+					}, "Next");
 				},
 
 				iPressOnDifferentAddressCheckbox: function () {
 					return this.waitFor({
 						id: "differentDeliveryAddress",
 						actions: new Press(),
-						errorMessage: "Could not press Different Delivery Address Checkbox"
+						success: function () {
+							Opa5.assert.ok(true, "The Different Delivery Address Checkbox was pressed");
+						},
+						errorMessage: "The Different Delivery Address Checkbox was not found and could not be pressed"
 					});
 				},
 
 				iPressOnTheButtonInTheFooter: function () {
+					return this._iPressOnTheButton({
+						id: "showPopoverButton"
+					}, "Footer button");
+				},
+
+				_iEnterTextIn: function (sId, sText, sErrorMessage) {
 					return this.waitFor({
-						id: "showPopoverButton",
-						actions: new Press(),
-						errorMessage: "The button is not rendered and could not be pressed"
+						id: sId,
+						actions: new EnterText({ text: sText }),
+						errorMessage: sErrorMessage
 					});
 				},
 
 				iEnterCreditCardInformation: function (sHolderName, sNumber, sCode, sDate) {
+					this._iEnterTextIn("creditCardHolderName", sHolderName, "Could not enter credit card holder name");
+					this._iEnterTextIn("creditCardNumber", sNumber, "Could not enter credit card number");
+					this._iEnterTextIn("creditCardSecurityNumber", sCode, "Could not enter credit card code");
+					this._iEnterTextIn("creditCardExpirationDate", sDate, "Could not enter credit card date");
 					return this.waitFor({
-						id: "creditCardHolderName",
-						actions: new EnterText({text: sHolderName}),
 						success: function () {
-							this.waitFor({
-								id: "creditCardNumber",
-								actions: new EnterText({text: sNumber}),
-								success: function () {
-									this.waitFor({
-										id: "creditCardSecurityNumber",
-										actions: new EnterText({text: sCode}),
-										success: function () {
-											this.waitFor({
-												id: "creditCardExpirationDate",
-												actions: new EnterText({text: sDate}),
-												errorMessage: "Could not enter Text on Input with id creditCardExpirationDate"
-											});
-										},
-										errorMessage: "Could not enter Text on Input with id creditCardSecurityNumber"
-									});
-								},
-								errorMessage: "Could not enter Text on Input with id creditCardNumber"
-							});
-						},
-						errorMessage: "Could not enter Text on Input with id creditCardHolderName"
+							Opa5.assert.ok(true, "Credit card information entered");
+						}
 					});
 				},
 
-				iEnterWrongCreditCardInformation: function () {
-					this.iEnterCreditCardInformation("My name", "1234567891234567", "13", "01/2020");
-				},
-
-				iEnterCorrectCreditCardInformation: function () {
-					this.iEnterCreditCardInformation("My name", "1234567891234567", "123", "01/2020");
-				},
-
-				iEnterCashOnDeliveryText: function (sFirstName, sLastName, sPhone, sEmail) {
+				iEnterCashOnDeliveryInformation: function (sFirstName, sLastName, sPhone, sEmail) {
+					this._iEnterTextIn("cashOnDeliveryName", sFirstName, "Could not enter cash on delivery first name");
+					this._iEnterTextIn("cashOnDeliveryLastName", sLastName, "Could not enter cash on delivery last name");
+					this._iEnterTextIn("cashOnDeliveryPhoneNumber", sPhone, "Could not enter cash on delivery phone number");
+					this._iEnterTextIn("cashOnDeliveryEmail", sEmail, "Could not enter cash on delivery email");
 					return this.waitFor({
-						id: "cashOnDeliveryName",
-						actions: new EnterText({text: sFirstName}),
 						success: function () {
-							this.waitFor({
-								id: "cashOnDeliveryLastName",
-								actions: new EnterText({text: sLastName}),
-								success: function () {
-									this.waitFor({
-										id: "cashOnDeliveryPhoneNumber",
-										actions: new EnterText({text: sPhone}),
-										success: function () {
-											this.waitFor({
-												id: "cashOnDeliveryEmail",
-												actions: new EnterText({text: sEmail}),
-												errorMessage: "Could not enter Text on Input with id 'cashOnDeliveryEmail'"
-											});
-										},
-										errorMessage: "Could not enter Text on Input with id 'cashOnDeliveryPhoneNumber'"
-									});
-								},
-								errorMessage: "Could not enter Text on Input with id 'cashOnDeliveryLastName'"
-							});
-						},
-						errorMessage: "Could not enter Text 'cashOnDeliveryName'"
+							Opa5.assert.ok(true, "Cash on delivery information entered");
+						}
 					});
 				},
 
-				iEnterCorrectCashOnDeliveryInfo: function () {
-					this.iEnterCashOnDeliveryText("FirstName", "LastName", "+4911111111", "inf@shop.com");
-				},
-
-				iEnterInvoiceAddressText: function (sStreet, sCity, sZipCode, sCountry) {
+				iEnterInvoiceAddressInformation: function (sStreet, sCity, sZipCode, sCountry) {
+					this._iEnterTextIn("invoiceAddressAddress", sStreet, "Could not enter invoice address street");
+					this._iEnterTextIn("invoiceAddressCity", sCity, "Could not enter invoice address city");
+					this._iEnterTextIn("invoiceAddressZip", sZipCode, "Could not enter invoice address zip code");
+					this._iEnterTextIn("invoiceAddressCountry", sCountry, "Could not enter invoice address country");
 					return this.waitFor({
-						id: "invoiceAddressAddress",
-						actions: new EnterText({text: sStreet}),
 						success: function () {
-							this.waitFor({
-								id: "invoiceAddressCity",
-								actions: new EnterText({text: sCity}),
-								success: function () {
-									this.waitFor({
-										id: "invoiceAddressZip",
-										actions: new EnterText({text: sZipCode}),
-										success: function () {
-											this.waitFor({
-												id: "invoiceAddressCountry",
-												actions: new EnterText({text: sCountry}),
-												errorMessage: "Could not enter Text on Input with id invoiceAddressCountry"
-											});
-										},
-										errorMessage: "Could not enter Text on Input with id invoiceAddressZip"
-									});
-								},
-								errorMessage: "Could not enter Text on Input with id invoiceAddressCity"
-							});
-						},
-						errorMessage: "Could not enter Text invoiceAddressAddress"
+							Opa5.assert.ok(true, "Invoice address entered");
+						}
 					});
 				},
 
-				iEnterDeliveryAddressText: function () {
+				iEnterDeliveryAddressInformation: function (sStreet, sCity, sZipCode, sCountry) {
+					this._iEnterTextIn("deliveryAddressAddress", sStreet, "Could not enter delivery address street");
+					this._iEnterTextIn("deliveryAddressCity", sCity, "Could not enter delivery address city");
+					this._iEnterTextIn("deliveryAddressZip", sZipCode, "Could not enter delivery address zip code");
+					this._iEnterTextIn("deliveryAddressCountry", sCountry, "Could not enter delivery address country");
 					return this.waitFor({
-						id: "deliveryAddressAddress",
-						actions: new EnterText({text: "MyStreet.2"}),
 						success: function () {
-							this.waitFor({
-								id: "deliveryAddressCity",
-								actions: new EnterText({text: "MyCity"}),
-								success: function () {
-									this.waitFor({
-										id: "deliveryAddressZip",
-										actions: new EnterText({text: "1234"}),
-										success: function () {
-											this.waitFor({
-												id: "deliveryAddressCountry",
-												actions: new EnterText({text: "MyCountry"}),
-												errorMessage: "Could not enter Text on Input with id DeliveryAddressCountry"
-											});
-										},
-										errorMessage: "Could not enter Text on Input with id DeliveryAddressZip"
-									});
-								},
-								errorMessage: "Could not enter Text on Input with id DeliveryAddressCity"
-							});
-						},
-						errorMessage: "Could not enter Text DeliveryAddressAddress"
+							Opa5.assert.ok(true, "Delivery address entered");
+						}
 					});
-				},
-				iEnterInvoiceAddress: function () {
-					this.iEnterInvoiceAddressText("MyStreet.2", "MyCity", "1234", "DE");
 				},
 
 				iPressOnTheSubmitButton: function () {
-					return this.waitFor({
-						id: "submitOrder",
-						actions: new Press(),
-						errorMessage: "Could not submit order"
-					});
+					return this._iPressOnTheButton({
+						id: "submitOrder"
+					}, "Submit");
 				},
 
 				iPressOnTheYesButton: function () {
-					this.waitFor({
+					return this._iPressOnTheButton({
 						searchOpenDialogs: true,
-						controlType: "sap.m.Button",
-						matchers: new PropertyStrictEquals({
-							name: "text",
-							value: "Yes"
-						}),
-						success: function (aButtons) {
-							return aButtons.filter(function () {
-								return true;
-							});
-						},
-						actions: new Press(),
-						errorMessage: "Did not find the Yes button"
-					});
-					return this;
+						matchers: new PropertyStrictEquals({ name: "text", value: "Yes" })
+					}, "Yes");
 				},
 
-				iPressOnTheEditButtonBacktoList : function () {
-					return this.waitFor({
-						id: "backtoList",
-						actions : new Press(),
-						errorMessage : "The BacktoList button could not be pressed"
-					});
+				iPressOnTheBacktoListButton: function () {
+					return this._iPressOnTheButton({
+						id: "backtoList"
+					}, "Back to list");
 				},
 
-				iPressOnTheEditButtonBackToPaymentType : function () {
-					return this.waitFor({
-						id: "backToInvoiceAddress",
-						actions : new Press(),
-						errorMessage : "The BackToInvoiceAddress button could not be pressed"
-					});
+				iPressOnTheBackToPaymentTypeButton: function () {
+					return this._iPressOnTheButton({
+						id: "backToPaymentType"
+					}, "Back to payment type");
 				},
 
-				iPressOnTheEditButtonBackToInvoiceAddress : function () {
-					return this.waitFor({
-						id: "backToPaymentType",
-						actions : new Press(),
-						errorMessage : "The BackToPaymentType button could not be pressed"
-					});
+				iPressOnTheBackToInvoiceAddressButton: function () {
+					return this._iPressOnTheButton({
+						id: "backToInvoiceAddress"
+					}, "Back to invoice address");
 				},
 
-				iPressOnTheEditButtonBackToDeliveryType: function () {
-					return this.waitFor({
-						id: "backToDeliveryType",
-						actions : new Press(),
-						errorMessage : "The BackToDeliveryType button could not be pressed"
-					});
+				iPressOnTheBackToDeliveryTypeButton: function () {
+					return this._iPressOnTheButton({
+						id: "backToDeliveryType"
+					}, "Back to delivery type");
 				},
-
 
 				iPressOnTheBankTransferButton : function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers: new I18NText({ propertyName: "text", key: "checkoutPaymentBankTransfer"}),
-						actions: new Press(),
-						errorMessage: "Cannot select Bank Transfer from Payment Methods"
-					});
+					return this._iPressOnTheButton({
+						matchers: new I18NText({ propertyName: "text", key: "checkoutPaymentBankTransfer"})
+					}, "Bank Transfer");
 				},
 
 				iPressOnTheCashOnDeliveryButton : function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers: new I18NText({ propertyName: "text", key: "checkoutPaymentCod"}),
-						actions: new Press(),
-						errorMessage: "Cannot select Cash On Delivery from Payment Methods"
-					});
+					return this._iPressOnTheButton({
+						matchers: new I18NText({ propertyName: "text", key: "checkoutPaymentCod"})
+					}, "Cash On Delivery");
 				},
 
 				iPressOnTheExpressDeliveryButton : function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers: new I18NText({ propertyName: "text", key: "checkoutDeliveryTypeExpress"}),
-						actions: new Press(),
-						errorMessage: "Cannot select express delivery"
-					});
+					return this._iPressOnTheButton({
+						matchers: new I18NText({ propertyName: "text", key: "checkoutDeliveryTypeExpress"})
+					}, "Express delivery");
 				},
 
 				iPressTheCloseButton: function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						viewName: "",
-						matchers: new PropertyStrictEquals({
-							name: "icon",
-							value: "sap-icon://decline"
-						}),
-						actions: new Press(),
-						errorMessage: "The message popover close button was not found"
-					});
+					return this._iPressOnTheButton({
+						searchOpenDialogs: true,
+						matchers: new PropertyStrictEquals({ name: "icon", value: "sap-icon://decline" })
+					}, "Close");
 				}
 			},
 			assertions: {
@@ -296,6 +184,7 @@ sap.ui.define([
 						}
 					});
 				},
+
 				iShouldSeeTheWizardStepPaymentTypeStep: function () {
 					return this.waitFor({
 						id: "paymentTypeStep",
@@ -305,64 +194,38 @@ sap.ui.define([
 					});
 				},
 
-				iShouldSeeTheStep3Button: function () {
+				_iShouldSeeTheStepButton: function (iStepIndex) {
 					return this.waitFor({
 						controlType : "sap.m.Button",
-						matchers: new PropertyStrictEquals({
-							name: "text",
-							value: "Step 3"
-						}),
-						success: function (oStep) {
-							Opa5.assert.ok(oStep[0].getProperty("visible"), "Found the Step3 Button enabled");
+						matchers: new PropertyStrictEquals({ name: "text", value: "Step " + iStepIndex }),
+						success: function () {
+							Opa5.assert.ok(true, "Found the Step " + iStepIndex + " Button enabled");
 						}
 					});
 				},
+
+				iShouldSeeTheStep3Button: function () {
+					return this._iShouldSeeTheStepButton(3);
+				},
+
 				iShouldSeeTheStep4Button: function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers: new PropertyStrictEquals({
-							name: "text",
-							value: "Step 4"
-						}),
-						success: function () {
-							Opa5.assert.ok(true, "Found the Step4 Button enabled");
-						}
-					});
+					return this._iShouldSeeTheStepButton(4);
 				},
 
 				iShouldSeeTheStep5Button: function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers: new PropertyStrictEquals({
-							name: "text",
-							value: "Step 5"
-						}),
-						success: function (oStep) {
-							Opa5.assert.ok(oStep[0].getProperty("visible"), "Found the Step5 Button enabled");
-						}
-					});
+					return this._iShouldSeeTheStepButton(5);
 				},
 
 				iShouldSeeTheStep6Button: function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers: new PropertyStrictEquals({
-							name: "text",
-							value: "Step 6"
-						}),
-						success: function (oStep) {
-							Opa5.assert.ok(oStep[0].getProperty("visible"), "Found the Step6 Button enabled");
-						},
-						errorMessage: "Step6 buttom was not found"
-					});
+					return this._iShouldSeeTheStepButton(6);
 				},
 
 				iShouldGetErrorMessageTextDoesNotMatchTypeForEmailField: function (sEmailFieldValue) {
 					return this.waitFor({
 						id: "cashOnDeliveryEmail",
-						matchers: new PropertyStrictEquals({
-							name: "valueStateText",
-							value: '"' + sEmailFieldValue + '" is not a valid email address'
+						matchers: new Properties({
+							valueState: "Error",
+							valueStateText: "\"" + sEmailFieldValue + "\" is not a valid email address"
 						}),
 						errorMessage: "The Email field error message text does not match to the type of error (value has wrong format)."
 					});
@@ -386,6 +249,7 @@ sap.ui.define([
 						}
 					});
 				},
+
 				iShouldSeeTheDeliveryStepButton: function () {
 					return this.waitFor({
 						id: "deliveryAddressStep",
@@ -399,8 +263,8 @@ sap.ui.define([
 				iShouldSeeTheDeliveryTypeStep: function () {
 					return this.waitFor({
 						id: "deliveryTypeStep",
-						success: function (oStep) {
-							Opa5.assert.ok(oStep, "Found the WizardStep 'DeliveryTypeStep'");
+						success: function () {
+							Opa5.assert.ok(true, "Found the WizardStep 'DeliveryTypeStep'");
 						}
 					});
 				},
@@ -408,8 +272,8 @@ sap.ui.define([
 				iShouldSeeTheOrderSummary: function () {
 					return this.waitFor({
 						id: "summaryPage",
-						success: function (oPage) {
-							Opa5.assert.ok(oPage, "Found the order summary page");
+						success: function () {
+							Opa5.assert.ok(true, "Found the order summary page");
 						}
 					});
 				},
@@ -418,7 +282,7 @@ sap.ui.define([
 					return this.waitFor({
 						id: "selectedDeliveryMethod",
 						success: function () {
-							Opa5.assert.ok("Express Delivery", "Found the Express Delivery Method");
+							Opa5.assert.ok(true, "Found the Express Delivery Method");
 						}
 					});
 				},
