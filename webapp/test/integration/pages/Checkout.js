@@ -7,7 +7,8 @@ sap.ui.define([
 	"sap/ui/test/matchers/AggregationFilled",
 	"sap/ui/test/matchers/I18NText",
 	"sap/ui/test/actions/Press",
-	"sap/ui/test/actions/EnterText"
+	"sap/ui/test/actions/EnterText",
+	"sap/base/util/includes"
 ], function (
 	Opa5,
 	Common,
@@ -17,7 +18,8 @@ sap.ui.define([
 	AggregationFilled,
 	I18NText,
 	Press,
-	EnterText
+	EnterText,
+	includes
 ) {
 	"use strict";
 
@@ -231,15 +233,49 @@ sap.ui.define([
 					});
 				},
 
-				// TODO Check that no NEXT button is available
-				iShouldNotSeeTheStep4Button: function (sStepId) {
+				_iShouldNotSeeTheNextStepButton: function (iStepIndex, aPreviousStepIds) {
 					return this.waitFor({
-						id: sStepId,
-						success: function (oStep) {
-							Opa5.assert.strictEqual(oStep.getValidated(), false, "The" + sStepId + " button was not found");
+						id: "shoppingCartWizard",
+						matchers: [
+							function (oWizard) {
+								return oWizard.getCurrentStep();
+							},
+							function (sFullStepId) {
+								return sFullStepId.split("--").pop();
+							},
+							function (sStepId) {
+								return includes(aPreviousStepIds, sStepId);
+							}
+						],
+						success: function (sPreviousStepId) {
+							this.waitFor({
+								id: new RegExp(sPreviousStepId + "-nextButton$"),
+								visible: false,
+								matchers: new PropertyStrictEquals({ name: "visible", value: false }),
+								success: function () {
+									Opa5.assert.ok(true, "The Step " + iStepIndex + " button is not displayed");
+								},
+								errorMessage: "The Step " + iStepIndex + " button is displayed"
+							});
 						},
-						errorMessage: "The" + sStepId + " button was found"
+						errorMessage: "Unable to access the wizard or the current step is not " + (iStepIndex - 1)
 					});
+				},
+
+				iShouldNotSeeTheStep4Button: function () {
+					return this._iShouldNotSeeTheNextStepButton(4, [
+						// Step 4 button appears only in these steps
+						"creditCardStep",
+						"bankAccountStep",
+						"cashOnDeliveryStep"
+					]);
+				},
+
+				iShouldNotSeeTheStep5Button: function () {
+					return this._iShouldNotSeeTheNextStepButton(5, [
+						// Step 5 button appears only in this step
+						"invoiceStep"
+					]);
 				},
 
 				iShouldSeeTheDeliveryAddressStep: function () {
@@ -251,7 +287,6 @@ sap.ui.define([
 					});
 				},
 
-				// TODO Check that NEXT button is available
 				iShouldSeeTheDeliveryStepButton: function () {
 					return this.waitFor({
 						id: "deliveryAddressStep",
@@ -289,14 +324,17 @@ sap.ui.define([
 					});
 				},
 
-				// TODO modify
 				iShouldSeeTheFooterWithTheErrorButton: function() {
 					return this.waitFor({
-						id : "wizardFooterBar",
-						success: function (oFooter) {
-							Opa5.assert.ok(oFooter.getAggregation("contentLeft")[0].getProperty("text") === "1", "Found the Footer containing the error button");
+						id : "showPopoverButton",
+						matchers: new Properties({
+							icon: "sap-icon://message-popup",
+							text: "1"
+						}),
+						success: function () {
+							Opa5.assert.ok(true, "Found the the error button in the footer");
 						},
-						errorMessage: "Footer is not visible"
+						errorMessage: "The error button is not visible in the footer"
 					});
 				},
 
