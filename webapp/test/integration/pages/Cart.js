@@ -1,5 +1,6 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
+	"./Common",
 	"sap/ui/test/matchers/AggregationFilled",
 	"sap/ui/test/matchers/AggregationEmpty",
 	"sap/ui/test/matchers/Properties",
@@ -11,6 +12,7 @@ sap.ui.define([
 	"sap/ui/test/actions/Press"
 ], function (
 	Opa5,
+	Common,
 	AggregationFilled,
 	AggregationEmpty,
 	Properties,
@@ -25,19 +27,15 @@ sap.ui.define([
 
 	Opa5.createPageObjects({
 		onTheCart: {
+			baseClass: Common,
+
 			viewName: "Cart",
 
 			actions: {
 				iPressOnTheEditButton: function () {
-					return this.waitFor({
-						controlType: "sap.m.Button",
-						matchers: new Properties({ icon: "sap-icon://edit" }),
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The edit button was pressed");
-						},
-						errorMessage: "The edit button could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						matchers: new Properties({ icon: "sap-icon://edit" })
+					}, "Edit");
 				},
 
 				iPressOnTheDeleteButtonOfItem: function (iIndex) {
@@ -58,25 +56,15 @@ sap.ui.define([
 				},
 
 				iPressOnTheSaveChangesButton: function () {
-					return this.waitFor({
-						controlType: "sap.m.Button",
-						matchers: new I18NText({ propertyName: "text", key: "cartDoneButtonText" }),
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The save changes button was pressed");
-						},
-						errorMessage: "The save changes button could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						matchers: new I18NText({ propertyName: "text", key: "cartDoneButtonText" })
+					}, "Save changes");
 				},
 
 				iPressOnTheProceedButton: function () {
-					return this.waitFor({
-						id: "proceedButton",
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The proceed button was pressed");
-						}
-					});
+					return this._iPressOnTheButton({
+						id: "proceedButton"
+					}, "Proceed");
 				},
 
 				iPressOnSaveForLaterOfItem: function (iIndex) {
@@ -132,15 +120,9 @@ sap.ui.define([
 				},
 
 				iPressTheBackButton: function () {
-					return this.waitFor({
-						controlType: "sap.m.Button",
-						matchers: new Properties({type: "Back"}),
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The back button was pressed");
-						},
-						errorMessage: "The back button could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						matchers: new Properties({type: "Back"})
+					}, "Back");
 				}
 			},
 
