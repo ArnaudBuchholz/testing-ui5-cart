@@ -58,7 +58,7 @@ sap.ui.define([
 					});
 				},
 
-				_iShouldSeeTheLabel: function (sKey, mState) {
+				_iShouldSeeTheLabel: function (sKey) {
 					return this.waitFor({
 						controlType: "sap.m.Label",
 						matchers: new I18NText({ propertyName: "text", key: sKey }),
@@ -67,9 +67,9 @@ sap.ui.define([
 				},
 
 				iShouldSeeAPlaceholder: function () {
-					this._iShouldSeeTheLabel("HowTo1Label", mState);
-					this._iShouldSeeTheLabel("HowTo2Label", mState);
-					this._iShouldSeeTheLabel("HowTo3Label", mState);
+					this._iShouldSeeTheLabel("HowTo1Label");
+					this._iShouldSeeTheLabel("HowTo2Label");
+					this._iShouldSeeTheLabel("HowTo3Label");
 					return this.waitFor({
 						success: function () {
 							Opa5.assert.ok(true, "Placeholder is visible");
