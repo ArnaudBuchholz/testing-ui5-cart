@@ -8,7 +8,6 @@ sap.ui.define([
 	"use strict";
 
 	return Opa5.extend("sap.ui.demo.cart.test.integration.pages.Common", {
-
 		_iPressOnTheButton: function (oBase, sLabel) {
 			return this.waitFor(Object.assign({
 				controlType: "sap.m.Button",
@@ -19,7 +18,5 @@ sap.ui.define([
 				errorMessage: "The " + sLabel + " button could not be pressed"
 			}, oBase));
 		}
-
 	});
-
 });
