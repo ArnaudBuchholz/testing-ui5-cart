@@ -231,10 +231,12 @@ sap.ui.define([
 					});
 				},
 
+				// TODO Check that no NEXT button is available
 				iShouldNotSeeTheStep4Button: function (sStepId) {
 					return this.waitFor({
 						id: sStepId,
 						success: function (oStep) {
+							debugger;
 							Opa5.assert.strictEqual(oStep.getValidated(), false, "The" + sStepId + " button was not found");
 						},
 						errorMessage: "The" + sStepId + " button was found"
@@ -244,12 +246,13 @@ sap.ui.define([
 				iShouldSeeTheDeliveryAddressStep: function () {
 					return this.waitFor({
 						id: "deliveryAddressStep",
-						success: function (oStep) {
-							Opa5.assert.ok(oStep, "Found the WizardStep 'DeliveryStep'");
+						success: function () {
+							Opa5.assert.ok(, "Found the WizardStep 'DeliveryStep'");
 						}
 					});
 				},
 
+				// TODO Check that NEXT button is available
 				iShouldSeeTheDeliveryStepButton: function () {
 					return this.waitFor({
 						id: "deliveryAddressStep",
@@ -287,6 +290,7 @@ sap.ui.define([
 					});
 				},
 
+				// TODO modify
 				iShouldSeeTheFooterWithTheErrorButton: function() {
 					return this.waitFor({
 						id : "wizardFooterBar",
