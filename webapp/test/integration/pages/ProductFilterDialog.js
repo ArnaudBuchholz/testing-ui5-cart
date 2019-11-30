@@ -56,8 +56,6 @@ sap.ui.define([
 							oSlider.setValue(iFrom).setValue2(iTo);
 							// The slider change event is not fired automatically and need to be manually fired
 							oSlider.fireEvent("change", {range: oSlider.getRange()});
-						},
-						success: function () {
 							Opa5.assert.ok(true, "The price slider control was set to " + iFrom + " - " + iTo);
 						},
 						errorMessage: "The price slider control was not displayed and could not be modified"
@@ -120,7 +118,7 @@ sap.ui.define([
 							new PropertyStrictEquals({name: "counter", value: iCountNumber})
 						],
 						success: function() {
-							Opa5.assert.ok(true, sSuccessMessage, "The price filter count is correctly set up");
+							Opa5.assert.ok(true, "The price filter count is correctly set up");
 						},
 						errorMessage: "The price filter count isn't correctly set up"
 					});
