@@ -159,7 +159,7 @@ sap.ui.define([
 	opaTest("Should invalidate Step 5", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iEnterInvoiceAddressText("MyStr. 2", "1m", "someLetters", "1234");
+		When.onCheckout.iEnterInvoiceAddressInformation("MyStr. 2", "1m", "someLetters", "1234");
 
 		// Assertions
 		Then.onCheckout.iShouldNotSeeTheStep4Button("invoiceStep");
@@ -168,7 +168,7 @@ sap.ui.define([
 	opaTest("Should activate Step 5 Button", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iEnterInvoiceAddressText("MyStreet.2", "MyCity", "1234", "DE");
+		When.onCheckout.iEnterInvoiceAddressInformation("MyStreet.2", "MyCity", "1234", "DE");
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheStep5Button();
@@ -196,7 +196,7 @@ sap.ui.define([
 	opaTest("Should return to checkout", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iPressOnTheEditButtonBacktoList();
+		When.onCheckout.iPressOnTheBacktoListButton();
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheWizardStepContentsStep();
@@ -252,7 +252,7 @@ sap.ui.define([
 	opaTest("Should return to checkout", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iPressOnTheEditButtonBackToPaymentType();
+		When.onCheckout.iPressOnTheBackToPaymentTypeButton();
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheWizardStepContentsStep();
@@ -279,7 +279,7 @@ sap.ui.define([
 	opaTest("Should invalidate Step 4 Button", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iEnterCashOnDeliveryText("FirstName", "LastName", "+4911111111", "inf");
+		When.onCheckout.iEnterCashOnDeliveryInformation("FirstName", "LastName", "+4911111111", "inf");
 
 		// Assertions
 		Then.onCheckout.iShouldNotSeeTheStep4Button("cashOnDeliveryStep").
@@ -289,7 +289,7 @@ sap.ui.define([
 	opaTest("Should invalidate Step 4 Button", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iEnterCashOnDeliveryText("FirstName", "LastName", "+4911111111", "inf.shop.com");
+		When.onCheckout.iEnterCashOnDeliveryInformation("FirstName", "LastName", "+4911111111", "inf.shop.com");
 
 		// Assertions
 		Then.onCheckout.iShouldNotSeeTheStep4Button("cashOnDeliveryStep").
@@ -299,7 +299,7 @@ sap.ui.define([
 	opaTest("Should activate Step 4 Button", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iEnterCashOnDeliveryText("FirstName", "LastName", "+4911111111", "inf@shop.com");
+		When.onCheckout.iEnterCashOnDeliveryInformation("FirstName", "LastName", "+4911111111", "inf@shop.com");
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheStep4Button();
@@ -334,7 +334,7 @@ sap.ui.define([
 	opaTest("Should return to checkout", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iPressOnTheEditButtonBackToInvoiceAddress();
+		When.onCheckout.iPressOnTheBackToInvoiceAddressButton();
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheWizardStepContentsStep();
@@ -353,7 +353,7 @@ sap.ui.define([
 	opaTest("Should activate Step 6 Button", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iEnterDeliveryAddressText();
+		When.onCheckout.iEnterDeliveryAddressInformation("MyStreet.2", "MyCity", "1234", "MyCountry");
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheDeliveryStepButton();
@@ -382,7 +382,7 @@ sap.ui.define([
 	opaTest("Should return to checkout", function (Given, When, Then) {
 
 		// Actions
-		When.onCheckout.iPressOnTheEditButtonBackToDeliveryType();
+		When.onCheckout.iPressOnTheBackToDeliveryTypeButton();
 
 		// Assertions
 		Then.onCheckout.iShouldSeeTheWizardStepContentsStep();
