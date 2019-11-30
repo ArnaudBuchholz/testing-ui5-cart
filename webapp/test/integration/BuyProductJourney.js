@@ -106,7 +106,7 @@ sap.ui.define([
 		When.onCheckout.iPressOnTheNextStepButton();
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("creditCardStep");
+		Then.onCheckout.iShouldNotSeeTheStep4Button();
 	});
 
 	opaTest("Should see Step 4 Button", function (Given, When, Then) {
@@ -124,7 +124,7 @@ sap.ui.define([
 		When.onCheckout.iEnterCreditCardInformation("My name", "1234567891234567", "13", "01/2020");
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("creditCardStep").
+		Then.onCheckout.iShouldNotSeeTheStep4Button().
 			and.iShouldSeeTheFooterWithTheErrorButton();
 	});
 
@@ -153,7 +153,7 @@ sap.ui.define([
 		When.onCheckout.iPressOnTheNextStepButton();
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("invoiceStep");
+		Then.onCheckout.iShouldNotSeeTheStep5Button();
 	});
 
 	opaTest("Should invalidate Step 5", function (Given, When, Then) {
@@ -162,7 +162,7 @@ sap.ui.define([
 		When.onCheckout.iEnterInvoiceAddressInformation("MyStr. 2", "1m", "someLetters", "1234");
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("invoiceStep");
+		Then.onCheckout.iShouldNotSeeTheStep5Button();
 	});
 
 	opaTest("Should activate Step 5 Button", function (Given, When, Then) {
@@ -273,7 +273,7 @@ sap.ui.define([
 		When.onCheckout.iPressOnTheNextStepButton();
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("cashOnDeliveryStep");
+		Then.onCheckout.iShouldNotSeeTheStep4Button();
 	});
 
 	opaTest("Should invalidate Step 4 Button", function (Given, When, Then) {
@@ -282,7 +282,7 @@ sap.ui.define([
 		When.onCheckout.iEnterCashOnDeliveryInformation("FirstName", "LastName", "+4911111111", "inf");
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("cashOnDeliveryStep").
+		Then.onCheckout.iShouldNotSeeTheStep4Button().
 			and.iShouldGetErrorMessageTextDoesNotMatchTypeForEmailField("inf");
 	});
 
@@ -292,7 +292,7 @@ sap.ui.define([
 		When.onCheckout.iEnterCashOnDeliveryInformation("FirstName", "LastName", "+4911111111", "inf.shop.com");
 
 		// Assertions
-		Then.onCheckout.iShouldNotSeeTheStep4Button("cashOnDeliveryStep").
+		Then.onCheckout.iShouldNotSeeTheStep4Button().
 			and.iShouldGetErrorMessageTextDoesNotMatchTypeForEmailField("inf.shop.com");
 	});
 
