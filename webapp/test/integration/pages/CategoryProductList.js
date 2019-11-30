@@ -80,7 +80,7 @@ sap.ui.define([
 					return this.waitFor({
 						controlType: "sap.m.ObjectAttribute",
 						matchers: [
-							new BindingPath({ path: "/Products('" + ProductId + "')" }),
+							new BindingPath({ path: "/Products('" + sProductId + "')" }),
 							new Properties({ text: "Compare" })
 						],
 						actions: new Press(),
