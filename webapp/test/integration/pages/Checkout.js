@@ -247,7 +247,7 @@ sap.ui.define([
 					return this.waitFor({
 						id: "deliveryAddressStep",
 						success: function () {
-							Opa5.assert.ok(, "Found the WizardStep 'DeliveryStep'");
+							Opa5.assert.ok(true, "Found the WizardStep 'DeliveryStep'");
 						}
 					});
 				},
