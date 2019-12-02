@@ -1,5 +1,6 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
+	"./Common",
 	"sap/ui/test/actions/Press",
 	"sap/ui/test/matchers/BindingPath",
 	"sap/ui/test/matchers/AggregationLengthEquals",
@@ -7,25 +8,26 @@ sap.ui.define([
 	"sap/ui/test/matchers/PropertyStrictEquals"
 ], function (
 	Opa5,
+	Common,
 	Press,
 	BindingPath,
 	AggregationLengthEquals,
 	Properties,
-	PropertyStrictEquals) {
+	PropertyStrictEquals
+) {
 	"use strict";
 
 	Opa5.createPageObjects({
 		onTheWelcomePage: {
+			baseClass: Common,
+
 			viewName: "Welcome",
+
 			actions: {
 				iPressTheShowCategoriesButton : function () {
-					return this.waitFor({
-						matchers: new Properties({ icon : "sap-icon://menu2" }),
-						actions: new Press(),
-						success: function () {
-							Opa5.assert.ok(true, "The show categories button was pressed")
-						}
-					});
+					return this._iPressOnTheButton({
+						matchers: new Properties({ icon : "sap-icon://menu2" })
+					}, "Show categories");
 				},
 
 				iPressTheFirstPromotedProduct: function () {
@@ -43,54 +45,45 @@ sap.ui.define([
 					});
 				},
 
-				iPressOnTheCartButton: function () {
+				iPressOnTheFirstRecentlyViewedItemCartButton: function () {
+					return this._iPressOnTheButton({
+						matchers: new BindingPath({ modelName: "view", path: "/Viewed/0" })
+					}, "First viewed item cart");
+				},
+
+				iPressOnTheFirstRecentlyViewedProductTitle: function (sProductId) {
 					return this.waitFor({
-						controlType: "sap.m.Button",
-						matchers: new BindingPath({
-							modelName: "view",
-							path: "/Viewed/0"
-						}),
-						actions: new Press(),
-						errorMessage: "The cart button was not displayed"
-					});
-				},
-
-				iPressOnTheProductSmartphoneAlphaTitle: function () {
-					this.waitFor({
 						controlType: "sap.m.ObjectIdentifier",
-						matchers: new Properties({title : "Smartphone Alpha"}),
+						matchers: new BindingPath({ modelName: "view", path: "/Viewed/0" }),
 						actions: new Press(),
-						errorMessage: "The product Smartphone Alpha was not found and could not be pressed"
+						success: function () {
+							Opa5.assert.ok(true, "The First viewed item title was pressed")
+						},
+						errorMessage: "The First viewed item title was not found and could not be pressed"
 					});
 				},
 
-				iPressTheProductImage: function () {
+				iPressOnTheFirstRecentlyViewedItemImage: function () {
 					return this.waitFor({
 						controlType: "sap.m.Image",
-						matchers: new BindingPath({
-							modelName: "view",
-							path: "/Viewed/0"
-						}),
+						matchers: new BindingPath({ modelName: "view", path: "/Viewed/0" }),
 						actions: new Press(),
-						errorMessage: "The product image was not displayed"
+						success: function () {
+							Opa5.assert.ok(true, "First viewed item image was pressed")
+						},
+						errorMessage: "First viewed item image was not found and could not be pressed"
 					});
 				},
 
 				iToggleTheCart: function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers : new Properties({icon : "sap-icon://cart"}),
-						actions : new Press(),
-						errorMessage : "The cart button was not found and could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						matchers : new Properties({ icon : "sap-icon://cart" })
+					}, "Cart");
 				}
 			},
-
 			assertions: {
-
 				iShouldSeeTheWelcomePage: function () {
 					return this.waitFor({
-						timeout: 30,
 						id: "panelPromoted",
 						success: function () {
 							Opa5.assert.ok(true, "The welcome page was successfully displayed");
@@ -113,34 +106,23 @@ sap.ui.define([
 				iShouldSeeTheRightAmountOfProducts: function() {
 					this.waitFor({
 						id: "promotedRow",
-						matchers: new AggregationLengthEquals({
-							name: "content",
-							length: 2
-						}),
+						matchers: new AggregationLengthEquals({ name: "content", length: 2 }),
 						success: function () {
 							Opa5.assert.ok(true, "The welcome page has two promoted items");
 						},
 						errorMessage: "The welcome page did not show two promoted items"
 					});
-
-					 this.waitFor({
+					this.waitFor({
 						id: "viewedRow",
-						matchers: new AggregationLengthEquals({
-							name: "content",
-							length: 4
-						}),
+						matchers: new AggregationLengthEquals({ name: "content", length: 4 }),
 						success: function () {
 							Opa5.assert.ok(true, "The welcome page has four viewed items");
 						},
 						errorMessage: "The welcome page did not show four viewed items"
 					});
-
 					return this.waitFor({
 						id: "favoriteRow",
-						matchers: new AggregationLengthEquals({
-							name: "content",
-							length: 4
-						}),
+						matchers: new AggregationLengthEquals({ name: "content", length: 4 }),
 						success: function () {
 							Opa5.assert.ok(true, "The welcome page has four favorite items");
 						},
