@@ -1,13 +1,11 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
 	"./Common",
-	"sap/ui/test/matchers/PropertyStrictEquals",
-	"sap/ui/test/actions/Press"
+	"sap/ui/test/matchers/PropertyStrictEquals"
 ], function (
 	Opa5,
 	Common,
-	PropertyStrictEquals,
-	Press
+	PropertyStrictEquals
 ) {
 	"use strict";
 
@@ -30,6 +28,7 @@ sap.ui.define([
 					}, "Dialog cancel");
 				}
 			},
+
 			assertions : {
 				iShouldBeTakenToTheConfirmationDialog : function () {
 					return this.waitFor({
