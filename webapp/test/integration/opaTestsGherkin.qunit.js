@@ -7,10 +7,10 @@ sap.ui.require([
 ], function (testHarness, Steps) {
 	"use strict";
 
-	testHarness.test({featurePath: "sap/ui/demo/cart/test/integration/DeleteProduct", generateMissingSteps : true});
-	testHarness.test({featurePath: "sap/ui/demo/cart/test/integration/BuyProduct", generateMissingSteps : true, steps: Steps});
-	testHarness.test({featurePath: "sap/ui/demo/cart/test/integration/SaveForLater", generateMissingSteps : true});
-	testHarness.test({featurePath: "sap/ui/demo/cart/test/integration/ProductsFilter", generateMissingSteps : true});
+	testHarness.test({ featurePath: "sap/ui/demo/cart/test/integration/DeleteProduct", generateMissingSteps: true, steps: Steps });
+	testHarness.test({ featurePath: "sap/ui/demo/cart/test/integration/BuyProduct", generateMissingSteps: true, steps: Steps });
+	testHarness.test({ featurePath: "sap/ui/demo/cart/test/integration/SaveForLater", generateMissingSteps: true, steps: Steps });
+	testHarness.test({ featurePath: "sap/ui/demo/cart/test/integration/ProductsFilter", generateMissingSteps: true, steps: Steps });
 
 	QUnit.start();
 });
