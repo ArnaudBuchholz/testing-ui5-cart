@@ -20,7 +20,7 @@ sap.ui.define([
 		 */
 		validateValue: function (oValue) {
 			// The following Regex is NOT covering all cases of RFC 5322 and only used for demonstration purposes.
-			var rEMail = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
+			var rEMail = /^\w+[\w-+.]*@\w+([-.]\w+)*\.[a-zA-Z]{2,}$/;
 
 			if (!oValue.match(rEMail)) {
 				throw new ValidateException(oResourceModel.getResourceBundle().getText("checkoutCodEmailValueTypeMismatch", [oValue]));
