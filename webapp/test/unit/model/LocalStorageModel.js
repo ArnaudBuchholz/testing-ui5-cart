@@ -1,5 +1,3 @@
-/*global QUnit,sinon*/
-
 sap.ui.define([
 	"sap/ui/demo/cart/model/LocalStorageModel",
 	"sap/ui/util/Storage"
