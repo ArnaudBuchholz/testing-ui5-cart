@@ -9,7 +9,7 @@ sap.ui.define([
 		// Arrangements
 		Given.iStartMyApp();
 		// Actions
-		When.onHome.iPressOnTheSpeakerCategory();
+		When.onTheCategoryList.iPressOnTheSpeakerCategory();
 		// Assertions
 		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Speakers");
 	});
@@ -18,14 +18,14 @@ sap.ui.define([
 		// Actions
 		When.onTheCategoryProductList.iPressOnTheProduct("HT-1091" /* Blaster Extreme */);
 		// Assertions
-		Then.onTheProduct.iShouldSeeTheBlasterExtremeDetailPage();
+		Then.onTheProduct.iShouldSeeTheProductDetailPage("HT-1091" /* Blaster Extreme */);
 	});
 
 	opaTest("Should navigate back to home", function (Given, When, Then) {
 		// Actions
 		When.onTheCategoryProductList.iPressTheBackButton();
 		// Assertions
-		Then.onHome.iShouldSeeTheCategoryList();
+		Then.onTheCategoryList.iShouldSeeTheCategoryList();
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
 	});
 
@@ -40,22 +40,22 @@ sap.ui.define([
 	opaTest("Should navigate from welcome to product view", function (Given, When, Then) {
 		// Actions
 		When.onTheWelcomePage.iToggleTheCart();
-		When.onTheWelcomePage.iPressOnTheProductSmartphoneAlphaTitle();
+		When.onTheWelcomePage.iPressOnTheFirstRecentlyViewedProductTitle();
 		// Assertions
-		Then.onTheProduct.iShouldSeeTheSmartphoneAlphaDetailPage();
+		Then.onTheProduct.iShouldSeeTheProductDetailPage("HT-9992" /* Smartphone Alpha */);
 	});
 
 	opaTest("Should navigate back to home", function (Given, When, Then) {
 		// Actions
 		When.onTheCategoryProductList.iPressTheBackButton();
 		// Assertions
-		Then.onHome.iShouldSeeTheCategoryList();
+		Then.onTheCategoryList.iShouldSeeTheCategoryList();
 		Then.onTheWelcomePage.iShouldSeeTheWelcomePage();
 	});
 
 	opaTest("Should navigate to product view via pressing product image", function (Given, When, Then) {
 		// Actions
-		When.onTheWelcomePage.iPressTheProductImage();
+		When.onTheWelcomePage.iPressOnTheFirstRecentlyViewedItemImage();
 		// Assertions
 		Then.onTheProduct.iShouldSeeTheProductPage();
 		Then.onTheCategoryProductList.iShouldSeeSomeEntriesInTheProductList();
