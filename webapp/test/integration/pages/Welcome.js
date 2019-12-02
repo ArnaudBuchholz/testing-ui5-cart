@@ -4,16 +4,14 @@ sap.ui.define([
 	"sap/ui/test/actions/Press",
 	"sap/ui/test/matchers/BindingPath",
 	"sap/ui/test/matchers/AggregationLengthEquals",
-	"sap/ui/test/matchers/Properties",
-	"sap/ui/test/matchers/PropertyStrictEquals"
+	"sap/ui/test/matchers/Properties"
 ], function (
 	Opa5,
 	Common,
 	Press,
 	BindingPath,
 	AggregationLengthEquals,
-	Properties,
-	PropertyStrictEquals
+	Properties
 ) {
 	"use strict";
 
@@ -51,7 +49,7 @@ sap.ui.define([
 					}, "First viewed item cart");
 				},
 
-				iPressOnTheFirstRecentlyViewedProductTitle: function (sProductId) {
+				iPressOnTheFirstRecentlyViewedProductTitle: function () {
 					return this.waitFor({
 						controlType: "sap.m.ObjectIdentifier",
 						matchers: new BindingPath({ modelName: "view", path: "/Viewed/0" }),
@@ -81,6 +79,7 @@ sap.ui.define([
 					}, "Cart");
 				}
 			},
+
 			assertions: {
 				iShouldSeeTheWelcomePage: function () {
 					return this.waitFor({
