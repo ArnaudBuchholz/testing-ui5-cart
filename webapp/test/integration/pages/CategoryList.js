@@ -13,8 +13,9 @@ sap.ui.define([
 	"use strict";
 
 	Opa5.createPageObjects({
-		onHome : {
+		onTheCategoryList : {
 			viewName : "Home",
+
 			actions : {
 				iPressOnTheFlatScreensCategory : function () {
 					return this.waitFor({
@@ -28,18 +29,16 @@ sap.ui.define([
 				iPressOnTheSpeakerCategory : function () {
 					return this.waitFor({
 						controlType : "sap.m.StandardListItem",
-						matchers : new Properties({title : "Speakers"}),
+						matchers : new BindingPath({path : "/ProductCategories('SP')"}),
 						actions : new Press(),
 						errorMessage : "The category list does not contain required selection"
 					});
 				}
 			},
-
 			assertions: {
 				iShouldSeeTheCategoryList : function () {
 					return this.waitFor({
 						id : "categoryList",
-						timeout: 30,
 						success : function (oList) {
 							Opa5.assert.ok(oList, "Found the category List");
 						}
