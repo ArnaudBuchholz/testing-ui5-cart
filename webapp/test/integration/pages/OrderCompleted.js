@@ -1,23 +1,26 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
-	"sap/ui/test/actions/Press"
-], function (Opa5, Press) {
+	"./Common"
+], function (
+	Opa5,
+	Common
+) {
 	"use strict";
 
 	Opa5.createPageObjects({
 		onOrderCompleted: {
-			viewName: "OrderCompleted",
-			actions: {
+			baseClass: Common,
 
+			viewName: "OrderCompleted",
+
+			actions: {
 				iPressOnTheReturnToShopButton: function () {
-					return this.waitFor({
-						id: "returnToShopButton",
-						actions: new Press()
-					});
+					return this._iPressOnTheButton({
+						id: "returnToShopButton"
+					}, "Return to shop");
 				}
 			},
 			assertions: {
-
 				iShouldSeeTheOrderCompletedPage: function () {
 					return this.waitFor({
 						id: "returnToShopButton",
