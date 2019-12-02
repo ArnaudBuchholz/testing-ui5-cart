@@ -3,11 +3,11 @@ sap.ui.define([
 	"Startup",
 	// Page Objects
 	"./pages/Cart",
+	"./pages/CategoryList",
 	"./pages/CategoryProductList",
 	"./pages/Checkout",
 	"./pages/Comparison",
 	"./pages/Dialog",
-	"./pages/Home",
 	"./pages/OrderCompleted",
 	"./pages/Product",
 	"./pages/ProductFilterDialog",
