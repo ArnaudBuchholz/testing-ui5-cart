@@ -177,6 +177,7 @@ sap.ui.define([
 					}, "Close");
 				}
 			},
+
 			assertions: {
 				iShouldSeeTheWizardStepContentsStep: function () {
 					return this.waitFor({
