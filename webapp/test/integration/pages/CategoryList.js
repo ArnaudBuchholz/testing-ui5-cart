@@ -35,6 +35,7 @@ sap.ui.define([
 					});
 				}
 			},
+
 			assertions: {
 				iShouldSeeTheCategoryList : function () {
 					return this.waitFor({
