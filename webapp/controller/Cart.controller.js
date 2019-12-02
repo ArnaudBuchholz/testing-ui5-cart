@@ -62,7 +62,7 @@ sap.ui.define([
 			var oCfgModel = this.getView().getModel("cfg");
 			var oData = oCfgModel.getData();
 			var oBundle = this.getResourceBundle();
-			var bDataNoSetYet = !oData.hasOwnProperty("inDelete");
+			var bDataNoSetYet = !Object.prototype.hasOwnProperty.call(oData, "inDelete");
 			var bInDelete = (bDataNoSetYet ? true : oData.inDelete);
 			var sPhoneMode = (Device.system.phone ? "None" : "SingleSelectMaster");
 			var sPhoneType = (Device.system.phone ? "Active" : "Inactive");
