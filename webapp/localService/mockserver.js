@@ -7,7 +7,8 @@ sap.ui.define([
 	MockServer,
 	JSONModel,
 	Log,
-	UriParameters) {
+	UriParameters
+) {
 	"use strict";
 
 	var oMockServer,
