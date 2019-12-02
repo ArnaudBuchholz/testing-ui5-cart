@@ -54,6 +54,7 @@ sap.ui.define([
 					}, "Cart");
 				}
 			},
+
 			assertions: {
 				iShouldSeeALightBox: function () {
 					return this.waitFor({
