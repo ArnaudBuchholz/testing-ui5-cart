@@ -46,6 +46,7 @@ sap.ui.define([
 					}, "Cart");
 				}
 			},
+
 			assertions: {
 				iShouldSeeAProduct: function (sProductId) {
 					return this.waitFor({
