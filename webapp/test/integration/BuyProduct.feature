@@ -4,14 +4,14 @@ Feature: Buy a Product
     Given I start my App
 
   Scenario: Buy it
-    When on home: I press on "The Flat Screens category"
-    When on the category: I press on "The first Product"
+    When on the category list: I press on "The Flat Screens category"
+    When on the category product list: I press on "The first Product"
     When on the product: I add the displayed product to the cart
     When on the product: I toggle the cart
-    Then on the category: I teardown my app
+    Then I teardown my app
 
     Given I start my App with the hash "category/FS/product/HT-1254/cart" keeping local storage
-    Then on the product: I should see the right product
+    Then on the product: I should see the product "HT-1254" detail
 
     When on the cart: I press on the proceed button
     Then on checkout: I should see the wizard step contents step
@@ -20,18 +20,18 @@ Feature: Buy a Product
     Then on checkout: I should see the wizard step payment type step
 
     When on checkout: I press on the next step button
-    When on checkout: I enter wrong credit card information
+    When on checkout: I enter credit card information "My name" 1234-5678-9123-4567 13 01/2020
     Then on checkout: I should see the footer with the error button
 
     When on checkout: I press on the button in the footer
     Then on checkout: I should see the message Popover
 
     When on checkout: I press the close button
-    When on checkout: I enter correct credit card information
+    When on checkout: I enter credit card information "My name" 1234-5678-9123-4567 123 01/2020
     Then on checkout: I should see the step4 button
 
     When on checkout: I press on the next step button
-    When on checkout: I enter invoice address
+    When on checkout: I enter invoice address "MyStreet.2" "MyCity" "1234" "DE"
     Then on checkout: I should see the step5 button
 
     When on checkout: I press on the next step button
@@ -40,7 +40,7 @@ Feature: Buy a Product
     When on checkout: I press on the next step button
     Then on checkout: I should see the order summary
 
-    When on checkout: I press on the edit button backto list
+    When on checkout: I press on the back to list button
     Then on checkout: I should see the wizard step contents step
 
     When on checkout: I press on the bank transfer button
@@ -59,7 +59,7 @@ Feature: Buy a Product
     When on checkout: I press on the next step button
     Then on checkout: I should see the order summary
 
-    When on checkout: I press on the edit button back to payment type
+    When on checkout: I press on the back to payment type button
     Then on checkout: I should see the wizard step contents step
 
     When on checkout: I press on the cash on delivery button
@@ -67,7 +67,7 @@ Feature: Buy a Product
     Then on checkout: I should see the step3 button
 
     When on checkout: I press on the next step button
-    When on checkout: I enter correct cash on delivery info
+    When on checkout: I enter cash on delivery info "FirstName" "LastName" "+4911111111" "inf@shop.com"
     Then on checkout: I should see the step4 button
 
     When on checkout: I press on the next step button
@@ -79,7 +79,7 @@ Feature: Buy a Product
     When on checkout: I press on the next step button
     Then on checkout: I should see the order summary
 
-    When on checkout: I press on the edit button back to invoice address
+    When on checkout: I press on the back to invoice address button
     Then on checkout: I should see the wizard step contents step
 
     When on checkout: I press on different address checkbox
@@ -87,7 +87,7 @@ Feature: Buy a Product
     When on checkout: I press on the next step button
     Then on checkout: I should see the delivery address step
 
-    When on checkout: I enter delivery address text
+    When on checkout: I enter delivery address "MyStreet.2" "MyCity" "1234" "MyCountry"
     Then on checkout: I should see the step6 button
 
     When on checkout: I press on the next step button
@@ -96,7 +96,7 @@ Feature: Buy a Product
     When on checkout: I press on the next step button
     Then on checkout: I should see the order summary
 
-    When on checkout: I press on the edit button back to delivery type
+    When on checkout: I press on the back to delivery type button
     Then on checkout: I should see the wizard step contents step
 
     When on checkout: I press on the express delivery button
