@@ -15,7 +15,7 @@ sap.ui.define([
 		// Arrangements
 		Given.iStartMyApp();
 		// Actions
-		When.onHome.iPressOnTheFlatScreensCategory();
+		When.onTheCategoryList.iPressOnTheFlatScreensCategory();
 		// Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
 			.and.iShouldSeeAFilterButton();
@@ -80,7 +80,6 @@ sap.ui.define([
 		//Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1255])
 			.and.iShouldSeeAnAvailabilityInfoToolbar();
-
 		//Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
 		When.onTheProductFilterDialog.iPressTheBackButton();
@@ -93,7 +92,6 @@ sap.ui.define([
 		When.onTheProductFilterDialog.iPressResetButton();
 		//Assertions
 		Then.onTheProductFilterDialog.iShouldSeeThePriceFilterCount(0);
-
 		// Actions
 		When.onTheProductFilterDialog.iPressOkButton();
 		//Assertions
@@ -107,7 +105,6 @@ sap.ui.define([
 		When.onTheProductFilterDialog.iPressTheSupplierFilteringOption()
 			.and.iPressTheSupplierFilter("Technocom")
 			.and.iPressOkButton();
-
 		//Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1137])
 			.and.iShouldSeeASupplierInfoToolbar();
@@ -118,7 +115,6 @@ sap.ui.define([
 		When.onTheCategoryProductList.iPressTheFilterButton();
 		When.onTheProductFilterDialog.iPressTheSupplierFilter("Technocom")
 			.and.iPressOkButton();
-
 		//Assertions
 		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
 			.and.iShouldNotSeeAnInfoToolbar();
