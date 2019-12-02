@@ -108,6 +108,7 @@ sap.ui.define([
 					return this._iPressTheButton("Back", "backbutton");
 				}
 			},
+
 			assertions: {
 				iShouldSeeThePriceFilterCount: function (iCountNumber) {
 					return this.waitFor({
