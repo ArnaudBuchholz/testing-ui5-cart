@@ -25,16 +25,16 @@ sap.ui.define([
 		//Actions
 		When.onTheWelcomePage.iPressTheShowCategoriesButton();
 		// Assertions
-		Then.onHome.iShouldSeeTheCategoryList();
+		Then.onTheCategoryList.iShouldSeeTheCategoryList();
 	});
 
 	opaTest("Should see the product list", function (Given, When, Then) {
 		// Actions
-		When.onHome.iPressOnTheFlatScreensCategory();
+		When.onTheCategoryList.iPressOnTheFlatScreensCategory();
 		// Assertions
-		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Flat Screens").
-		and.iShouldSeeTheProductList().
-		and.iShouldSeeSomeEntriesInTheProductList();
+		Then.onTheCategoryProductList.iShouldBeTakenToTheCategory("Flat Screens")
+			.and.iShouldSeeTheProductList()
+			.and.iShouldSeeSomeEntriesInTheProductList();
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
