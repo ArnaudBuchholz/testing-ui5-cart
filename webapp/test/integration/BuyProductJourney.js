@@ -170,7 +170,7 @@ sap.ui.define([
 	// Checkout with Bank Transfer
 	opaTest("Should return to checkout", function (Given, When, Then) {
 		// Actions
-		When.onCheckout.iPressOnTheBacktoListButton();
+		When.onCheckout.iPressOnTheBackToListButton();
 		// Assertions
 		Then.onCheckout.iShouldSeeTheWizardStepContentsStep();
 	});
