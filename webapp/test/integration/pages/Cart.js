@@ -153,7 +153,7 @@ sap.ui.define([
 						check: function (oList) {
 							return oList.getFooterText() === "";
 						},
-						success: function (oList) {
+						success: function () {
 							Opa5.assert.ok(true, "The footer is not visible");
 						},
 						errorMessage: "The footer is still visible"
@@ -184,7 +184,7 @@ sap.ui.define([
 						controlType: "sap.m.Button",
 						autoWait: bIsEnabled,
 						matchers: new Properties(Object.assign({ enabled: bIsEnabled }, mProperties)),
-						success: function (aButtons) {
+						success: function () {
 							Opa5.assert.ok(true, sSuccessMessage);
 						},
 						errorMessage: sErrorMessage
@@ -258,7 +258,7 @@ sap.ui.define([
 					return this.waitFor({
 						id: "saveForLaterList",
 						matchers: new AggregationEmpty({ name: "items" }),
-						success: function (oList) {
+						success: function () {
 							Opa5.assert.ok(true, "The save list was empty");
 						},
 						errorMessage: "The save list still has entries"
