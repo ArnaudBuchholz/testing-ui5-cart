@@ -9,8 +9,8 @@ sap.ui.define([
 		// Arrangements
 		Given.iStartMyApp();
 		// Assertions
-		Then.onTheWelcomePage.iShouldSeeTheRightAmountOfProducts().
-			and.iShouldSeeAnAvatarButton();
+		Then.onTheWelcomePage.iShouldSeeTheRightAmountOfProducts()
+			.and.iShouldSeeAnAvatarButton();
 	});
 
 	opaTest("Should press the product link and navigate to product view", function (Given, When, Then) {
@@ -44,13 +44,12 @@ sap.ui.define([
 
 	opaTest("Should press cart button and see the product in the cart", function (Given, When, Then) {
 		// Actions
-		When.onHome.iPressOnTheFlatScreensCategory();
-		When.onTheWelcomePage.iPressOnTheCartButton();
+		When.onTheCategoryList.iPressOnTheFlatScreensCategory();
+		When.onTheWelcomePage.iPressOnTheFirstRecentlyViewedItemCartButton();
 		When.onTheWelcomePage.iToggleTheCart();
 		// Assertions
 		Then.onTheCart.iShouldSeeSomeProductsInMyCart();
 		// Cleanup
 		Then.iTeardownMyApp();
 	});
-
 });
