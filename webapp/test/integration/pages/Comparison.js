@@ -50,7 +50,7 @@ sap.ui.define([
 				iShouldSeeAProduct: function (sProductId) {
 					return this.waitFor({
 						controlType: "sap.m.Panel",
-						matchers: new BindingPath({path: "/Products('" + sProductId + "')"}),
+						matchers: new BindingPath({ path: "/Products('" + sProductId + "')" }),
 						success: function () {
 							Opa5.assert.ok(true, "Product is displayed");
 						},
