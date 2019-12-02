@@ -20,6 +20,7 @@ sap.ui.define([
 					}, "Return to shop");
 				}
 			},
+
 			assertions: {
 				iShouldSeeTheOrderCompletedPage: function () {
 					return this.waitFor({
