@@ -128,7 +128,7 @@ sap.ui.define([
 					}, "Yes");
 				},
 
-				iPressOnTheBacktoListButton: function () {
+				iPressOnTheBackToListButton: function () {
 					return this._iPressOnTheButton({
 						id: "backtoList"
 					}, "Back to list");
