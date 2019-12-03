@@ -87,7 +87,7 @@ sap.ui.define([
 									Opa5.assert.ok(true, "The item #" + iIndex + " was saved for later");
 								},
 								errorMessage: "The item #" + iIndex + " saved for later was not found or could not be pressed"
-							})
+							});
 						},
 						errorMessage: "The item #" + iIndex + " not found"
 					});
