@@ -113,7 +113,7 @@ sap.ui.define([
 									Opa5.assert.ok(true, "The saved item #" + iIndex + " was put back to cart");
 								},
 								errorMessage: "The saved item #" + iIndex + " was not found or could not be put back to cart"
-							})
+							});
 						},
 						errorMessage: "The saved item #" + iIndex + " not found"
 					});
@@ -225,7 +225,7 @@ sap.ui.define([
 						check: function (oList) {
 							return oList.getItems().every(function (oItem) {
 								return !oBindingPathMatcher.isMatching(oItem);
-							})
+							});
 						},
 						success: function () {
 							Opa5.assert.ok(true, "The cart does not contain the product '" + sProductId + "'");
