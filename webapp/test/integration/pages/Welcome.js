@@ -55,7 +55,7 @@ sap.ui.define([
 						matchers: new BindingPath({ modelName: "view", path: "/Viewed/0" }),
 						actions: new Press(),
 						success: function () {
-							Opa5.assert.ok(true, "The First viewed item title was pressed")
+							Opa5.assert.ok(true, "The First viewed item title was pressed");
 						},
 						errorMessage: "The First viewed item title was not found and could not be pressed"
 					});
@@ -67,7 +67,7 @@ sap.ui.define([
 						matchers: new BindingPath({ modelName: "view", path: "/Viewed/0" }),
 						actions: new Press(),
 						success: function () {
-							Opa5.assert.ok(true, "First viewed item image was pressed")
+							Opa5.assert.ok(true, "First viewed item image was pressed");
 						},
 						errorMessage: "First viewed item image was not found and could not be pressed"
 					});
