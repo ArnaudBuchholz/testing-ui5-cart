@@ -1,10 +1,11 @@
 {
-  "name": "testing-ui5-cart",
+  "name": "ccotype",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "author": "SAP SE",
+  "description": "CCO Type",
+  "private": true,
   "scripts": {
-    "start": "node .",
+    "start": "ui5 serve",
     "lint": "eslint webapp",
     "karma": "karma start",
     "karma-ci": "karma start karma-ci.conf.js",
@@ -12,28 +13,14 @@
     "test": "npm run lint && rimraf coverage && start-server-and-test start http://localhost:8080 karma-ci",
     "build": "rimraf dist && ui5 build --a"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ArnaudBuchholz/testing-ui5-cart.git"
-  },
-  "keywords": [
-    "test",
-    "ui5",
-    "qunit",
-    "opa",
-    "karma"
-  ],
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ArnaudBuchholz/testing-ui5-cart/issues"
-  },
-  "homepage": "https://github.com/ArnaudBuchholz/testing-ui5-cart#readme",
   "dependencies": {
-    "colors": "^1.4.0",
-    "dotenv": "^8.2.0",
-    "mime": "^2.4.4",
-    "reserve": "^1.1.1",
+    "@openui5/sap.m": "^1.66.0",
+    "@openui5/sap.ui.core": "^1.66.0",
+    "@openui5/sap.ui.layout": "^1.66.0",
+    "@openui5/themelib_sap_belize": "^1.66.0",
+  },
+  "devDependencies": {
+    "@ui5/cli": "^1.4.4",
     "eslint": "^4.19.1",
     "karma": "^2.0.5",
     "karma-chrome-launcher": "^2.2.0",
