@@ -14,7 +14,10 @@
 			layout="{appView>/layout}"
 			backgroundDesign="Translucent"
 			class="sapUiDemoCart"
-			stateChange=".onStateChange">
-		</f:FlexibleColumnLayout>
+			stateChange=".onStateChange"
+			defaultTransitionNameBeginColumn="{= ${device>/animationMode} === 'minimal' ? 'show' : 'slide' }"
+			defaultTransitionNameMidColumn="{= ${device>/animationMode} === 'minimal' ? 'show' : 'slide' }"
+			defaultTransitionNameEndColumn="{= ${device>/animationMode} === 'minimal' ? 'show' : 'slide' }"
+		/>
 	</App>
 </mvc:View>

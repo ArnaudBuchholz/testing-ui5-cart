@@ -3,11 +3,11 @@ sap.ui.define([
 	"Startup",
 	// Page Objects
 	"./pages/Cart",
+	"./pages/CategoryList",
 	"./pages/CategoryProductList",
 	"./pages/Checkout",
 	"./pages/Comparison",
 	"./pages/Dialog",
-	"./pages/Home",
 	"./pages/OrderCompleted",
 	"./pages/Product",
 	"./pages/ProductFilterDialog",
@@ -21,7 +21,7 @@ sap.ui.define([
 		pollingInterval: 50,
 		autoWait: true,
 		appParams: {
-			// "sap-ui-animation": false,
+			"sap-ui-animation": false,
 			"sap-ui-language": "EN"
 		}
 	});

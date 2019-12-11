@@ -2,8 +2,8 @@ Feature: Save a product for later
 
   Background:
     Given I start my App
-    When on home: I press on "The Flat Screens category"
-    When on the category: I press on "The first Product"
+    When on the category list: I press on "The Flat Screens category"
+    When on the category product list: I press on "The first Product"
     When on the product: I add the displayed product to the cart
     When on the product: I toggle the cart
     When on the cart: I press on save for later for the first product
@@ -18,4 +18,3 @@ Feature: Save a product for later
     Then on the cart: I should see the product in my cart
     Then on the cart: I should not see a save for later footer
     Then on the cart: I should see an empty save for later list
-

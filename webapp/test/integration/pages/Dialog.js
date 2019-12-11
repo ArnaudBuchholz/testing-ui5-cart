@@ -1,55 +1,47 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
-	"sap/ui/test/matchers/PropertyStrictEquals",
-	"sap/ui/test/actions/Press"
+	"./Common",
+	"sap/ui/test/matchers/PropertyStrictEquals"
 ], function (
 	Opa5,
-	PropertyStrictEquals,
-	Press
+	Common,
+	PropertyStrictEquals
 ) {
 	"use strict";
 
 	Opa5.createPageObjects({
 		onTheDialog : {
+			baseClass: Common,
 
 			actions : {
-
 				iPressDeleteButtonOnTheConfirmationDialog : function () {
-					return this.waitFor({
-							controlType : "sap.m.Button",
-							matchers : new PropertyStrictEquals({name : "text", value : "Delete"}),
-							actions : new Press(),
-							errorMessage : "The delete button could not be pressed"
-						}
-					);
+					return this._iPressOnTheButton({
+						searchOpenDialogs: true,
+						matchers : new PropertyStrictEquals({ name : "text", value : "Delete" })
+					}, "Dialog delete");
 				},
+
 				iPressCancelOnTheConfirmationDialog : function () {
-					return this.waitFor({
-						controlType : "sap.m.Button",
-						matchers : new PropertyStrictEquals({name : "text", value : "Cancel"}),
-						actions : new Press(),
-						errorMessage : "The cancel button could not be pressed"
-					});
+					return this._iPressOnTheButton({
+						searchOpenDialogs: true,
+						matchers : new PropertyStrictEquals({ name : "text", value : "Cancel" })
+					}, "Dialog cancel");
 				}
 			},
 
 			assertions : {
-
 				iShouldBeTakenToTheConfirmationDialog : function () {
 					return this.waitFor({
+						searchOpenDialogs: true,
 						controlType : "sap.m.Button",
 						matchers : new PropertyStrictEquals({name : "text", value : "Delete"}),
-						success : function (aControl) {
-							Opa5.assert.ok(
-								aControl,
-								"The delete button was found"
-							);
+						success : function () {
+							Opa5.assert.ok(true, "The delete button was found");
 						},
 						errorMessage : "The delete button was not found"
 					});
 				}
 			}
-
 		}
 	});
 });

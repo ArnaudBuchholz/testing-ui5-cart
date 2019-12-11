@@ -225,7 +225,7 @@ sap.ui.define([
 				var oFilterKey = oEvent.getParameter("filterCompoundKeys");
 				var oKeys = Object.assign(oFilterKey, oCustomKeys);
 				for (var key in oKeys) {
-					if (oKeys.hasOwnProperty(key)) {
+					if (Object.prototype.hasOwnProperty.call(oKeys, key)) {
 						sText = sText + sSeparator  + this.getResourceBundle().getText(key, [this._iLowFilterPreviousValue, this._iHighFilterPreviousValue]);
 						sSeparator = ", ";
 					}

@@ -4,7 +4,7 @@ sap.ui.define([
 ], function(JSONModel, Storage) {
 	"use strict";
 
-	return JSONModel.extend("sap.ui.demo.cart.model.CartModel", {
+	return JSONModel.extend("sap.ui.demo.cart.model.LocalStorageModel", {
 
 		_STORAGE_KEY : "LOCALSTORAGE_MODEL",
 		_storage : new Storage(Storage.Type.local),
@@ -20,7 +20,7 @@ sap.ui.define([
 		 */
 		constructor : function(sStorageKey, oSettings) {
 			// call super constructor with everything from the second argument
-			JSONModel.apply(this, [].slice.call(arguments, 1));
+			JSONModel.call(this, oSettings);
 			this.setSizeLimit(1000000);
 
 			// override default storage key
