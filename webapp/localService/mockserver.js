@@ -93,6 +93,15 @@ sap.ui.define([
 
 					// set requests and start the server
 					oMockServer.setRequests(aRequests);
+
+					// Trace requests
+					Object.keys(MockServer.HTTPMETHOD).forEach(function (sMethod) {
+						oMockServer.attachAfter(sMethod, function (oEvent) {
+							var oXhr = oEvent.getParameter("oXhr");
+							console.log("MockServer", sMethod, oXhr.url, oXhr);
+						});
+					});
+
 					oMockServer.start();
 
 					Log.info("Running the app with mock data");
