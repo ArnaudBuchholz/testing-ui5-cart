@@ -102,7 +102,6 @@ sap.ui.define([
 								UserAlias: sUserAlias,
 								Score: iScore,
 								Review: aReview.join(""),
-								IsEditable: false,
 								__metadata: {
 									uri: "/sap/opu/odata/TESTING_UI5_CART/Reviews('" + sReviewId + "')",
 									type: "TESTING_UI5_CART.Review"
@@ -111,6 +110,7 @@ sap.ui.define([
 							iTotalScore += iScore;
 						}
 						oProduct.ReviewScore = Math.floor(10 * iTotalScore / iNbReviews) / 10;
+						oProduct.UserReview = false;
 					});
 					oMockServer.setEntitySetData("Products", aProducts);
 					oMockServer.setEntitySetData("Reviews", aReviews);
