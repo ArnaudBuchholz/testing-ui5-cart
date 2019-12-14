@@ -47,6 +47,24 @@
 			<Toolbar>
 				<ToolbarSpacer/>
 				<Button
+					text="{i18n>addReview}"
+					type="Transparent"
+					press=".onAddReview"
+					visible="{= !${UserReview} }"
+				/>
+				<Button
+					text="{i18n>editReview}"
+					type="Transparent"
+					press=".onEditReview"
+					visible="{UserReview}"
+				/>
+				<Button
+					text="{i18n>removeReview}"
+					type="Transparent"
+					press=".onRemoveReview"
+					visible="{UserReview}"
+				/>
+				<Button
 					text="{i18n>addToCartShort}"
 					type="Emphasized"
 					press=".onAddToCart" />
