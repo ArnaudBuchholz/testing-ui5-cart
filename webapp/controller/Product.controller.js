@@ -1,9 +1,12 @@
 sap.ui.define([
 	"./BaseController",
-	"../model/formatter"
+	"../model/formatter",
+	"sap/ui/core/Fragment"
 ], function(
 	BaseController,
-	formatter) {
+	formatter,
+	Fragment
+) {
 	"use strict";
 
 	return BaseController.extend("sap.ui.demo.cart.controller.Product", {
@@ -89,6 +92,43 @@ sap.ui.define([
 				id: oEntry.Category,
 				productId: oEntry.ProductId
 			});
+		},
+
+		_openProductReviewDialog: function () {
+			// load asynchronous XML fragment
+			if (!this.byId("productReviewDialog")) {
+				Fragment.load({
+					id: this.getView().getId(),
+					name: "sap.ui.demo.cart.view.ProductReviewDialog",
+					controller: this
+				}).then(function(oDialog){
+					// connect dialog to the root view of this component (models, lifecycle)
+					this.getView().addDependent(oDialog);
+					oDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
+					oDialog.open();
+				}.bind(this));
+			} else {
+				this.byId("productReviewDialog").open();
+			}
+		},
+
+		onAddReview: function (/*oEvent*/) {
+			this._openProductReviewDialog();
+		},
+
+		onEditReview: function (/*oEvent*/) {
+			this._openProductReviewDialog();
+		},
+
+		onRemoveReview: function (/*oEvent*/) {
+		},
+
+		onReviewOK: function (oEvent) {
+			this.byId("productReviewDialog")..close();
+		},
+
+		onReviewCancel: function (/*oEvent*/) {
+			this.byId("productReviewDialog")..close();
 		}
 	});
 });
