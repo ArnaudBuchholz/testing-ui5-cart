@@ -62,6 +62,59 @@ sap.ui.define([
 						bGenerateMissingMockData : true
 					});
 
+					// Generate fake reviews
+					var aReviewLines = [
+							"Praesent eget tellus nunc.",
+							"Vestibulum faucibus vulputate volutpat.",
+							"Cras porttitor erat non sem molestie, a congue sapien tristique.",
+							"Nunc quis ipsum lorem.",
+							"Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+							"Pellentesque luctus venenatis massa id lobortis. Suspendisse vestibulum fermentum luctus.",
+							"Integer dictum augue vitae dictum ornare.",
+							"Nullam feugiat fringilla arcu ornare lacinia.",
+							"Duis nec magna mi.",
+							"Morbi sit amet lacus rhoncus, rhoncus dolor vel, tincidunt diam.",
+							"Integer sagittis sed lorem ac iaculis. Nunc ac posuere justo, a mattis lacus.",
+							"Donec non nulla fermentum, euismod dui a, aliquet justo. Suspendisse potenti.",
+							"Donec consequat, mauris eget aliquet viverra, dui odio tristique justo, non commodo turpis lorem nec odio.",
+							"Integer at elit nisl. Aenean massa mi, semper non tincidunt et, faucibus id ante.",
+							"Nullam molestie sapien non erat blandit, quis posuere tellus finibus."
+						],
+						aReviews = [],
+						aProducts = oMockServer.getEntitySetData("Products");
+					aProducts.forEach(function (oProduct) {
+						var sProductId = oProduct.ProductId,
+							iTotalScore = 0,
+							iNbReviews = 1 + Math.floor(Math.random() * 10),
+							iReview;
+						for (iReview = 0; iReview < iNbReviews; ++iReview) {
+							var sReviewId = aReviews.length.toString().padStart(9, "0"),
+								sUserAlias = "user" + Math.floor(Math.random() * 1000).toString().padStart(4, "0"),
+								iScore = 1 + Math.floor(Math.random() * 5),
+								iLines = 1 + Math.floor(Math.random() * 5),
+								aReview = [];
+							while (iLines--) {
+								aReview.push(aReviewLines[Math.floor(Math.random() * aReviewLines.length)]);
+							}
+							aReviews.push({
+								ReviewId: sReviewId,
+								ProductId: sProductId,
+								UserAlias: sUserAlias,
+								Score: iScore,
+								Review: aReview.join(""),
+								IsEditable: false,
+								__metadata: {
+									uri: "/sap/opu/odata/TESTING_UI5_CART/Reviews('" + sReviewId + "')",
+									type: "TESTING_UI5_CART.Review"
+								}
+							});
+							iTotalScore += iScore;
+						}
+						oProduct.ReviewScore = Math.floor(10 * iTotalScore / iNbReviews) / 10;
+					});
+					oMockServer.setEntitySetData("Products", aProducts);
+					oMockServer.setEntitySetData("Reviews", aReviews);
+
 					var aRequests = oMockServer.getRequests();
 
 					// compose an error response for requesti
