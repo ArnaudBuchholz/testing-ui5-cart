@@ -108,7 +108,32 @@
 						</LightBox>
 					</detailBox>
 				</Image>
+				<RatingIndicator displayOnly="true" iconSize="32px" value="{ReviewScore}" tooltip="{i18n>reviewsRating}" />
 			</VBox>
+			<Table
+				items="{Reviews}"
+			>
+				<columns>
+					<Column width="12em">
+						<Text text="{i18n>reviewUser}" />
+					</Column>
+					<Column>
+						<Text text="{i18n>reviewComment}" />
+					</Column>
+					<Column width="12em">
+						<Text text="{i18n>reviewRating}" />
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{UserAlias}" />
+							<Text text="{Review}" />
+							<RatingIndicator displayOnly="true" iconSize="16px" value="{Score}" tooltip="{i18n>reviewRating}" />
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
 		</content>
 	</Page>
 </mvc:View>
