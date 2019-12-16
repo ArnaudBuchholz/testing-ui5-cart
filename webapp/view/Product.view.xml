@@ -50,19 +50,19 @@
 					text="{i18n>addReview}"
 					type="Transparent"
 					press=".onAddReview"
-					visible="{= !${UserReview} }"
+					visible="{= !${UserReviewId} }"
 				/>
 				<Button
 					text="{i18n>editReview}"
 					type="Transparent"
 					press=".onEditReview"
-					visible="{UserReview}"
+					visible="{= !!${UserReviewId} }"
 				/>
 				<Button
 					text="{i18n>removeReview}"
 					type="Transparent"
 					press=".onRemoveReview"
-					visible="{UserReview}"
+					visible="{= !!${UserReviewId} }"
 				/>
 				<Button
 					text="{i18n>addToCartShort}"
