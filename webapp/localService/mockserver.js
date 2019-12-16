@@ -84,12 +84,15 @@ sap.ui.define([
 						aProducts = oMockServer.getEntitySetData("Products");
 					aProducts.forEach(function (oProduct) {
 						var sProductId = oProduct.ProductId,
-							iTotalScore = 0,
-							iNbReviews = 1 + Math.floor(Math.random() * 10),
-							iReview;
-						for (iReview = 0; iReview < iNbReviews; ++iReview) {
+							iNbReviews;
+						if (sProductId === "HT-6130") {
+							iNbReviews = 1;
+						} else {
+							iNbReviews = 1 + Math.floor(Math.random() * 10);
+						}
+						while (iNbReviews--) {
 							var sReviewId = aReviews.length.toString().padStart(9, "0"),
-								sUserAlias = "user" + Math.floor(Math.random() * 1000).toString().padStart(4, "0"),
+								sUserAlias = "user" + Math.floor(Math.random() * 100).toString().padStart(3, "0"),
 								iScore = 1 + Math.floor(Math.random() * 5),
 								iLines = 1 + Math.floor(Math.random() * 5),
 								aReview = [];
@@ -107,12 +110,8 @@ sap.ui.define([
 									type: "TESTING_UI5_CART.Review"
 								}
 							});
-							iTotalScore += iScore;
 						}
-						oProduct.ReviewScore = Math.floor(10 * iTotalScore / iNbReviews) / 10;
-						oProduct.UserReviewId = "";
 					});
-					oMockServer.setEntitySetData("Products", aProducts);
 					oMockServer.setEntitySetData("Reviews", aReviews);
 
 					var aRequests = oMockServer.getRequests();
@@ -143,6 +142,85 @@ sap.ui.define([
 					}
 
 					// custom mock behaviour may be added here
+					var aInvalidatedProductReviews = aProducts.map(function (oProduct) {
+						return oProduct.ProductId;
+					});
+
+					aRequests.push({
+						method: "POST",
+						path: /\bReviews\b/,
+						response: function (oXhr) {
+							var oBody = JSON.parse(oXhr.requestBody);
+							var aReviews = oMockServer.getEntitySetData("Reviews");
+							oBody.ReviewId = aReviews.length.toString().padStart(9, "0");
+							oBody.UserAlias = "You";
+							aInvalidatedProductReviews.push(oBody.ProductId);
+							oXhr.requestBody = JSON.stringify(oBody);
+							return false;
+						}
+					});
+
+					function invalidateProductOfReview (sReviewId) {
+						var oReview = oMockServer.getEntitySetData("Reviews").filter(function (oCandidate) {
+							return oCandidate.ReviewId === sReviewId;
+						})[0];
+						if (oReview) {
+							aInvalidatedProductReviews.push(oReview.ProductId);
+						}
+					}
+
+					aRequests.push({
+						method: "MERGE",
+						path: /\bReviews\b(?:\('([^']+)'\))/,
+						response: function (oXhr, sReviewId) {
+							invalidateProductOfReview(sReviewId);
+							return false;
+						}
+					});
+
+					aRequests.push({
+						method: "DELETE",
+						path: /\bReviews\b(?:\('([^']+)'\))/,
+						response: function (oXhr, sReviewId) {
+							invalidateProductOfReview(sReviewId);
+							return false;
+						}
+					});
+
+					function updateProductReviews () {
+						var aProducts = oMockServer.getEntitySetData("Products");
+						aInvalidatedProductReviews.forEach(function (sProductId) {
+							var oProduct = aProducts.filter(function (oCandidate) {
+								return oCandidate.ProductId === sProductId;
+							})[0],
+							aProductReviews = oMockServer.getEntitySetData("Reviews").filter(function (oCandidate) {
+								return oCandidate.ProductId === sProductId;
+							}),
+							iScore = 0,
+							sUserReviewId = "";
+							if (aProductReviews) {
+								iScore = Math.floor(10 * aProductReviews.reduce(function (iTotalScore, oReview) {
+									if (oReview.UserAlias === "You") {
+										sUserReviewId = oReview.ReviewId;
+									}
+									return iTotalScore + oReview.Score;
+								}, 0) / aProductReviews.length) / 10;
+							}
+							oProduct.ReviewScore = iScore;
+							oProduct.UserReviewId = sUserReviewId;
+						});
+						oMockServer.setEntitySetData("Products", aProducts);
+						aInvalidatedProductReviews = [];
+					}
+
+					aRequests.push({
+						method: "GET",
+						path: /\bProducts\b(?:\('[^']+'\))?/,
+						response: function (oXhr) {
+							updateProductReviews();
+							return false;
+						}
+					});
 
 					// set requests and start the server
 					oMockServer.setRequests(aRequests);
