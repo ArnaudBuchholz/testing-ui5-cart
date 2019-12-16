@@ -222,6 +222,21 @@ sap.ui.define([
 						}
 					});
 
+					aRequests.push({
+						method: "GET",
+						path: /\bValidateCreditCardDetails\b\?HolderName='([^']+)'&Number='([^']+)'&Security='([^']+)'&Expiration='([^']+)'/,
+						response: function (oXhr, sHolderName, sNumber, sSecurity, sExpiration) {
+							oXhr.respond(200, {
+								"Content-Type": "application/json;charset=utf-8"
+							}, JSON.stringify({
+								d: {
+									IsValid: sSecurity !== "000"
+								}
+							}));
+							return true;
+						}
+					});
+
 					// set requests and start the server
 					oMockServer.setRequests(aRequests);
 
