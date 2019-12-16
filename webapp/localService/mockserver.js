@@ -110,7 +110,7 @@ sap.ui.define([
 							iTotalScore += iScore;
 						}
 						oProduct.ReviewScore = Math.floor(10 * iTotalScore / iNbReviews) / 10;
-						oProduct.UserReview = false;
+						oProduct.UserReviewId = "";
 					});
 					oMockServer.setEntitySetData("Products", aProducts);
 					oMockServer.setEntitySetData("Reviews", aReviews);
