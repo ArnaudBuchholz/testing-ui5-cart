@@ -4,10 +4,10 @@
 	<edmx:DataServices m:DataServiceVersion="2.0"
 		xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
 		<Schema Namespace="TESTING_UI5_CART" xml:lang="en"
-			xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+			xmlns:sap="http://www.sap.com/Protocols/SAPData">
 
-			<EntityType Name="Product" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="Product" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="ProductId"/>
 				</Key>
@@ -70,8 +70,7 @@
 				<NavigationProperty Name="Reviews" Relationship="TESTING_UI5_CART.FK_Review_Product" FromRole="Product" ToRole="Review"/>
 			</EntityType>
 
-			<EntityType Name="ProductCategory" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="ProductCategory" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="Category"/>
 				</Key>
@@ -87,8 +86,7 @@
 				<NavigationProperty Name="Products" Relationship="TESTING_UI5_CART.FK_ProductCategory_Product" FromRole="ProductCategory" ToRole="Product"/>
 			</EntityType>
 
-			<EntityType Name="Review" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="Review" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="ReviewId"/>
 				</Key>
@@ -109,8 +107,7 @@
 					sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
 			</EntityType>
 
-			<EntityType Name="FeaturedProduct" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="FeaturedProduct" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="ProductId"/>
 				</Key>
@@ -158,25 +155,27 @@
 				</ReferentialConstraint>
 			</Association>
 
+			<ComplexType Name="ValidationResult">
+				<Property Name="IsValid" Type="Edm.Boolean" Nullable="false"
+					sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false" />
+			</ComplexType>
+
 			<EntityContainer Name="TESTING_UI5_CART"
 				m:IsDefaultEntityContainer="true">
 				<EntitySet Name="Products" EntityType="TESTING_UI5_CART.Product"
 					sap:creatable="false" sap:updatable="false" sap:deletable="false"
-					sap:pageable="false" sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
+					sap:pageable="false" sap:content-version="1" />
 				<EntitySet Name="ProductCategories"
 					EntityType="TESTING_UI5_CART.ProductCategory"
 					sap:creatable="false" sap:updatable="false" sap:deletable="false"
-					sap:pageable="false" sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
+					sap:pageable="false" sap:content-version="1" />
 				<EntitySet Name="Reviews"
 					EntityType="TESTING_UI5_CART.Review"
 					sap:creatable="true" sap:updatable="true" sap:deletable="true"
-					sap:pageable="true" sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
+					sap:pageable="true" sap:content-version="1" />
 				<EntitySet Name="FeaturedProducts" EntityType="TESTING_UI5_CART.FeaturedProduct"
-					sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
+					sap:content-version="1" />
 				<AssociationSet Name="TESTING_UI5_CART.FK_ProductCategory_Product"
 					Association="TESTING_UI5_CART.FK_ProductCategory_Product">
 					<End Role="Product" EntitySet="Products"/>
@@ -192,6 +191,14 @@
 					<End Role="Product" EntitySet="Products"/>
 					<End Role="FeaturedProduct" EntitySet="FeaturedProducts"/>
 				</AssociationSet>
+				<FunctionImport Name="ValidateCreditCardDetails" ReturnType="TESTING_UI5_CART.ValidationResult"
+					m:HttpMethod="GET"
+					sap:label="Validate Credit Card Details">
+					<Parameter Name="HolderName" Type="Edm.String" Mode="In" />
+					<Parameter Name="Number" Type="Edm.String" Mode="In" MaxLength="16" />
+					<Parameter Name="Security" Type="Edm.String" Mode="In" MaxLength="4" />
+					<Parameter Name="Expiration" Type="Edm.String" Mode="In" MaxLength="6" />
+				</FunctionImport>
 			</EntityContainer>
 		</Schema>
 	</edmx:DataServices>
