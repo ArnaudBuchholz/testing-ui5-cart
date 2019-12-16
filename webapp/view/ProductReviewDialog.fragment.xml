@@ -39,12 +39,12 @@
 					<form:FormContainer>
 						<form:FormElement label="{i18n>reviewRating}">
 							<form:fields>
-								<RatingIndicator iconSize="32px" value="{ReviewScore}" tooltip="{i18n>reviewRating}" />
+								<RatingIndicator iconSize="32px" value="{path: 'Score', mode: 'TwoWay'}" tooltip="{i18n>reviewRating}" />
 							</form:fields>
 						</form:FormElement>
 						<form:FormElement label="{i18n>reviewComment}">
 							<form:fields>
-								<TextArea value="{ReviewComment}" showExceededText="true" maxLength="4096" width="100%" />
+								<TextArea value="{path: 'Review', mode: 'TwoWay'}" showExceededText="true" maxLength="4096" width="100%" />
 							</form:fields>
 						</form:FormElement>
 					</form:FormContainer>
