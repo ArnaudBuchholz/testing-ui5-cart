@@ -135,31 +135,35 @@ sap.ui.define([
 		},
 
 		_getUserReviewPath: function () {
-			return this.getModel().createKey("Reviews", {
+			return "/" + this.getModel().createKey("Reviews", {
 				ReviewId: this.getView().getBindingContext().getObject().UserReviewId
 			});
 		},
 
 		onEditReview: function (/*oEvent*/) {
+			this.getModel().createBindingContext(this._getUserReviewPath(), function (oBindingContext) {
+				this._openProductReviewDialog(oBindingContext);
+			}.bind(this));
+		},
+
+		_reloadCurrentProduct: function () {
 			var oModel = this.getModel(),
-				oBindingcontext = oModel.createBindingContext(this._getUserReviewPath());
-			this._openProductReviewDialog(oBindingcontext);
+				oProductContext = this.getView().getBindingContext(),
+				sProductId = oProductContext.getObject().ProductId;
+			oModel.invalidateEntry(oProductContext); // Will force reload
+			this._loadProduct(sProductId);
 		},
 
 		onRemoveReview: function (/*oEvent*/) {
-			var sMessage = that.getModel("i18n").getProperty("reviewConfirmRemove"),
-				oModel = this.getModel();
+			var sMessage = this.getModel("i18n").getProperty("reviewConfirmRemove"),
+				oModel = this.getModel(),
+				sUserReviewPath = this._getUserReviewPath();
 			MessageBox.confirm(sMessage, {
 				onClose: function (oAction) {
 					if (oAction === MessageBox.Action.OK) {
-						var sUserReviewPath = this._getUserReviewPath();
 						oModel.remove(sUserReviewPath, {
-							success: function () {
-								oModel.invalidateEntry(oProductContext); // Will force reload
-								that._loadProduct(sProductId);
-							},
+							success: this._reloadCurrentProduct.bind(this),
 							error: function () {
-								var sMessage = that.getModel("i18n").getProperty("reviewError");
 								MessageBox.error(sMessage);
 							}
 						});
@@ -169,21 +173,17 @@ sap.ui.define([
 		},
 
 		onReviewOK: function (oEvent) {
-			var that = this,
-				oModel = this.getModel(),
+			var oModel = this.getModel(),
 				oDialog = this.byId("productReviewDialog"),
-				oProductContext = this.getView().getBindingContext(),
-				sProductId = oProductContext.getObject().ProductId;
+				sMessage = this.getModel("i18n").getProperty("reviewError");
 			oDialog.setBusy(true);
 			oModel.submitChanges({
 				success: function () {
-					oModel.invalidateEntry(oProductContext); // Will force reload
-					that._loadProduct(sProductId);
+					this._reloadCurrentProduct();
 					oDialog.setBusy(false);
 					oDialog.close();
-				},
+				}.bind(this),
 				error: function () {
-					var sMessage = that.getModel("i18n").getProperty("reviewError");
 					MessageBox.error(sMessage, {
 						onClose: function() {
 							oDialog.close();
