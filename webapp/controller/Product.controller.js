@@ -1,11 +1,13 @@
 sap.ui.define([
 	"./BaseController",
 	"../model/formatter",
-	"sap/ui/core/Fragment"
+	"sap/ui/core/Fragment",
+	"sap/m/MessageBox",
 ], function(
 	BaseController,
 	formatter,
-	Fragment
+	Fragment,
+	MessageBox
 ) {
 	"use strict";
 
@@ -22,14 +24,13 @@ sap.ui.define([
 			}, this);
 		},
 
-		_routePatternMatched: function(oEvent) {
-			var sId = oEvent.getParameter("arguments").productId,
-				oView = this.getView(),
+		_loadProduct: function (sProductId) {
+			var oView = this.getView(),
 				oModel = oView.getModel();
 			// the binding should be done after insuring that the metadata is loaded successfully
 			oModel.metadataLoaded().then(function () {
 				var sPath = "/" + this.getModel().createKey("Products", {
-						ProductId: sId
+						ProductId: sProductId
 					});
 				oView.bindElement({
 					path : sPath,
@@ -53,6 +54,10 @@ sap.ui.define([
 					}.bind(this));
 				}
 			}.bind(this));
+		},
+
+		_routePatternMatched: function(oEvent) {
+			this._loadProduct(oEvent.getParameter("arguments").productId);
 		},
 
 		fnUpdateProduct: function(productId) {
@@ -94,10 +99,14 @@ sap.ui.define([
 			});
 		},
 
-		_openProductReviewDialog: function () {
+		_openProductReviewDialog: function (oBindingContext) {
 			// load asynchronous XML fragment
-			if (!this.byId("productReviewDialog")) {
-				Fragment.load({
+			var oDialog = this.byId("productReviewDialog"),
+				oPromise;
+			if (oDialog) {
+				oPromise = Promise.resolve(oDialog);
+			} else {
+				oPromise = Fragment.load({
 					id: this.getView().getId(),
 					name: "sap.ui.demo.cart.view.ProductReviewDialog",
 					controller: this
@@ -105,30 +114,92 @@ sap.ui.define([
 					// connect dialog to the root view of this component (models, lifecycle)
 					this.getView().addDependent(oDialog);
 					oDialog.addStyleClass(this.getOwnerComponent().getContentDensityClass());
-					oDialog.open();
+					return oDialog;
 				}.bind(this));
-			} else {
-				this.byId("productReviewDialog").open();
 			}
+			oPromise.then(function (oDialog) {
+				oDialog.setBindingContext(oBindingContext);
+				oDialog.open();
+			});
 		},
 
 		onAddReview: function (/*oEvent*/) {
-			this._openProductReviewDialog();
+			var oBindingContext = this.getModel().createEntry("Reviews", {
+				properties: {
+					ProductId: this.getView().getBindingContext().getObject().ProductId
+				},
+				refreshAfterChange: true
+			});
+			oBindingContext._new = true;
+			this._openProductReviewDialog(oBindingContext);
+		},
+
+		_getUserReviewPath: function () {
+			return this.getModel().createKey("Reviews", {
+				ReviewId: this.getView().getBindingContext().getObject().UserReviewId
+			});
 		},
 
 		onEditReview: function (/*oEvent*/) {
-			this._openProductReviewDialog();
+			var oModel = this.getModel(),
+				oBindingcontext = oModel.createBindingContext(this._getUserReviewPath());
+			this._openProductReviewDialog(oBindingcontext);
 		},
 
 		onRemoveReview: function (/*oEvent*/) {
+			var sMessage = that.getModel("i18n").getProperty("reviewConfirmRemove"),
+				oModel = this.getModel();
+			MessageBox.confirm(sMessage, {
+				onClose: function (oAction) {
+					if (oAction === MessageBox.Action.OK) {
+						var sUserReviewPath = this._getUserReviewPath();
+						oModel.remove(sUserReviewPath, {
+							success: function () {
+								oModel.invalidateEntry(oProductContext); // Will force reload
+								that._loadProduct(sProductId);
+							},
+							error: function () {
+								var sMessage = that.getModel("i18n").getProperty("reviewError");
+								MessageBox.error(sMessage);
+							}
+						});
+					}
+				}.bind(this)
+			});
 		},
 
 		onReviewOK: function (oEvent) {
-			this.byId("productReviewDialog")..close();
+			var that = this,
+				oModel = this.getModel(),
+				oDialog = this.byId("productReviewDialog"),
+				oProductContext = this.getView().getBindingContext(),
+				sProductId = oProductContext.getObject().ProductId;
+			oDialog.setBusy(true);
+			oModel.submitChanges({
+				success: function () {
+					oModel.invalidateEntry(oProductContext); // Will force reload
+					that._loadProduct(sProductId);
+					oDialog.setBusy(false);
+					oDialog.close();
+				},
+				error: function () {
+					var sMessage = that.getModel("i18n").getProperty("reviewError");
+					MessageBox.error(sMessage, {
+						onClose: function() {
+							oDialog.close();
+						}
+					});
+				}
+			});
 		},
 
 		onReviewCancel: function (/*oEvent*/) {
-			this.byId("productReviewDialog")..close();
+			var oDialog = this.byId("productReviewDialog"),
+				oBindingContext = oDialog.getBindingContext();
+			if (oBindingContext._new) {
+				this.getModel().deleteCreatedEntry(oBindingContext);
+			}
+			oDialog.close();
 		}
 	});
 });
