@@ -63,8 +63,9 @@
 					Nullable="false" Precision="13" Scale="3" sap:label="Review Score"
  					sap:creatable="false" sap:updatable="false" sap:sortable="false"
  					sap:filterable="false"/>
-				<Property Name="UserReview" Type="Edm.Boolean" Nullable="false"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+				<Property Name="UserReviewId" Type="Edm.String" Nullable="true"
+					MaxLength="10" sap:label="Review ID" sap:creatable="false"
+					sap:updatable="false"/>
 				<NavigationProperty Name="ProductCategory" Relationship="TESTING_UI5_CART.FK_ProductCategory_Product" FromRole="Product" ToRole="ProductCategory"/>
 				<NavigationProperty Name="Reviews" Relationship="TESTING_UI5_CART.FK_Review_Product" FromRole="Product" ToRole="Review"/>
 			</EntityType>
