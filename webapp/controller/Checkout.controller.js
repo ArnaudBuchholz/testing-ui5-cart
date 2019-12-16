@@ -238,11 +238,32 @@ sap.ui.define([
 			}
 		},
 
+		_checkCreditCardInfo: function () {
+			return new Promise(function (resolve) {
+				var oView = this.getView();
+				this.getOwnerComponent().getModel().callFunction("/ValidateCreditCardDetails", {
+					method: "GET",
+					urlParameters: {
+						HolderName: oView.byId("creditCardHolderName").getValue(),
+						Number: oView.byId("creditCardNumber").getValue().replace(/-/g, ""),
+						Security: oView.byId("creditCardSecurityNumber").getValue(),
+						Expiration: oView.byId("creditCardExpirationDate").getValue().replace(/\//g, "")
+					},
+					success: function (oValidationResult) {
+						resolve(oValidationResult.IsValid);
+					},
+					error: function () {
+						resolve(false);
+					}
+				});
+			}.bind(this));
+		},
+
 		/**
 		 * Validates the credit card step initially and after each input
 		 */
 		checkCreditCardStep: function () {
-			this._checkStep("creditCardStep", ["creditCardHolderName", "creditCardNumber", "creditCardSecurityNumber", "creditCardExpirationDate"]);
+			this._checkStep("creditCardStep", ["creditCardHolderName", "creditCardNumber", "creditCardSecurityNumber", "creditCardExpirationDate"], this._checkCreditCardInfo);
 		},
 
 		/**
@@ -293,16 +314,24 @@ sap.ui.define([
 		 * @param {array} aInputIds - Input IDs to be checked
 		 * @private
 		 */
-		_checkStep: function (sStepName, aInputIds) {
+		_checkStep: function (sStepName, aInputIds, fnAsyncValidation) {
 			var oWizard = this.byId("shoppingCartWizard"),
 				oStep = this.byId(sStepName),
 				bEmptyInputs = this._checkInputFields(aInputIds),
-				bValidationError = !!sap.ui.getCore().getMessageManager().getMessageModel().getData().length;
+				bValidationError = !!sap.ui.getCore().getMessageManager().getMessageModel().getData().length,
+				oAsyncValidation;
 
-			if (!bValidationError && !bEmptyInputs) {
+			if (bValidationError || bEmptyInputs) {
+				oWizard.invalidateStep(oStep);
+			} else if (!fnAsyncValidation) {
 				oWizard.validateStep(oStep);
 			} else {
 				oWizard.invalidateStep(oStep);
+				fnAsyncValidation.call(this).then(function (bAsyncValidation) {
+					if (bAsyncValidation) {
+						oWizard.validateStep(oStep);
+					}
+				});
 			}
 		},
 
