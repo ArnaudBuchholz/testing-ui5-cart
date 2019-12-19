@@ -90,14 +90,15 @@ sap.ui.define([
 						} else {
 							iNbReviews = 1 + Math.floor(Math.random() * 10);
 						}
-						while (iNbReviews--) {
+						while (iNbReviews > 0) {
 							var sReviewId = aReviews.length.toString().padStart(9, "0"),
 								sUserAlias = "user" + Math.floor(Math.random() * 100).toString().padStart(3, "0"),
 								iScore = 1 + Math.floor(Math.random() * 5),
 								iLines = 1 + Math.floor(Math.random() * 5),
 								aReview = [];
-							while (iLines--) {
+							while (iLines > 0) {
 								aReview.push(aReviewLines[Math.floor(Math.random() * aReviewLines.length)]);
+								iLines -= 1;
 							}
 							aReviews.push({
 								ReviewId: sReviewId,
@@ -110,6 +111,7 @@ sap.ui.define([
 									type: "TESTING_UI5_CART.Review"
 								}
 							});
+							iNbReviews -= 1;
 						}
 					});
 					oMockServer.setEntitySetData("Reviews", aReviews);
@@ -216,7 +218,7 @@ sap.ui.define([
 					aRequests.push({
 						method: "GET",
 						path: /\bProducts\b(?:\('[^']+'\))?/,
-						response: function (oXhr) {
+						response: function (/*oXhr*/) {
 							updateProductReviews();
 							return false;
 						}
@@ -225,11 +227,11 @@ sap.ui.define([
 					aRequests.push({
 						method: "GET",
 						path: /\bValidateCreditCardDetails\b\?HolderName='([^']+)'&Number='([^']+)'&Security='([^']+)'&Expiration='([^']+)'/,
-						response: function (oXhr, sHolderName, sNumber, sSecurity, sExpiration) {
+						response: function (oXhr, sHolderName, sNumber, sSecurity/*, sExpiration*/) {
 							oXhr.respond(200, {
 								"Content-Type": "application/json;charset=utf-8"
 							}, JSON.stringify({
-								d: {
+								d: { // eslint-disable-line id-length
 									IsValid: sSecurity !== "000"
 								}
 							}));
@@ -244,7 +246,7 @@ sap.ui.define([
 					Object.keys(MockServer.HTTPMETHOD).forEach(function (sMethod) {
 						oMockServer.attachAfter(sMethod, function (oEvent) {
 							var oXhr = oEvent.getParameter("oXhr");
-							console.log("MockServer", sMethod, oXhr.url, oXhr);
+							console.log("MockServer", sMethod, oXhr.url, oXhr); // eslint-disable-line no-console
 						});
 					});
 
