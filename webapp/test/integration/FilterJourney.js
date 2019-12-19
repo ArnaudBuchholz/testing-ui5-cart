@@ -17,7 +17,7 @@ sap.ui.define([
 		// Actions
 		When.onTheCategoryList.iPressOnTheFlatScreensCategory();
 		// Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
+		Then.onTheCategoryProductList.iShouldSeeTheProducts(aFlatScreenProducts)
 			.and.iShouldSeeAFilterButton();
 	});
 
@@ -29,7 +29,7 @@ sap.ui.define([
 			.and.iPressTheDiscontinuedFilter()
 			.and.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1254, HT_1137])
+		Then.onTheCategoryProductList.iShouldSeeTheProducts([HT_1254, HT_1137])
 			.and.iShouldSeeAnAvailabilityInfoToolbar();
 	});
 
@@ -40,7 +40,7 @@ sap.ui.define([
 			.and.iPressTheDiscontinuedFilter()
 			.and.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
+		Then.onTheCategoryProductList.iShouldSeeTheProducts(aFlatScreenProducts)
 			.and.iShouldNotSeeAnInfoToolbar();
 	});
 
@@ -53,7 +53,7 @@ sap.ui.define([
 			.and.iSetPriceFilterValues(200, 500)
 			.and.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1255])
+		Then.onTheCategoryProductList.iShouldSeeTheProducts([HT_1255])
 			.and.iShouldSeeAnAvailabilityAndPriceInfoToolbar(200, 500);
 	});
 
@@ -63,7 +63,7 @@ sap.ui.define([
 		When.onTheProductFilterDialog.iSetPriceFilterValues(500, 1000)
 			.and.iPressCancelButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1255])
+		Then.onTheCategoryProductList.iShouldSeeTheProducts([HT_1255])
 			.and.iShouldSeeAnAvailabilityAndPriceInfoToolbar(200, 500);
 		// Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
@@ -78,7 +78,7 @@ sap.ui.define([
 			.and.iSetPriceFilterValues(0, 5000)
 			.and.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1255])
+		Then.onTheCategoryProductList.iShouldSeeTheProducts([HT_1255])
 			.and.iShouldSeeAnAvailabilityInfoToolbar();
 		//Actions
 		When.onTheCategoryProductList.iPressTheFilterButton();
@@ -95,7 +95,7 @@ sap.ui.define([
 		// Actions
 		When.onTheProductFilterDialog.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
+		Then.onTheCategoryProductList.iShouldSeeTheProducts(aFlatScreenProducts)
 			.and.iShouldNotSeeAnInfoToolbar();
 	});
 
@@ -106,7 +106,7 @@ sap.ui.define([
 			.and.iPressTheSupplierFilter("Technocom")
 			.and.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList([HT_1137])
+		Then.onTheCategoryProductList.iShouldSeeTheProducts([HT_1137])
 			.and.iShouldSeeASupplierInfoToolbar();
 	});
 
@@ -116,7 +116,7 @@ sap.ui.define([
 		When.onTheProductFilterDialog.iPressTheSupplierFilter("Technocom")
 			.and.iPressOkButton();
 		//Assertions
-		Then.onTheCategoryProductList.iShouldseeTheProductList(aFlatScreenProducts)
+		Then.onTheCategoryProductList.iShouldSeeTheProducts(aFlatScreenProducts)
 			.and.iShouldNotSeeAnInfoToolbar();
 		// Cleanup
 		Then.onTheCategoryProductList.iTeardownMyApp();
