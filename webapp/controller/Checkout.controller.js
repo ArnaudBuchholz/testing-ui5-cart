@@ -256,7 +256,13 @@ sap.ui.define([
 						resolve(false);
 					}
 				});
-			}.bind(this));
+			}.bind(this))
+				.then(function (bValidated) {
+					if (!bValidated) {
+						MessageBox.warning(this.getResourceBundle().getText("checkoutCreditCardNotValidated"));
+					}
+					return bValidated;
+				}.bind(this));
 		},
 
 		/**
@@ -318,8 +324,7 @@ sap.ui.define([
 			var oWizard = this.byId("shoppingCartWizard"),
 				oStep = this.byId(sStepName),
 				bEmptyInputs = this._checkInputFields(aInputIds),
-				bValidationError = !!sap.ui.getCore().getMessageManager().getMessageModel().getData().length,
-				oAsyncValidation;
+				bValidationError = !!sap.ui.getCore().getMessageManager().getMessageModel().getData().length;
 
 			if (bValidationError || bEmptyInputs) {
 				oWizard.invalidateStep(oStep);
