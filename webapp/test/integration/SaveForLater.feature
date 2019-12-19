@@ -15,6 +15,6 @@ Feature: Save a product for later
   Scenario: Add back to cart
     When on the cart: I press on add back to basket for the first product
 
-    Then on the cart: I should see the product in my cart
+    Then on the cart: I should see some products in my cart
     Then on the cart: I should not see a save for later footer
     Then on the cart: I should see an empty save for later list
