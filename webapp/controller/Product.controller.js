@@ -2,7 +2,7 @@ sap.ui.define([
 	"./BaseController",
 	"../model/formatter",
 	"sap/ui/core/Fragment",
-	"sap/m/MessageBox",
+	"sap/m/MessageBox"
 ], function(
 	BaseController,
 	formatter,
@@ -172,7 +172,7 @@ sap.ui.define([
 			});
 		},
 
-		onReviewOK: function (oEvent) {
+		onReviewOK: function (/*oEvent*/) {
 			var oModel = this.getModel(),
 				oDialog = this.byId("productReviewDialog"),
 				sMessage = this.getModel("i18n").getProperty("reviewError");
