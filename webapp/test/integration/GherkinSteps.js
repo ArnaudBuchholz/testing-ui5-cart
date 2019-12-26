@@ -20,7 +20,7 @@ sap.ui.define([
 
 			this.register(
 				/^on the cart: I press on the delete button of item ([0-9]+)/i,
-				function (sIndex, Given, When, Then) {
+				function (sIndex, Given, When/*, Then*/) {
 					When.onTheCart.iPressOnTheDeleteButtonOfItem(parseInt(sIndex, 10));
 				}
 			);
@@ -41,36 +41,61 @@ sap.ui.define([
 
 			this.register(
 				/^on checkout: I enter credit card information "([^"]+)" ([\d-]+) (\d+) (\d\d\/\d\d\d\d)/i,
-				function (sHolderName, sNumber, sCode, sDate, Given, When, Then) {
+				function (sHolderName, sNumber, sCode, sDate, Given, When/*, Then*/) {
 					When.onCheckout.iEnterCreditCardInformation(sHolderName, sNumber.replace(/-/g, ""), sCode, sDate);
 				}
 			);
 
 			this.register(
 				/^on checkout: I enter invoice address "([^"]+)" "([^"]+)" "([^"]+)" "([^"]+)"/i,
-				function (sStreet, sCity, sZipCode, sCountry, Given, When, Then) {
+				function (sStreet, sCity, sZipCode, sCountry, Given, When/*, Then*/) {
 					When.onCheckout.iEnterInvoiceAddressInformation(sStreet, sCity, sZipCode, sCountry);
 				}
 			);
 
 			this.register(
 				/^on checkout: I enter cash on delivery info "([^"]+)" "([^"]+)" "([^"]+)" "([^"]+)"/i,
-				function (sFirstName, sLastName, sPhone, sEmail, Given, When, Then) {
+				function (sFirstName, sLastName, sPhone, sEmail, Given, When/*, Then*/) {
 					When.onCheckout.iEnterCashOnDeliveryInformation(sFirstName, sLastName, sPhone, sEmail);
 				}
 			);
 
 			this.register(
 				/^on checkout: I enter delivery address "([^"]+)" "([^"]+)" "([^"]+)" "([^"]+)"/i,
-				function (sStreet, sCity, sZipCode, sCountry, Given, When, Then) {
+				function (sStreet, sCity, sZipCode, sCountry, Given, When/*, Then*/) {
 					When.onCheckout.iEnterDeliveryAddressInformation(sStreet, sCity, sZipCode, sCountry);
 				}
 			);
 
 			this.register(
 				/^on the cart: I press on save for later for the first product/i,
-				function (Given, When, Then) {
+				function (Given, When/*, Then*/) {
 					When.onTheCart.iPressOnSaveForLaterOfItem(0);
+				}
+			);
+
+			this.register(
+				/^on the cart: I press on add back to basket for the first product/i,
+				function (Given, When/*, Then*/) {
+					When.onTheCart.iPressOnAddBackToCartOfSavedItem(0);
+				}
+			);
+
+			this.register(
+				/^on the category product list: I should see the products ("[^"]+"(?:\s*,\s*"[^"]+")*)/i,
+				function (sProductIds, Given, When, Then) {
+					var aProductIds = [];
+					sProductIds.replace(/"([^"]+)"/g, function (sMatch, sProductId) {
+						aProductIds.push(sProductId);
+					});
+					Then.onTheCategoryProductList.iShouldSeeTheProducts(aProductIds);
+				}
+			);
+
+			this.register(
+				/^on the product filter dialog: I set price filter values from (\d+) to (\d+)/i,
+				function (sFrom, sTo, Given, When/*, Then*/) {
+					When.onTheProductFilterDialog.iSetPriceFilterValues(parseInt(sFrom, 10), parseInt(sTo, 10));
 				}
 			);
 		}

@@ -3,11 +3,11 @@
 	xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
 	<edmx:DataServices m:DataServiceVersion="2.0"
 		xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
-		<Schema Namespace="EPM_DEVELOPER_SCENARIO_SRV" xml:lang="en"
-			xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+		<Schema Namespace="TESTING_UI5_CART" xml:lang="en"
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm"
+			xmlns:sap="http://www.sap.com/Protocols/SAPData">
 
-			<EntityType Name="Product" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="Product" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="ProductId"/>
 				</Key>
@@ -59,12 +59,18 @@
 				<Property Name="PictureUrl" Type="Edm.String" Nullable="false"
 					MaxLength="255" sap:label="Product Image URL" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-				<NavigationProperty Name="ProductCategory" Relationship="EPM_DEVELOPER_SCENARIO_SRV.FK_ProductCategory_Product" FromRole="Product" ToRole="ProductCategory"/>
-
+				<Property Name="ReviewScore" Type="Edm.Decimal"
+					Nullable="false" Precision="13" Scale="3" sap:label="Review Score"
+ 					sap:creatable="false" sap:updatable="false" sap:sortable="false"
+ 					sap:filterable="false"/>
+				<Property Name="UserReviewId" Type="Edm.String" Nullable="true"
+					MaxLength="10" sap:label="Review ID" sap:creatable="false"
+					sap:updatable="false"/>
+				<NavigationProperty Name="ProductCategory" Relationship="TESTING_UI5_CART.FK_ProductCategory_Product" FromRole="Product" ToRole="ProductCategory"/>
+				<NavigationProperty Name="Reviews" Relationship="TESTING_UI5_CART.FK_Review_Product" FromRole="Product" ToRole="Review"/>
 			</EntityType>
 
-			<EntityType Name="ProductCategory" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="ProductCategory" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="Category"/>
 				</Key>
@@ -77,23 +83,42 @@
 				<Property Name="NumberOfProducts" Type="Edm.Int32"
 					Nullable="false" sap:creatable="false" sap:updatable="false"
 					sap:sortable="false" sap:filterable="false"/>
-				<NavigationProperty Name="Products" Relationship="EPM_DEVELOPER_SCENARIO_SRV.FK_ProductCategory_Product" FromRole="ProductCategory" ToRole="Product"/>
+				<NavigationProperty Name="Products" Relationship="TESTING_UI5_CART.FK_ProductCategory_Product" FromRole="ProductCategory" ToRole="Product"/>
 			</EntityType>
 
-			<EntityType Name="FeaturedProduct" sap:content-version="1"
-				xmlns:sap="http://www.sap.com/Protocols/SAPData">
+			<EntityType Name="Review" sap:content-version="1">
+				<Key>
+					<PropertyRef Name="ReviewId"/>
+				</Key>
+				<Property Name="ReviewId" Type="Edm.String" Nullable="false"
+					MaxLength="10" sap:label="Review ID" sap:creatable="false"
+					sap:updatable="false"/>
+				<Property Name="ProductId" Type="Edm.String" Nullable="false"
+					MaxLength="10" sap:label="Product ID" sap:creatable="false"
+					sap:updatable="false"/>
+				<Property Name="UserAlias" Type="Edm.String" Nullable="false"
+					MaxLength="64" sap:label="User Alias" sap:creatable="false"
+					sap:updatable="false"/>
+				<Property Name="Score" Type="Edm.Int32" sap:label="Score"
+					Nullable="false" sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false"/>
+				<Property Name="Review" Type="Edm.String"
+					Nullable="false" MaxLength="4096" sap:label="Review"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+			</EntityType>
+
+			<EntityType Name="FeaturedProduct" sap:content-version="1">
 				<Key>
 					<PropertyRef Name="ProductId"/>
 				</Key>
 				<Property Name="Type" Type="Edm.String" Nullable="false"
 					MaxLength="255" sap:label="Featured Type"/>
-				<NavigationProperty Name="Product" Relationship="EPM_DEVELOPER_SCENARIO_SRV.FK_FeaturedProduct_Product" FromRole="FeaturedProduct" ToRole="Product"/>
+				<NavigationProperty Name="Product" Relationship="TESTING_UI5_CART.FK_FeaturedProduct_Product" FromRole="FeaturedProduct" ToRole="Product"/>
 			</EntityType>
 
-
 			<Association Name="FK_ProductCategory_Product">
-				<End Role="Product" Type="EPM_DEVELOPER_SCENARIO_SRV.Product" Multiplicity="*"/>
-				<End Role="ProductCategory" Type="EPM_DEVELOPER_SCENARIO_SRV.ProductCategory" Multiplicity="1"/>
+				<End Role="Product" Type="TESTING_UI5_CART.Product" Multiplicity="*"/>
+				<End Role="ProductCategory" Type="TESTING_UI5_CART.ProductCategory" Multiplicity="1"/>
 				<ReferentialConstraint>
 					<Principal Role="Product">
 						<PropertyRef Name="Category"/>
@@ -104,9 +129,22 @@
 				</ReferentialConstraint>
 			</Association>
 
+			<Association Name="FK_Review_Product">
+				<End Role="Product" Type="TESTING_UI5_CART.Product" Multiplicity="1"/>
+				<End Role="Review" Type="TESTING_UI5_CART.Review" Multiplicity="*"/>
+				<ReferentialConstraint>
+					<Principal Role="Product">
+						<PropertyRef Name="ProductId"/>
+					</Principal>
+					<Dependent Role="Review">
+						<PropertyRef Name="ProductId"/>
+					</Dependent>
+				</ReferentialConstraint>
+			</Association>
+
 			<Association Name="FK_FeaturedProduct_Product">
-				<End Role="Product" Type="EPM_DEVELOPER_SCENARIO_SRV.Product" Multiplicity="1"/>
-				<End Role="FeaturedProduct" Type="EPM_DEVELOPER_SCENARIO_SRV.FeaturedProduct" Multiplicity="1"/>
+				<End Role="Product" Type="TESTING_UI5_CART.Product" Multiplicity="1"/>
+				<End Role="FeaturedProduct" Type="TESTING_UI5_CART.FeaturedProduct" Multiplicity="1"/>
 				<ReferentialConstraint>
 					<Principal Role="Product">
 						<PropertyRef Name="ProductId"/>
@@ -117,30 +155,50 @@
 				</ReferentialConstraint>
 			</Association>
 
-			<EntityContainer Name="EPM_DEVELOPER_SCENARIO_SRV"
+			<ComplexType Name="ValidationResult">
+				<Property Name="IsValid" Type="Edm.Boolean" Nullable="false"
+					sap:creatable="false" sap:updatable="false"
+					sap:sortable="false" sap:filterable="false" />
+			</ComplexType>
+
+			<EntityContainer Name="TESTING_UI5_CART"
 				m:IsDefaultEntityContainer="true">
-				<EntitySet Name="Products" EntityType="EPM_DEVELOPER_SCENARIO_SRV.Product"
+				<EntitySet Name="Products" EntityType="TESTING_UI5_CART.Product"
 					sap:creatable="false" sap:updatable="false" sap:deletable="false"
-					sap:pageable="false" sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
+					sap:pageable="false" sap:content-version="1" />
 				<EntitySet Name="ProductCategories"
-					EntityType="EPM_DEVELOPER_SCENARIO_SRV.ProductCategory"
+					EntityType="TESTING_UI5_CART.ProductCategory"
 					sap:creatable="false" sap:updatable="false" sap:deletable="false"
-					sap:pageable="false" sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
-				<EntitySet Name="FeaturedProducts" EntityType="EPM_DEVELOPER_SCENARIO_SRV.FeaturedProduct"
-					sap:content-version="1"
-					xmlns:sap="http://www.sap.com/Protocols/SAPData"/>
-				<AssociationSet Name="EPM_DEVELOPER_SCENARIO_SRV.FK_ProductCategory_Product"
-					Association="EPM_DEVELOPER_SCENARIO_SRV.FK_ProductCategory_Product">
+					sap:pageable="false" sap:content-version="1" />
+				<EntitySet Name="Reviews"
+					EntityType="TESTING_UI5_CART.Review"
+					sap:creatable="true" sap:updatable="true" sap:deletable="true"
+					sap:pageable="true" sap:content-version="1" />
+				<EntitySet Name="FeaturedProducts" EntityType="TESTING_UI5_CART.FeaturedProduct"
+					sap:content-version="1" />
+				<AssociationSet Name="TESTING_UI5_CART.FK_ProductCategory_Product"
+					Association="TESTING_UI5_CART.FK_ProductCategory_Product">
 					<End Role="Product" EntitySet="Products"/>
 					<End Role="ProductCategory" EntitySet="ProductCategories"/>
 				</AssociationSet>
-				<AssociationSet Name="EPM_DEVELOPER_SCENARIO_SRV.FK_FeaturedProduct_Product"
-					Association="EPM_DEVELOPER_SCENARIO_SRV.FK_FeaturedProduct_Product">
+				<AssociationSet Name="TESTING_UI5_CART.FK_Review_Product"
+					Association="TESTING_UI5_CART.FK_Review_Product">
+					<End Role="Product" EntitySet="Products"/>
+					<End Role="Review" EntitySet="Reviews"/>
+				</AssociationSet>
+				<AssociationSet Name="TESTING_UI5_CART.FK_FeaturedProduct_Product"
+					Association="TESTING_UI5_CART.FK_FeaturedProduct_Product">
 					<End Role="Product" EntitySet="Products"/>
 					<End Role="FeaturedProduct" EntitySet="FeaturedProducts"/>
 				</AssociationSet>
+				<FunctionImport Name="ValidateCreditCardDetails" ReturnType="TESTING_UI5_CART.ValidationResult"
+					m:HttpMethod="GET"
+					sap:label="Validate Credit Card Details">
+					<Parameter Name="HolderName" Type="Edm.String" Mode="In" />
+					<Parameter Name="Number" Type="Edm.String" Mode="In" MaxLength="16" />
+					<Parameter Name="Security" Type="Edm.String" Mode="In" MaxLength="4" />
+					<Parameter Name="Expiration" Type="Edm.String" Mode="In" MaxLength="6" />
+				</FunctionImport>
 			</EntityContainer>
 		</Schema>
 	</edmx:DataServices>

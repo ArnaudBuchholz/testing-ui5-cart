@@ -62,6 +62,60 @@ sap.ui.define([
 						bGenerateMissingMockData : true
 					});
 
+					// Generate fake reviews
+					var aReviewLines = [
+							"Praesent eget tellus nunc.",
+							"Vestibulum faucibus vulputate volutpat.",
+							"Cras porttitor erat non sem molestie, a congue sapien tristique.",
+							"Nunc quis ipsum lorem.",
+							"Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
+							"Pellentesque luctus venenatis massa id lobortis. Suspendisse vestibulum fermentum luctus.",
+							"Integer dictum augue vitae dictum ornare.",
+							"Nullam feugiat fringilla arcu ornare lacinia.",
+							"Duis nec magna mi.",
+							"Morbi sit amet lacus rhoncus, rhoncus dolor vel, tincidunt diam.",
+							"Integer sagittis sed lorem ac iaculis. Nunc ac posuere justo, a mattis lacus.",
+							"Donec non nulla fermentum, euismod dui a, aliquet justo. Suspendisse potenti.",
+							"Donec consequat, mauris eget aliquet viverra, dui odio tristique justo, non commodo turpis lorem nec odio.",
+							"Integer at elit nisl. Aenean massa mi, semper non tincidunt et, faucibus id ante.",
+							"Nullam molestie sapien non erat blandit, quis posuere tellus finibus."
+						],
+						aReviews = [],
+						aProducts = oMockServer.getEntitySetData("Products");
+					aProducts.forEach(function (oProduct) {
+						var sProductId = oProduct.ProductId,
+							iNbReviews;
+						if (sProductId === "HT-6130") {
+							iNbReviews = 1;
+						} else {
+							iNbReviews = 1 + Math.floor(Math.random() * 10);
+						}
+						while (iNbReviews > 0) {
+							var sReviewId = aReviews.length.toString().padStart(9, "0"),
+								sUserAlias = "user" + Math.floor(Math.random() * 100).toString().padStart(3, "0"),
+								iScore = 1 + Math.floor(Math.random() * 5),
+								iLines = 1 + Math.floor(Math.random() * 5),
+								aReview = [];
+							while (iLines > 0) {
+								aReview.push(aReviewLines[Math.floor(Math.random() * aReviewLines.length)]);
+								iLines -= 1;
+							}
+							aReviews.push({
+								ReviewId: sReviewId,
+								ProductId: sProductId,
+								UserAlias: sUserAlias,
+								Score: iScore,
+								Review: aReview.join(""),
+								__metadata: {
+									uri: "/sap/opu/odata/TESTING_UI5_CART/Reviews('" + sReviewId + "')",
+									type: "TESTING_UI5_CART.Review"
+								}
+							});
+							iNbReviews -= 1;
+						}
+					});
+					oMockServer.setEntitySetData("Reviews", aReviews);
+
 					var aRequests = oMockServer.getRequests();
 
 					// compose an error response for requesti
@@ -90,9 +144,112 @@ sap.ui.define([
 					}
 
 					// custom mock behaviour may be added here
+					var aInvalidatedProductReviews = aProducts.map(function (oProduct) {
+						return oProduct.ProductId;
+					});
+
+					aRequests.push({
+						method: "POST",
+						path: /\bReviews\b/,
+						response: function (oXhr) {
+							var oBody = JSON.parse(oXhr.requestBody);
+							var aReviews = oMockServer.getEntitySetData("Reviews");
+							oBody.ReviewId = aReviews.length.toString().padStart(9, "0");
+							oBody.UserAlias = "You";
+							aInvalidatedProductReviews.push(oBody.ProductId);
+							oXhr.requestBody = JSON.stringify(oBody);
+							return false;
+						}
+					});
+
+					function invalidateProductOfReview (sReviewId) {
+						var oReview = oMockServer.getEntitySetData("Reviews").filter(function (oCandidate) {
+							return oCandidate.ReviewId === sReviewId;
+						})[0];
+						if (oReview) {
+							aInvalidatedProductReviews.push(oReview.ProductId);
+						}
+					}
+
+					aRequests.push({
+						method: "MERGE",
+						path: /\bReviews\b(?:\('([^']+)'\))/,
+						response: function (oXhr, sReviewId) {
+							invalidateProductOfReview(sReviewId);
+							return false;
+						}
+					});
+
+					aRequests.push({
+						method: "DELETE",
+						path: /\bReviews\b(?:\('([^']+)'\))/,
+						response: function (oXhr, sReviewId) {
+							invalidateProductOfReview(sReviewId);
+							return false;
+						}
+					});
+
+					function updateProductReviews () {
+						var aProducts = oMockServer.getEntitySetData("Products");
+						aInvalidatedProductReviews.forEach(function (sProductId) {
+							var oProduct = aProducts.filter(function (oCandidate) {
+								return oCandidate.ProductId === sProductId;
+							})[0],
+							aProductReviews = oMockServer.getEntitySetData("Reviews").filter(function (oCandidate) {
+								return oCandidate.ProductId === sProductId;
+							}),
+							iScore = 0,
+							sUserReviewId = "";
+							if (aProductReviews) {
+								iScore = Math.floor(10 * aProductReviews.reduce(function (iTotalScore, oReview) {
+									if (oReview.UserAlias === "You") {
+										sUserReviewId = oReview.ReviewId;
+									}
+									return iTotalScore + oReview.Score;
+								}, 0) / aProductReviews.length) / 10;
+							}
+							oProduct.ReviewScore = iScore;
+							oProduct.UserReviewId = sUserReviewId;
+						});
+						oMockServer.setEntitySetData("Products", aProducts);
+						aInvalidatedProductReviews = [];
+					}
+
+					aRequests.push({
+						method: "GET",
+						path: /\bProducts\b(?:\('[^']+'\))?/,
+						response: function (/*oXhr*/) {
+							updateProductReviews();
+							return false;
+						}
+					});
+
+					aRequests.push({
+						method: "GET",
+						path: /\bValidateCreditCardDetails\b\?HolderName='([^']+)'&Number='([^']+)'&Security='([^']+)'&Expiration='([^']+)'/,
+						response: function (oXhr, sHolderName, sNumber, sSecurity/*, sExpiration*/) {
+							oXhr.respond(200, {
+								"Content-Type": "application/json;charset=utf-8"
+							}, JSON.stringify({
+								d: { // eslint-disable-line id-length
+									IsValid: sSecurity !== "000"
+								}
+							}));
+							return true;
+						}
+					});
 
 					// set requests and start the server
 					oMockServer.setRequests(aRequests);
+
+					// Trace requests
+					Object.keys(MockServer.HTTPMETHOD).forEach(function (sMethod) {
+						oMockServer.attachAfter(sMethod, function (oEvent) {
+							var oXhr = oEvent.getParameter("oXhr");
+							console.log("MockServer", sMethod, oXhr.url, oXhr); // eslint-disable-line no-console
+						});
+					});
+
 					oMockServer.start();
 
 					Log.info("Running the app with mock data");

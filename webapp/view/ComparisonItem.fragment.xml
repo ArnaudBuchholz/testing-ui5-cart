@@ -100,6 +100,11 @@
 							<Text text="{DimensionWidth} {Unit}, {DimensionDepth} {Unit}, {DimensionHeight} {Unit}"/>
 						</form:fields>
 					</form:FormElement>
+					<form:FormElement label="{i18n>reviewsRating}">
+						<form:fields>
+							<RatingIndicator displayOnly="true" iconSize="16px" value="{ReviewScore}" tooltip="{i18n>reviewsRating}" />
+						</form:fields>
+					</form:FormElement>
 				</form:FormContainer>
 			</form:formContainers>
 		</form:Form>

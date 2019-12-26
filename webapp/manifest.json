@@ -12,7 +12,7 @@
 		"resources": "resources.json",
 		"dataSources": {
 			"mainService": {
-				"uri": "/sap/opu/odata/IWBEP/EPM_DEVELOPER_SCENARIO_SRV/",
+				"uri": "/sap/opu/odata/TESTING_UI5_CART/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0",

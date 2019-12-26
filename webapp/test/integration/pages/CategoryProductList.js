@@ -127,7 +127,7 @@ sap.ui.define([
 					});
 				},
 
-				iShouldseeTheProductList: function (aProductIds) {
+				iShouldSeeTheProducts: function (aProductIds) {
 					return this.waitFor({
 						id: "productList",
 						matchers: new AggregationLengthEquals({ name: "items", length: aProductIds.length }),
