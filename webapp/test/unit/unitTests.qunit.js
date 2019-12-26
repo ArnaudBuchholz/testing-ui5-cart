@@ -8,5 +8,4 @@ sap.ui.getCore().attachInit(function () {
 	], function () {
 		QUnit.start();
 	});
-
 });

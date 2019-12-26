@@ -15,11 +15,13 @@ sap.ui.define([
 		 * Validates the value to be parsed
 		 *
 		 * @public
-		 * Since there is only true and false, no client side validation is required
-		 * @returns {string}
+		 * The following Regex does NOT covering all cases of RFC 5322 email address
+		 * and only used for demonstration purposes.
+		 * @returns undefined, but throws the ValidationException if the value is not valid
 		 */
+
 		validateValue: function (oValue) {
-			// The following Regex is NOT covering all cases of RFC 5322 and only used for demonstration purposes.
+			// 
 			var rEMail = /^\w+[\w-+.]*@\w+([-.]\w+)*\.[a-zA-Z]{2,}$/;
 
 			if (!oValue.match(rEMail)) {
