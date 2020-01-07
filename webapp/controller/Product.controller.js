@@ -2,12 +2,14 @@ sap.ui.define([
 	"./BaseController",
 	"../model/formatter",
 	"sap/ui/core/Fragment",
-	"sap/m/MessageBox"
+	"sap/m/MessageBox",
+	"sap/base/Log"
 ], function(
 	BaseController,
 	formatter,
 	Fragment,
-	MessageBox
+	MessageBox,
+	Log
 ) {
 	"use strict";
 
@@ -127,8 +129,7 @@ sap.ui.define([
 			var oBindingContext = this.getModel().createEntry("Reviews", {
 				properties: {
 					ProductId: this.getView().getBindingContext().getObject().ProductId
-				},
-				refreshAfterChange: true
+				}
 			});
 			oBindingContext._new = true;
 			this._openProductReviewDialog(oBindingContext);
@@ -175,16 +176,34 @@ sap.ui.define([
 		onReviewOK: function (/*oEvent*/) {
 			var oModel = this.getModel(),
 				oDialog = this.byId("productReviewDialog"),
-				sMessage = this.getModel("i18n").getProperty("reviewError");
+				sGenericMessage = this.getModel("i18n").getProperty("reviewError"),
+				sBadWordMessage = this.getModel("i18n").getProperty("reviewBadWord");
 			oDialog.setBusy(true);
 			oModel.submitChanges({
-				success: function () {
-					this._reloadCurrentProduct();
-					oDialog.setBusy(false);
-					oDialog.close();
+				success: function (oResultData) {
+					var oFirstResponse = oResultData.__batchResponses[0];
+					if (oFirstResponse.response && oFirstResponse.response.statusCode === "400") {
+						var sError = sGenericMessage;
+						try {
+							if (JSON.parse(oFirstResponse.response.body).error.code === "TESTING_UI5_CART/001") {
+								sError = sBadWordMessage;
+							}
+						} catch (error) {
+							Log.error(error.toString());
+						}
+						MessageBox.error(sError, {
+							onClose: function() {
+								oDialog.setBusy(false);
+							}
+						});
+					} else {
+						this._reloadCurrentProduct();
+						oDialog.setBusy(false);
+						oDialog.close();
+					}
 				}.bind(this),
 				error: function () {
-					MessageBox.error(sMessage, {
+					MessageBox.error(sGenericMessage, {
 						onClose: function() {
 							oDialog.close();
 						}
@@ -198,6 +217,8 @@ sap.ui.define([
 				oBindingContext = oDialog.getBindingContext();
 			if (oBindingContext._new) {
 				this.getModel().deleteCreatedEntry(oBindingContext);
+			} else {
+				this.getModel().resetChanges();
 			}
 			oDialog.close();
 		}
