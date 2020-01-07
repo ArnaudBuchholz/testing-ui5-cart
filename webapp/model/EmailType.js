@@ -21,7 +21,7 @@ sap.ui.define([
 		 */
 
 		validateValue: function (oValue) {
-			// 
+			//
 			var rEMail = /^\w+[\w-+.]*@\w+([-.]\w+)*\.[a-zA-Z]{2,}$/;
 
 			if (!oValue.match(rEMail)) {
