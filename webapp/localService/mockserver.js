@@ -148,10 +148,30 @@ sap.ui.define([
 						return oProduct.ProductId;
 					});
 
+					function filterBadWordInReview (oXhr) {
+						var oBody = JSON.parse(oXhr.requestBody),
+							sReview = oBody.Review;
+						if (sReview.indexOf("***") !== -1) {
+							oXhr.respond(400, { "Content-Type": "application/json" }, JSON.stringify({
+								"error": {
+									"code": "TESTING_UI5_CART/001",
+									"message": {
+										"lang": "en",
+										"value": "Offending words detected"
+									}
+								}
+							}));
+							return true;
+						}
+					}
+
 					aRequests.push({
 						method: "POST",
 						path: /\bReviews\b/,
 						response: function (oXhr) {
+							if (filterBadWordInReview(oXhr)) {
+								return true;
+							}
 							var oBody = JSON.parse(oXhr.requestBody);
 							var aReviews = oMockServer.getEntitySetData("Reviews");
 							oBody.ReviewId = aReviews.length.toString().padStart(9, "0");
@@ -175,6 +195,9 @@ sap.ui.define([
 						method: "MERGE",
 						path: /\bReviews\b(?:\('([^']+)'\))/,
 						response: function (oXhr, sReviewId) {
+							if (filterBadWordInReview(oXhr)) {
+								return true;
+							}
 							invalidateProductOfReview(sReviewId);
 							return false;
 						}
