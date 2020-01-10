@@ -9,9 +9,15 @@ module.exports = function(config) {
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: ['ui5'],
 
+		plugins: [
+			'karma-coverage',
+			'karma-ui5',
+			'karma-chrome-launcher'
+		],
+
 		ui5:  {
 			url: "https://sapui5.hana.ondemand.com/1.63.1/",
-			type: "application",			
+			type: "application",
 			mode: "html",
 			testpage: "webapp/test/testsuite.qunit.html"
 		},
@@ -21,7 +27,7 @@ module.exports = function(config) {
 			qunit: {
 				showUI: true
 			}
-		},		
+		},
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
