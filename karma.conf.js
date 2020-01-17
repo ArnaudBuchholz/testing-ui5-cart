@@ -16,7 +16,7 @@ module.exports = function(config) {
 		],
 
 		ui5:  {
-			url: "https://sapui5.hana.ondemand.com/1.63.1/",
+			url: "https://sapui5.hana.ondemand.com/1.73.1/",
 			type: "application",
 			mode: "html",
 			testpage: "webapp/test/testsuite.qunit.html"

@@ -12,8 +12,8 @@
   function suite() {
     var suite = new top.jsUnitTestSuite();
     var contextPath = "/" + window.location.pathname.split("/")[1];
-    suite.addTestPage(contextPath + "/integration/opaTestsComponent.qunit.html");
-    suite.addTestPage(contextPath + "/unit/unitTests.qunit.html");
+    suite.addTestPage(contextPath + "/webapp/test/integration/opaTestsComponent.qunit.html");
+    suite.addTestPage(contextPath + "/webapp/test/unit/unitTests.qunit.html");
     return suite;
   }
 
