@@ -7,7 +7,7 @@ const log = require('reserve/log')
 const path = require('path')
 const reserve = require('reserve/serve')
 
-const ui5dist = process.env.TESTING_UI5_CART_DIST || 'https://ui5.sap.com/1.72.1'
+const ui5dist = process.env.TESTING_UI5_CART_DIST || 'https://ui5.sap.com/1.73.1'
 
 const configuration = {
   port: parseInt(process.env.TESTING_UI5_CART_PORT, 10) || 8080,
