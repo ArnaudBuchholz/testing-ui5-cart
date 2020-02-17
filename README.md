@@ -21,4 +21,6 @@ To run the tests in a browser, run `npm start` and open http://localhost:8080/te
 
 To run with karma, run `npm run karma` or `npm run karma-ci`
 
-**Please note:** Coverage reports are provided by the karma-ci configuration.
+**Please note:** coverage reports are *only* provided by running the karma-ci config script
+
+
