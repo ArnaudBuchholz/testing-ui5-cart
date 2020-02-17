@@ -20,3 +20,5 @@ To serve the application, run `npm start` and open http://localhost:8080/
 To run the tests in a browser, run `npm start` and open http://localhost:8080/test.html
 
 To run with karma, run `npm run karma` or `npm run karma-ci`
+
+**Please note:** Coverage reports are provided by the karma-ci configuration.
